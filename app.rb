@@ -33,9 +33,15 @@ end
 # create a new user
 post '/nanotwitter/v1.0/users' do
   begin
-    user = User.create JSON.parse request.body.read
+    user = User.create(name: params[:name],
+                       email: params[:email],
+                       username: params[:username],
+                       password: params[:password],
+                       phone: params[:phone])
     if user.valid?
+      session[:user] = params[:username]
       user.to_json
+      redirect to '/'
     else
       error 400, user.errors.to_json
     end

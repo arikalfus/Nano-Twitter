@@ -20,7 +20,6 @@
       <div class="modal-body">
           <!-- Login form -->
         <div id="login-form">
-          No account? <button id="register-button" class="btn btn-default">Register Now</button>
           <form class="input-group" style="margin: 0 auto" method="POST" action="/nanotwitter/v1.0/users/session">
             <input class="form-control" type="text" name="username" placeholder="Username">
             <br><br>
@@ -31,23 +30,32 @@
               <button class="btn btn-primary form-control" style="width: 50%" type="submit">Log In</button>
             </div>
           </form>
+          <br>
+          <small>No account?</small> <button id="register-button" class="btn btn-default btn-sm">Register Now</button>
         </div>
 
         <!-- Register form -->
         <div id="register-form" style="display: none">
-          <small>Already have an account? <button id="login-button" class="btn btn-default btn-sm">Login Now</button></small>
-          <form class="input-group" style="margin: 0 auto" method="POST" action="/nanotwitter/v1.0/users/session">
+          <form class="input-group" style="margin: 0 auto" method="POST" action="/nanotwitter/v1.0/users">
+            <input class="form-control" type="text" name="name" placeholder="First and Last name">
+            <br><br>
+            <input class="form-control" type="email" name="email" placeholder="Email">
+            <br><br>
             <input class="form-control" type="text" name="username" placeholder="Username">
             <br><br>
             <input class="form-control" type="password" name="password" placeholder="Password">
             <br><br>
             <input class="form-control" type="password" name="password2" placeholder="Repeat password">
             <br><br>
+            <input class="form-control" type="text" name="number" placeholder="Phone number">
+            <br><br>
             <div class="input-group" style="margin: 0 auto">
               <button type="button" class="btn btn-default form-control" style="width: 50%" data-dismiss="modal">Close</button>
               <button class="btn btn-primary form-control" style="width: 50%" type="submit">Register</button>
             </div>
           </form>
+          <br>
+          <small>Already have an account?</small> <button id="login-button" class="btn btn-default btn-sm">Login Now</button>
         </div>
       </div>
     </div>
