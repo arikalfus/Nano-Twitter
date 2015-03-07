@@ -39,7 +39,7 @@ post '/nanotwitter/v1.0/users' do
                        password: params[:password],
                        phone: params[:phone])
     if user.valid?
-      session[:user] = params[:username]
+      session[:user] = user
       user.to_json
       redirect to '/'
     else
