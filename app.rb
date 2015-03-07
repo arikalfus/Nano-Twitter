@@ -4,6 +4,7 @@ require 'sinatra/formkeeper'
 require 'json'
 
 require_relative 'models/user'
+require_relative 'models/tweet'
 
 set :port, 3765
 set :public_folder, File.dirname(__FILE__) + '/static'
@@ -11,10 +12,11 @@ enable :sessions
 set :session_secret, '48fa3729hf0219f'
 
 get '/' do
+  tweets = Tweet.all
   if session[:user]
-    erb :logged_root, :locals => { :user => session[:user] }
+    erb :logged_root, :locals => { :user => session[:user], :tweets => tweets }
   else
-    erb :root
+    erb :root, :locals => { :new_user => false, :tweets => tweets }
   end
 end
 
@@ -31,9 +33,15 @@ end
 # create a new user
 post '/nanotwitter/v1.0/users' do
   begin
-    user = User.create JSON.parse request.body.read
+    user = User.create(name: params[:name],
+                       email: params[:email],
+                       username: params[:username],
+                       password: params[:password],
+                       phone: params[:phone])
     if user.valid?
+      session[:user] = params[:username]
       user.to_json
+      redirect to '/'
     else
       error 400, user.errors.to_json
     end
@@ -79,6 +87,7 @@ post '/nanotwitter/v1.0/users/session' do
       session[:user] = user
       user.to_json
     else
+      redirect to '/', :locals
       error 400, { :error => 'invalid login credentials' }.to_json
     end
   rescue => e
