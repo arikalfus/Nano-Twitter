@@ -72,10 +72,9 @@ delete '/nanotwitter/v1.0/users/:name' do
 end
 
 # verify a user name and password
-post '/nanotwitter/v1.0/users/:name/sessions' do
+post '/nanotwitter/v1.0/users/session' do
   begin
-    attributes = JSON.parse request.body.read
-    user = User.find_by_name_and_password params[:name], attributes['password']
+    user = User.find_by_name_and_password params[:name], params[:password]
     if user
       session[:user] = user
       user.to_json

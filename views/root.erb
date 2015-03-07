@@ -1,0 +1,38 @@
+<div class="page-header">
+  <h3>Nano Twitter</h3>
+  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#loginModal">Login/Register</button>
+</div>
+
+<div class="modal fade" id="loginModal" aria-hidden="true" role="dialog" aria-labelledby="loginModalLabel">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Login to Nano Twitter</h4>
+      </div>
+
+      <div class="modal-body">
+        <!-- Get ERB to work here -->
+        <p><i>No account? <a href="#">Register here</a></i></p>
+        <form class="input-group" style="margin: 0 auto" method="POST" action="/nanotwitter/v1.0/users/session">
+            <input class="form-control" type="text" name="username" placeholder="Username">
+          <br><br>
+            <input class="form-control" type="password" name="password" placeholder="Password">
+          <% if @new_user %>
+            <input class="form-control" type="password" name="password2" placeholder="Repeat password">
+          <% end %>
+          <br><br>
+          <div class="input-group" style="margin: 0 auto">
+            <button type="button" class="btn btn-default form-control" style="width: 50%" data-dismiss="modal">Close</button>
+            <button class="btn btn-primary form-control" style="width: 50%" type="submit">
+              <% if @new_user %>
+              Register
+              <% else %>
+              Log In
+              <% end %>
+            </button>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
