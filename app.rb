@@ -39,7 +39,11 @@ post '/nanotwitter/v1.0/users' do
                        password: params[:password],
                        phone: params[:phone])
     if user.valid?
+<<<<<<< HEAD
       session[:user] = params[:username]
+=======
+      session[:user] = user
+>>>>>>> master
       user.to_json
       redirect to '/'
     else
@@ -82,9 +86,10 @@ end
 # verify a user name and password
 post '/nanotwitter/v1.0/users/session' do
   begin
-    user = User.find_by_name_and_password params[:name], params[:password]
+    user = User.find_by_username_and_password params[:username], params[:password]
     if user
       session[:user] = user
+      redirect to '/'
       user.to_json
     else
       redirect to '/', :locals
