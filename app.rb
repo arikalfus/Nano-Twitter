@@ -20,6 +20,12 @@ get '/' do
   end
 end
 
+#logout a user
+get '/logout' do
+  session.clear
+  redirect '/'
+end
+
 # get a user by name
 get '/nanotwitter/v1.0/users/:name' do
   user = User.find_by_name params[:name]
@@ -95,3 +101,4 @@ post '/nanotwitter/v1.0/users/session' do
     error 400, e.message.to_json
   end
 end
+
