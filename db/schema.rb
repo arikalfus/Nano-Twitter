@@ -13,6 +13,11 @@
 
 ActiveRecord::Schema.define(version: 6) do
 
+  create_table "follows", force: :cascade do |t|
+    t.integer "follower_id"
+    t.integer "following_id"
+  end
+
   create_table "tweets", force: :cascade do |t|
     t.datetime "created_at"
     t.datetime "updated_at"

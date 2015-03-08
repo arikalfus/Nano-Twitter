@@ -1,8 +1,8 @@
 class CreateFollows < ActiveRecord::Migration
   def self.up
     create_table :follows do |t|
-      #t.column "follower_id", :integer, :null => false
-      #t.column "following_id", :integer, :null => false
+      t.integer "follower_id"
+      t.integer "following_id"
     end
   end
 
