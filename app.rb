@@ -26,6 +26,12 @@ get '/logout' do
   erb :root, :locals => { :tweets => tweets, :logout => true }
 end
 
+# logout and delete session cookie
+get '/nanotwitter/v1.0/logout' do
+  session[:user] = nil
+  redirect to '/logout'
+end
+
 # get a user by name
 get '/nanotwitter/v1.0/users/:name' do
   user = User.find_by_name params[:name]
@@ -114,10 +120,4 @@ post '/nanotwitter/v1.0/users/session' do
   rescue => e
     error 400, e.message.to_json
   end
-end
-
-# logout and delete session cookie
-get '/nanotwitter/v1.0/logout' do
-  session[:user] = nil
-  redirect to '/logout'
 end
