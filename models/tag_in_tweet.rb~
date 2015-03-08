@@ -1,4 +1,4 @@
 class TagInTweet < ActiveRecord::Base
-    has_many_and_belongs_to :tweets
-    has_many_and_belongs_to :tags
+    has_many :tweets
+    has_many :tags
 end
