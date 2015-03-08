@@ -11,7 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 6) do
+ActiveRecord::Schema.define(version: 8) do
+
+  create_table "tags", force: :cascade do |t|
+    t.string "name"
+  end
+
+  create_table "tags_in_tweets", force: :cascade do |t|
+    t.integer "tweet_id"
+    t.integer "tag_id"
+  end
 
   create_table "follows", force: :cascade do |t|
     t.integer "follower_id"
