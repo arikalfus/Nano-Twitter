@@ -35,6 +35,19 @@ get '/nanotwitter/v1.0/users/:name' do
   end
 end
 
+post '/nanotwitter/v1.0/tweets' do
+  begin
+    tweet = Tweet.create( text: params[:text], 
+                          user: params[:user])
+    if tweet.valid?
+      tweet.to_json
+     redirct to request.script_name #should return to same page
+   else
+      error 400, tweet.errors.to_json
+    end
+  end
+end
+
 # create a new user
 post '/nanotwitter/v1.0/users' do
   begin
