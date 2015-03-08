@@ -1,5 +1,6 @@
 #Run this with rake db:seed
 
+#ari can you see this?
 User.destroy_all
 #User.create (some users)
 
