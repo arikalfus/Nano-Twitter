@@ -106,3 +106,4 @@ end
 get '/nanotwitter/v1.0/logout' do
   session[:user] = nil
   redirect to '/logout'
+end
