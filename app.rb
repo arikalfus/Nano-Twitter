@@ -13,7 +13,7 @@ set :session_secret, '48fa3729hf0219f'
 
 get '/' do
   tweets = Tweet.all
-  if session[:user]
+  if session[:user] # If user has credentials saved in session cookie (is logged in)
     erb :logged_root, :locals => { :user => session[:user], :tweets => tweets }
   else
     erb :root, :locals => { :tweets => tweets }
@@ -38,11 +38,12 @@ end
 # create a new user
 post '/nanotwitter/v1.0/users' do
   begin
-    user = User.create(name: params[:name],
-                       email: params[:email],
-                       username: params[:username],
-                       password: params[:password],
-                       phone: params[:phone])
+    # Using form[param] instead of params[param] passes parameters filtered through :filter rules
+    user = User.create(name: form[:name],
+                       email: form[:email],
+                       username: form[:username],
+                       password: form[:password],
+                       phone: form[:phone])
     if user.valid?
       session[:user] = user
       user.to_json
@@ -105,5 +106,3 @@ end
 get '/nanotwitter/v1.0/logout' do
   session[:user] = nil
   redirect to '/logout'
-end
-
