@@ -5,6 +5,7 @@ require 'json'
 
 require_relative 'models/user'
 require_relative 'models/tweet'
+require_relative 'models/follow'
 
 set :port, 3765
 set :public_folder, File.dirname(__FILE__) + '/static'
@@ -52,11 +53,11 @@ end
 post '/nanotwitter/v1.0/users' do
   begin
     # Using form[param] instead of params[param] passes parameters filtered through :filter rules
-    user = User.create(name: form[:name],
-                       email: form[:email],
-                       username: form[:username],
-                       password: form[:password],
-                       phone: form[:phone])
+    user = User.create(name: params[:name],
+                       email: params[:email],
+                       username: params[:username],
+                       password: params[:password],
+                       phone: params[:phone])
     if user.valid?
       session[:user] = user
       user.to_json
