@@ -1,7 +1,8 @@
 <div class="well">
-  <% tweets.each do |tweet| %>
+  <% tweets.each do |tweet, user| %>
+
     <br>
-    tweet.text - tweet.user
+    <%= tweet[:text] %> - <i><%= user[:username] %></i>, <%= tweet[:created_at].asctime %>
     <br>
   <% end %>
 </div>

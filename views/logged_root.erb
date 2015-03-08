@@ -1,5 +1,26 @@
-<h2><%= user['username'] %>, you are logged in</h2>
+<div class="page-header">
+  <span>
+    <h2>Nano Twitter</h2>
+    <h2>You are logged in</h2>
+		<h2><%= user['username'] %>, you are logged in</h2>
+  </span>
+  <span>
+   <button class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-sm">Logout</button>
+  </span>
+</div>
 
-<form action="/nanotwitter/v1.0/logout" method="GET" type="submit">
-  <button type="submit" class="btn btn-danger">Log Out</button>
-</form>
+<%= erb :tweet %>
+
+<%= erb :feed, :locals => { :tweets => tweets } %>
+
+<div class="modal bs-example-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header"><h4>Logout <i class="fa fa-lock"></i></h4></div>
+      <div class="modal-body"><i class="fa fa-question-circle"></i> Are you sure you want to log-off?</div>
+      <div class="input-group" method="get" action="/logout">
+      	<div class="modal-footer"><a href="/nanotwitter/v1.0/logout" class="btn btn-primary btn-block" type="submit">Logout</a></div>
+    	</div>
+    </div>
+  </div>
+</div>
