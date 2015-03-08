@@ -21,46 +21,6 @@
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title">Login to Nano Twitter</h4>
-
-        <!-- Generate form failed message based on what failed -->
-        <% if defined? form_failed %>
-          <p style="color: red">
-          <% if form.failed_on? :name, :length %>
-              Your name must be between 1 and 50 characters.
-          <% end %>
-          <% if form.failed_on?  :name, :present %>
-            You must enter a name.
-          <% end %>
-          <% if form.failed_on? :email, :present %>
-            You must enter a valid email.
-          <% end %>
-          <% if form.failed_on? :username, :length %>
-            Your username must be between 8 and 20 characters.
-          <% end %>
-          <% if form.failed_on? :username, :present %>
-            You must enter a username.
-          <% end %>
-          <% if form.failed_on? :password, :present %>
-            You must enter a password.
-          <% end %>
-          <% if form.failed_on? :password, :length %>
-            Your password must be between 8 and 30 characters.
-          <% end %>
-          <% if form.failed_on? :password2, :present %>
-            Please enter your password twice.
-          <% end %>
-          <% if form.failed_on? :same_password %>
-            Your passwords must match.
-          <% end %>
-          <% if form.failed_on? :phone, :present %>
-            You must enter a phone number.
-          <% end %>
-          <% if form.failed_on? :phone, :length %>
-            Your phone must be 10 digits long, numbers only.
-          <% end %>
-          </p>
-        <% end %>
-
       </div>
 
       <div class="modal-body">
