@@ -3,12 +3,18 @@
     <h2>Nano Twitter</h2>
   </span>
   <span>
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#loginModal">Login/Register</button>
+    <button type="button" class="btn btn-primary" id="app-login-button" data-toggle="modal" data-target="#loginModal">Login/Register</button>
+
+    <% if defined? logout %>
+    <p style="color: red">You are now logged out.</p>
+    <% end %>
+
   </span>
 </div>
 
 <%= erb :feed, :locals => { :tweets => tweets } %>
 
+<!-- Login/Register modal. See Bootstrap docs before making stylistic changes. -->
 <div class="modal fade" id="loginModal" aria-hidden="true" role="dialog" aria-labelledby="loginModalLabel">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -31,7 +37,7 @@
             </div>
           </form>
           <br>
-          <small>No account?</small> <button id="register-button" class="btn btn-default btn-sm">Register Now</button>
+          <small>No account? <a href="#" id="register-button">Register Now</a></small>
         </div>
 
         <!-- Register form -->
@@ -55,7 +61,7 @@
             </div>
           </form>
           <br>
-          <small>Already have an account?</small> <button id="login-button" class="btn btn-default btn-sm">Login Now</button>
+          <small>Already have an account? <a href="#" id="login-button">Login Now</a></small>
         </div>
       </div>
     </div>

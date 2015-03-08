@@ -16,14 +16,13 @@ get '/' do
   if session[:user]
     erb :logged_root, :locals => { :user => session[:user], :tweets => tweets }
   else
-    erb :root, :locals => { :new_user => false, :tweets => tweets }
+    erb :root, :locals => { :tweets => tweets }
   end
 end
 
-#logout a user
 get '/logout' do
-  session.clear
-  redirect '/'
+  tweets = Tweet.all
+  erb :root, :locals => { :tweets => tweets, :logout => true }
 end
 
 # get a user by name
@@ -100,5 +99,11 @@ post '/nanotwitter/v1.0/users/session' do
   rescue => e
     error 400, e.message.to_json
   end
+end
+
+# logout and delete session cookie
+get '/nanotwitter/v1.0/logout' do
+  session[:user] = nil
+  redirect to '/logout'
 end
 
