@@ -13,17 +13,37 @@ enable :sessions
 set :session_secret, '48fa3729hf0219f'
 
 get '/' do
+  # Verify cookie contains current data.
+  if session[:user]
+    # If cookie is out of date, delete it.
+    user = User.where id: session[:user][:id]
+    unless user
+      session.clear
+    end
+  end
+
   tweets = Tweet.all
+  full_tweets = []
+  tweets.each do |tweet|
+    user = User.where(id: tweet[:user_id]).take
+    full_tweets.push [tweet, user]
+  end
+
   if session[:user] # If user has credentials saved in session cookie (is logged in)
-    erb :logged_root, :locals => { :user => session[:user], :tweets => tweets }
+    erb :logged_root, :locals => { :user => session[:user], :tweets => full_tweets }
   else
-    erb :root, :locals => { :tweets => tweets }
+    erb :root, :locals => { :tweets => full_tweets }
   end
 end
 
 get '/logout' do
   tweets = Tweet.all
-  erb :root, :locals => { :tweets => tweets, :logout => true }
+  full_tweets = []
+  tweets.each do |tweet|
+    user = User.where(id: tweet[:user_id]).take
+    full_tweets.push [tweet, user]
+  end
+  erb :root, :locals => { :tweets => full_tweets, :logout => true }
 end
 
 # logout and delete session cookie
@@ -42,14 +62,23 @@ get '/nanotwitter/v1.0/users/:name' do
   end
 end
 
+get '/nanotwitter/v1.0/users/id/:id' do
+  user = User.find_by_id params[:id]
+  if user
+    user.to_json
+  else
+    error 404, { :error => 'user not found' }.to_json
+  end
+end
+
 post '/nanotwitter/v1.0/tweets' do
   begin
-    tweet = Tweet.create( text: params[:text], 
-                          user: params[:user])
+    tweet = Tweet.create( text: params[:tweet],
+                          user_id: session[:user]['id'])
     if tweet.valid?
       tweet.to_json
-     redirct to request.script_name #should return to same page
-   else
+     redirect to request.script_name # should return to same page
+  else
       error 400, tweet.errors.to_json
     end
   end
@@ -76,6 +105,23 @@ post '/nanotwitter/v1.0/users' do
   end
 end
 
+# verify a user name and password
+post '/nanotwitter/v1.0/users/session' do
+  begin
+    user = User.find_by_username_and_password params[:username], params[:password]
+    if user
+      session[:user] = user
+      redirect to '/'
+      user.to_json
+    else
+      redirect to '/', :locals
+      error 400, { :error => 'invalid login credentials' }.to_json
+    end
+  rescue => e
+    error 400, e.message.to_json
+  end
+end
+
 # update an existing user
 put '/nanotwitter/v1.0/users/:name' do
   user = User.find_by_name params[:name]
@@ -95,29 +141,12 @@ put '/nanotwitter/v1.0/users/:name' do
 end
 
 # destroy an existing user
-delete '/nanotwitter/v1.0/users/:name' do
-  user = User.find_by_name params[:name]
-  if user
-    user.destroy
-    user.to_json
-  else
-    error 404, { :error => 'user not found' }.to_json
-  end
-end
-
-# verify a user name and password
-post '/nanotwitter/v1.0/users/session' do
-  begin
-    user = User.find_by_username_and_password params[:username], params[:password]
-    if user
-      session[:user] = user
-      redirect to '/'
-      user.to_json
-    else
-      redirect to '/', :locals
-      error 400, { :error => 'invalid login credentials' }.to_json
-    end
-  rescue => e
-    error 400, e.message.to_json
-  end
-end
+# delete '/nanotwitter/v1.0/users/:name' do
+#   user = User.find_by_name params[:name]
+#   if user
+#     user.destroy
+#     user.to_json
+#   else
+#     error 404, { :error => 'user not found' }.to_json
+#   end
+# end

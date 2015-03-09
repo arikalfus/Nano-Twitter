@@ -1,11 +1,10 @@
-#Run this with rake db:seed
+# Run this with rake db:seed
 
-#ari can you see this?
 User.destroy_all
-#User.create (some users)
+User.create ([{ name: 'Ari Kalfus', username: 'dev1', password: 'devpass', email: 'dev1@dev.com', phone: '8005555555' }])
 
-bla = User.where(name:'bla').take #takes the first one
+user = User.where(username: 'dev1').take
 
 Tweet.destroy_all
-#Tweet.create([{name:'bla', email: 'bla@example.com'},{}])
+Tweet.create([{user_id: user['id'], text: 'First!'}])
 

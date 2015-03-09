@@ -6,9 +6,10 @@
   </span>
   <span>
    <button class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-sm">Logout</button>
-   <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#logoutModal">Logout</button> -->
   </span>
 </div>
+
+<%= erb :tweet %>
 
 <%= erb :feed, :locals => { :tweets => tweets } %>
 
