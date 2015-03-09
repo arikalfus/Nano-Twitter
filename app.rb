@@ -10,7 +10,7 @@ require_relative 'models/follow'
 set :port, 3765
 set :public_folder, File.dirname(__FILE__) + '/static'
 enable :sessions
-set :session_secret, '48fa3729hf0219f'
+set :session_secret, '48fa3729hf0219f4rfbf39hf231b313fb3f723bf8287dadk54'
 
 get '/' do
   # Verify cookie contains current data.
@@ -25,7 +25,7 @@ get '/' do
   tweets = Tweet.all
   full_tweets = []
   tweets.each do |tweet|
-    user = User.where(id: tweet[:user_id]).take
+    user = User.find_by id: tweet[:user_id]
     full_tweets.push [tweet, user]
   end
 
@@ -37,10 +37,10 @@ get '/' do
 end
 
 get '/logout' do
-  tweets = Tweet.all
+  tweets = Tweet.limit(25).order created_at: :desc
   full_tweets = []
   tweets.each do |tweet|
-    user = User.where(id: tweet[:user_id]).take
+    user = User.find_by id: tweet[:user_id]
     full_tweets.push [tweet, user]
   end
   erb :root, :locals => { :tweets => full_tweets, :logout => true }
@@ -71,19 +71,6 @@ get '/nanotwitter/v1.0/users/id/:id' do
   end
 end
 
-post '/nanotwitter/v1.0/tweets' do
-  begin
-    tweet = Tweet.create( text: params[:tweet],
-                          user_id: session[:user]['id'])
-    if tweet.valid?
-      tweet.to_json
-     redirect to request.script_name # should return to same page
-  else
-      error 400, tweet.errors.to_json
-    end
-  end
-end
-
 # create a new user
 post '/nanotwitter/v1.0/users' do
   begin
@@ -102,6 +89,19 @@ post '/nanotwitter/v1.0/users' do
     end
   rescue => e
     error 400, e.message.to_json
+  end
+end
+
+post '/nanotwitter/v1.0/tweets' do
+  begin
+    tweet = Tweet.create( text: params[:tweet],
+                          user_id: session[:user]['id'])
+    if tweet.valid?
+      tweet.to_json
+      redirect to request.script_name # should return to page POST was called from
+    else
+      error 400, tweet.errors.to_json
+    end
   end
 end
 
