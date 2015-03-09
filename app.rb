@@ -16,16 +16,20 @@ get '/' do
   # Verify cookie contains current data.
   if session[:user]
     # If cookie is out of date, delete it.
-    user = User.where id: session[:user][:id]
-    unless user
+    user = User.find_by_id session[:user][:id]
+    if user
+      unless session[:user][:updated_at] == user[:updated_at]
+        session.clear
+      end
+    else
       session.clear
     end
   end
 
-  tweets = Tweet.all
+  tweets = Tweet.limit(25).order created_at: :desc
   full_tweets = []
   tweets.each do |tweet|
-    user = User.find_by id: tweet[:user_id]
+    user = User.find_by_id tweet[:user_id]
     full_tweets.push [tweet, user]
   end
 
@@ -61,7 +65,7 @@ get '/nanotwitter/v1.0/users/:name' do
     error 404, { :error => 'user not found' }.to_json
   end
 end
-
+# get a user by table id
 get '/nanotwitter/v1.0/users/id/:id' do
   user = User.find_by_id params[:id]
   if user
@@ -74,7 +78,6 @@ end
 # create a new user
 post '/nanotwitter/v1.0/users' do
   begin
-    # Using form[param] instead of params[param] passes parameters filtered through :filter rules
     user = User.create(name: params[:name],
                        email: params[:email],
                        username: params[:username],
@@ -122,9 +125,9 @@ post '/nanotwitter/v1.0/users/session' do
   end
 end
 
-# update an existing user
-put '/nanotwitter/v1.0/users/:name' do
-  user = User.find_by_name params[:name]
+# update an existing user by table id
+put '/nanotwitter/v1.0/users/:id' do
+  user = User.find_by_id params[:id]
   if user
     begin
       if user.update_attributes JSON.parse request.body.read
