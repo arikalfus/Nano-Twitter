@@ -1,7 +1,13 @@
-<div class="well">
-  <% tweets.each do |tweet| %>
-    <br>
-    tweet.text - tweet.user
-    <br>
-  <% end %>
+<div class="container-fluid">
+  <div class="row well" style="background-color: transparent">
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <% tweets.each do |tweet, user| %>
+          <tr>
+            <td class="text-center"><%= tweet[:text] %> - <i><%= user[:username] %></i>, <%= tweet[:created_at].localtime.asctime %></td>
+          </tr>
+        <% end %>
+      </table>
+    </div>
+  </div>
 </div>
