@@ -24,6 +24,7 @@ get '/' do
     else
       session.clear
     end
+
   end
 
   tweets = Tweet.limit(25).order created_at: :desc
@@ -35,6 +36,8 @@ get '/' do
 
   if session[:user] # If user has credentials saved in session cookie (is logged in)
     erb :logged_root, :locals => { :user => session[:user], :tweets => full_tweets }
+  elsif session[:login_error]
+    erb :root, :locals => { :tweets => full_tweets, :login_error => session[:login_error] }
   else
     erb :root, :locals => { :tweets => full_tweets }
   end
@@ -128,7 +131,7 @@ post '/nanotwitter/v1.0/tweets' do
                           user_id: session[:user]['id'])
     if tweet.valid?
       tweet.to_json
-      redirect to request.script_name # should return to page POST was called from
+      redirect back
     else
       error 400, tweet.errors.to_json
     end
@@ -137,18 +140,16 @@ end
 
 # verify a user name and password
 post '/nanotwitter/v1.0/users/session' do
-  begin
-    user = User.find_by_username_and_password params[:username], params[:password]
-    if user
-      session[:user] = user
+  user = User.find_by_username_and_password params[:username], params[:password]
+  if user
+    session[:user] = user
+    redirect to '/'
+    user.to_json
+  else
+    error 400 do
+      session[:login_error] = {:error_code => [1], :error => 'Account credentials are invalid.' }
       redirect to '/'
-      user.to_json
-    else
-      redirect to '/', :locals
-      error 400, { :error => 'invalid login credentials' }.to_json
     end
-  rescue => e
-    error 400, e.message.to_json
   end
 end
 

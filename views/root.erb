@@ -8,8 +8,11 @@
       </button>
 
       <% if defined? logout%>
-      <p style="color: red">You are now logged out.</p>
-  <% end %>
+        <p style="color: red">You are now logged out.</p>
+      <% end %>
+      <% if defined? login_error%>
+        <p style="color: red">Account credentials are invalid.</p>
+      <% end %>
     </span>
   </div>
 </div>
