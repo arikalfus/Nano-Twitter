@@ -4,7 +4,7 @@
       <table class="table table-striped">
         <% tweets.each do |tweet, user| %>
           <tr>
-            <td class="text-center"><%= tweet[:text] %> - <i><%= user[:username] %></i>, <%= tweet[:created_at].localtime.asctime %></td>
+            <td class="text-center"><%= tweet[:text] %> - <i><a href="/nanotwitter/v1.0/users/<%= user[:username] %>"><%= user[:username] %></a></i>, <%= tweet[:created_at].localtime.asctime %></td>
           </tr>
         <% end %>
       </table>
