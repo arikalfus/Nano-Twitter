@@ -2,6 +2,7 @@
 
 User.destroy_all
 User.create ([{ name: 'Ari Kalfus', username: 'dev1', password: 'devpass', email: 'dev1@dev.com', phone: '8005555555' }])
+User.create ([{ name: 'Aviv Glick', username: 'gaviv', password: '123321', email: 'dev2@dev.com', phone: '3342242' }])
 
 user1 = User.find_by username: 'dev1'
 
