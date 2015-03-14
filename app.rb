@@ -15,15 +15,10 @@ set :session_secret, '48fa3729hf0219f4rfbf39hf231b313fb3f723bf8287dadk54'
 
 get '/nanotwitter/v1.0/users/profile' do
   if session[:user] # If user has credentials saved in session cookie (is logged in)
-    tweets = Tweet.limit(25).order created_at: :desc
-    full_tweets = []
-    tweets.each do |tweet|
-      user = User.find_by_id tweet[:user_id]
-      full_tweets.push [tweet, user]
-    end 
-    erb :logged_root, :locals => { :user => session[:user], :tweets => full_tweets }
-  else
-  redirect to '/'
+    followees = Follow.where follower_id: session[:user][:id]
+    erb :profile, :locals => { :user => session[:user], :followees => followees }
+   else
+    redirect to '/'
   end
 end
 
