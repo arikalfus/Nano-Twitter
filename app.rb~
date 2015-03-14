@@ -152,13 +152,13 @@ post '/nanotwitter/v1.0/users/session' do
   end
 end
 
-
+<<<<<<< HEAD
 # logout and delete session cookie
 get '/nanotwitter/v1.0/logout' do
   session[:user] = nil
   redirect to '/logout'
 end
-
+=======
 # update an existing user by table id
 put '/nanotwitter/v1.0/users/:id' do
   user = User.find_by_id params[:id]
@@ -187,3 +187,4 @@ end
 #     error 404, { :error => 'user not found' }.to_json
 #   end
 # end
+>>>>>>> 05411edfc9330629a67ec728e918eafbeefca1a4
