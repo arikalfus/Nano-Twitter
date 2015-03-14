@@ -1,5 +1,5 @@
 class User < ActiveRecord::Base
-  validates_uniqueness_of :name, :email, :username, :phone
+  #validates_uniqueness_of :name, :email, :username, :phone
 
   has_many :follows, :class_name => "Follow", :foreign_key => "follower_id"
   has_many :followings, :through => :follows
