@@ -1,6 +1,12 @@
-<div class="form-group">
-	<form action="/nanotwitter/v1.0/tweets" method="POST">
-		<input type="text" name="tweet" size="140" placeholder="Enter in a tweet up to 140 characters">
-    <button type="submit" class="btn btn-default">Submit Tweet</button>
-	</form>
-</div>
+<form class="form-group" action="/nanotwitter/v1.0/tweets" method="POST">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-4">
+        <textarea class="form-control col-xs-12" rows="1" style="max-width: 600px" name="tweet" placeholder="Enter a tweet (140 characters max)"></textarea>
+      </div>
+      <div class="col-md-4">
+        <button type="submit" class="btn btn-primary" style="margin-left:-15px">Submit Tweet</button>
+      </div>
+    </div>
+  </div>
+</form>
