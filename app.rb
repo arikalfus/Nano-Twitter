@@ -56,14 +56,21 @@ get '/nanotwitter/v1.0/logout' do
   redirect to '/logout'
 end
 
-get '/user/:name' do
-    user = User.find_by_name params[:name]
-    if user
-        if session[user]
-            erb :my_page
-        else
-            erb :user_page
+get '/users/:username' do
+  puts "Username: is #{params[:username]}"
+    user = User.find_by_username params[:username]
+    tweets = Tweet.limit(25).order created_at: :desc
+    full_tweets = []
+    tweets.each do |tweet|
+        user_tweet = User.find_by_id tweet[:user_id]
+        if tweet[:user_id] == user[:id]
+          full_tweets.push [tweet, user_tweet]
         end
+    end
+    if session[:user][:username] == user[:username]
+      erb :my_page, :locals => { :user => user, :tweets => full_tweets }
+    elsif user
+        erb :user_page,  :locals => { :user => user, :tweets => full_tweets }
     else
        error 404, { :error => 'user not found' }.to_json
    end 
@@ -72,12 +79,17 @@ end
 
 get '/user/:id' do
     user = User.find_by_name params[:id]
-    if user
-        if session[user]
-            erb :my_page
-        else
-            erb :user_page
+    tweets = Tweet.limit(25).order created_at: :desc
+    full_tweets = []
+    tweets.each do |tweet|
+        user_tweet = User.find_by_id tweet[:user_id]
+        if tweet[:user_id] == user[:id]
+          full_tweets.push [tweet, user_tweet]
         end
+    end
+    erb :my_page, :locals => {user => :user, :tweets => full_tweets } if session[:id] == user[:id]
+    if user
+        erb :user_page,  :locals => {:user => user, :tweets => full_tweets }
     else
        error 404, { :error => 'user not found' }.to_json
    end 
