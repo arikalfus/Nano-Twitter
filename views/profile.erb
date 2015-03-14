@@ -1,0 +1,10 @@
+<div class="page-header">
+  <div class="container-fluid">
+    <span class="pull-left">
+      <h1><%= user['username'] %>'s profile</h1>
+      <h5><%= user['email'] %></h5>
+    </span>
+  </div>
+</div>
+
+<%= erb :feed_followees, :locals => { :followees => followees } %>
