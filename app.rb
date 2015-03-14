@@ -38,16 +38,25 @@ get '/' do
     end
   end
 
-  tweets = Tweet.limit(25).order created_at: :desc
-  full_tweets = []
-  tweets.each do |tweet|
-    user = User.find_by_id tweet[:user_id]
-    full_tweets.push [tweet, user]
-  end
-
   if session[:user] # If user has credentials saved in session cookie (is logged in)
+    users_to_follow = session[:user].followees
+    followees = users_to_follow.collect { |user| user[:id] }
+    followees.push session[:user][:id] # you should see your own tweets as well
+
+    tweets = Tweet.where(user_id: followees).limit(25).order created_at: :desc
+    full_tweets = []
+    tweets.each do |tweet|
+      user = User.find_by_id tweet[:user_id]
+      full_tweets.push [tweet, user]
+    end
     erb :logged_root, :locals => { :user => session[:user], :tweets => full_tweets }
   else
+      tweets = Tweet.limit(25).order created_at: :desc
+      full_tweets = []
+      tweets.each do |tweet|
+        user = User.find_by_id tweet[:user_id]
+        full_tweets.push [tweet, user]
+      end
     erb :root, :locals => { :tweets => full_tweets }
   end
 end
