@@ -78,8 +78,8 @@ get '/nanotwitter/v1.0/logout' do
 end
 
 # get a user by name
-get '/nanotwitter/v1.0/users/:name' do
-  user = User.find_by_name params[:name]
+get '/nanotwitter/v1.0/users/:username' do
+  user = User.find_by_username params[:username]
   if user
     user.to_json
   else
