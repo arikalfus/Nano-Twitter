@@ -39,6 +39,7 @@ ActiveRecord::Schema.define(version: 8) do
     t.string   "email"
     t.string   "username"
     t.string   "password"
+    t.string   "image"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "phone"
