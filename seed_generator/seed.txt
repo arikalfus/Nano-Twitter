@@ -32,9 +32,3 @@ Tweet.create([{user_id:5, text:"Try to parse the GB interface, maybe it will nav
 {user_id:14, text:"Use the 1080p SSL panel, then you can reboot the solid state circuit!"},
 {user_id:15, text:"Use the wireless EXE array, then you can back up the auxiliary port!"}])
 
-# just some people shimon follows
-x = User.find_by(username:'shiramy')
-x.followees << User.find(5)
-x.followees << User.find(6)
-x.followees << User.find(7)
-x.followees << User.find(8)

@@ -1,14 +1,14 @@
 <div class="page-header">
   <div class="container-fluid">
     <span class="pull-left">
-      <h2><%= user['username'] %>, you are logged in</h2>
+      <h2><a href="/nanotwitter/v1.0/users/<%= user[:username] %>"><%= user['username'] %></a>, you are logged in</h2>
     </span>
     <span class="pull-right" style="margin-top: 25px">
       <button class="btn btn-danger" data-toggle="modal" data-target="#logout-confirm-modal">Logout</button>
     </span>
   </div>
 </div>
-<%= erb :tweet %>
+<%= erb :tweet, :locals => {:user => user } %>
 <%= erb :feed, :locals => { :tweets => tweets } %>
 
 <div class="modal fade" id="logout-confirm-modal" role="dialog" aria-hidden="true">
