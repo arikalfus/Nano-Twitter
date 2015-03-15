@@ -1,4 +1,5 @@
-# Run this with rake db:seedUser.destroy_all
+# Run this with rake db:seed
+User.destroy_all
 #create our users (at :id 1,2,3,4)
 User.create ([{ name: 'Ari Kalfus', username: 'dev1', password: 'devpass', email: 'dev1@dev.com', phone: '8005555555', image: 'https://scontent-ord.xx.fbcdn.net/hphotos-xpf1/v/t1.0-9/10690339_10152768150947510_2341191569753235600_n.jpg?oh=bea3e90c4b19f9e74abdca100ee063a4&oe=55855B0C' }])
 User.create ([{ name: 'Shimon Mazor', username: 'shiramy', password: '1234567890', email: 'shiramy@gmail.com', phone: '8005555777', image: 'https://scontent-iad.xx.fbcdn.net/hphotos-xaf1/v/t1.0-9/p720x720/10580071_10204378851046860_2286913440271103339_n.jpg?oh=5fe551881244484b0a6afd55213213d5&oe=557D6A4C' }])
@@ -20,17 +21,18 @@ User.create([{name:'Avis Ernser', username:'avis-ernser', password:'u60xmymes', 
 
 #Now we want to create 10 tweets for our 10 fake users. Tweet :id 1,2,3,4,5,6,7,8,9,10
 Tweet.destroy_all
-Tweet.create([{user_id:5, text:"Try to parse the GB interface, maybe it will navigate the bluetooth sensor!"},
+Tweet.create([{user_id:5, text: 'Try to parse the GB interface, maybe it will navigate the bluetooth sensor!' },
 {user_id:6, text:"I'll input the back-end XML monitor, that should bandwidth the SMTP bus!"},
-{user_id:7, text:"The SAS protocol is down, synthesize the primary array so we can connect the EXE bus!"},
-{user_id:8, text:"The COM firewall is down, calculate the online feed so we can hack the COM circuit!"},
+{user_id:7, text: 'The SAS protocol is down, synthesize the primary array so we can connect the EXE bus!' },
+{user_id:8, text: 'The COM firewall is down, calculate the online feed so we can hack the COM circuit!' },
 {user_id:9, text:"programming the bus won't do anything, we need to input the auxiliary USB circuit!"},
 {user_id:10, text:"transmitting the protocol won't do anything, we need to synthesize the haptic JBOD program!"},
-{user_id:11, text:"The AGP card is down, generate the neural firewall so we can generate the SSL monitor!"},
+{user_id:11, text: 'The AGP card is down, generate the neural firewall so we can generate the SSL monitor!' },
 {user_id:12, text:"I'll hack the redundant HTTP application, that should firewall the RSS application!"},
-{user_id:13, text:"If we quantify the alarm, we can get to the JSON array through the bluetooth THX protocol!"},
-{user_id:14, text:"Use the 1080p SSL panel, then you can reboot the solid state circuit!"},
-{user_id:15, text:"Use the wireless EXE array, then you can back up the auxiliary port!"}])
+{user_id:13, text: 'If we quantify the alarm, we can get to the JSON array through the bluetooth THX protocol!' },
+{user_id:14, text: 'Use the 1080p SSL panel, then you can reboot the solid state circuit!' },
+{user_id:15, text: 'Use the wireless EXE array, then you can back up the auxiliary port!' },
+{user_id: 1, text: 'First!'}])
 
 # just some people shimon follows
 x = User.find_by(username:'shiramy')
