@@ -2,9 +2,9 @@
   <div class="row well" style="background-color: transparent">
     <div class="table-responsive">
       <table class="table table-striped">
-        <% tweets.each do |tweet, user| %>
+        <% followees.each do |user| %>
           <tr>
-            <td class="text-center"><%= tweet[:text] %> - <i><a href="/nanotwitter/v1.0/users/<%= user[:username] %>"><%= user[:username] %></a></i>, <%= tweet[:created_at].localtime.asctime %></td>
+            <td class="text-center"><%= user[:followee_id] %></td>
           </tr>
         <% end %>
       </table>
