@@ -4,7 +4,7 @@
       <h2><%= user['username'] %></h2>
     </span>
     <span class="pull-right" style="margin-top: 25px">
-      <input class="btn btn-default" type="Submit"value="Follow">
+      <input class="btn btn-default" action="/nanotwitter/v1.0/users/:username/follow" method="post" type="Submit" value="Follow">
     </span>
   </div>
 </div>
