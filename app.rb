@@ -3,7 +3,7 @@ require 'sinatra/activerecord'
 require 'sinatra/formkeeper'
 require 'json'
 
-require_relative 'models/user'
+require_relative 'user_service'
 require_relative 'tweet_service'
 require_relative 'models/follow'
 
@@ -16,7 +16,7 @@ get '/' do
   # Verify cookie contains current data.
   if session[:user]
     # If cookie is out of date, delete it.
-    user = User.find_by_id session[:user][:id]
+    user = UserService.get_by_id session[:user][:id]
     if user
       unless session[:user][:updated_at] == user[:updated_at]
         session.clear
@@ -62,7 +62,7 @@ get '/nanotwitter/v1.0/logout' do
 end
 
 get '/nanotwitter/v1.0/users/:username' do
-  user = User.find_by_username params[:username]
+  user = UserService.get_by_username params[:username]
 
   tweets = TweetService.tweets_by_user_id user[:id]
 
@@ -82,7 +82,7 @@ end
 
 # Get a user by table id
 get '/nanotwitter/v1.0/users/id/:id' do
-  user = User.find_by_id params[:id]
+  user = UserService.get_by_id params[:id]
   redirect to "/nanotwitter/v1.0/users/#{user[:username]}"
 end
 
@@ -97,22 +97,17 @@ end
 
 # create a new user
 post '/nanotwitter/v1.0/users' do
-  begin
-    user = User.create(name: params[:name],
+    user = UserService.new(name: params[:name],
                        email: params[:email],
                        username: params[:username],
                        password: params[:password],
                        phone: params[:phone])
-    if user.valid?
+    if user
       session[:user] = user
-      user.to_json
       redirect back
     else
       error 400, user.errors.to_json
     end
-  rescue => e
-    error 400, e.message.to_json
-  end
 end
 
 post '/nanotwitter/v1.0/users/id/:id/tweet' do
@@ -124,19 +119,18 @@ end
 
 # verify a user name and password
 post '/nanotwitter/v1.0/users/session' do
-  user = User.find_by_username_and_password params[:username], params[:password]
+  user = UserService.get_by_username_and_password({ :username => params[:username], :password => params[:password] })
   if user
     session[:user] = user
-    user.to_json
   else
     session[:login_error] = { :error_codes => [1], :message => 'Account credentials are invalid.' }
   end
-  redirect back
+  redirect to '/'
 end
 
 # update an existing user by table id
 put '/nanotwitter/v1.0/users/id/:id' do
-  user = User.find_by_id params[:id]
+  user = UserService.get_by_id params[:id]
   if user
     begin
       if user.update_attributes JSON.parse request.body.read
@@ -150,12 +144,6 @@ put '/nanotwitter/v1.0/users/id/:id' do
   else
     error 404, { :error => 'user not found' }.to_json
   end
-end
-
-# logout and delete session cookie
-delete '/nanotwitter/v1.0/logout' do
-  session[:user] = nil
-  redirect to '/logout'
 end
 
 # destroy an existing user
