@@ -4,7 +4,7 @@ require 'sinatra/formkeeper'
 require 'json'
 
 require_relative 'models/user'
-require_relative 'models/tweet'
+require_relative 'tweet_service'
 require_relative 'models/follow'
 
 set :port, 3765
@@ -32,46 +32,27 @@ get '/' do
     followees = users_to_follow.collect { |user| user[:id] }
     followees.push session[:user][:id] # you should see your own tweets as well
 
-    tweets = Tweet.where(user_id: followees).limit(25).order created_at: :desc
-    full_tweets = []
-    tweets.each do |tweet|
-      user = User.find_by_id tweet[:user_id]
-      full_tweets.push [tweet, user]
-    end
+    tweets = TweetService.tweets_by_user_id followees
 
-    erb :logged_root, :locals => { :user => session[:user], :tweets => full_tweets }
+    erb :logged_root, :locals => { :user => session[:user], :tweets => tweets }
   elsif session[:login_error]
-    tweets = Tweet.limit(25).order created_at: :desc
-    full_tweets = []
-    tweets.each do |tweet|
-      user = User.find_by_id tweet[:user_id]
-      full_tweets.push [tweet, user]
-    end
+    tweets = TweetService.tweets
+
     login_error = session[:login_error]
     session[:login_error] = nil
 
-    erb :root, :locals => { :tweets => full_tweets, :login_error => login_error }
+    erb :root, :locals => { :tweets => tweets, :login_error => login_error }
   else
-    tweets = Tweet.limit(25).order created_at: :desc
-    full_tweets = []
-    tweets.each do |tweet|
-      user = User.find_by_id tweet[:user_id]
-      full_tweets.push [tweet, user]
-    end
+    tweets = TweetService.tweets
 
-    erb :root, :locals => { :tweets => full_tweets }
+    erb :root, :locals => { :tweets => tweets }
   end
 end
 
 get '/logout' do
-  tweets = Tweet.limit(25).order created_at: :desc
-  full_tweets = []
-  tweets.each do |tweet|
-    user = User.find_by id: tweet[:user_id]
-    full_tweets.push [tweet, user]
-  end
+  tweets = TweetService.tweets
 
-  erb :root, :locals => { :tweets => full_tweets, :logout => true }
+  erb :root, :locals => { :tweets => tweets, :logout => true }
 end
 
 # logout and delete session cookie
@@ -83,25 +64,18 @@ end
 get '/nanotwitter/v1.0/users/:username' do
   user = User.find_by_username params[:username]
 
-  tweets = Tweet.limit(25).order created_at: :desc
-  full_tweets = []
-  tweets.each do |tweet|
-      user_tweet = User.find_by_id tweet[:user_id]
-      if tweet[:user_id] == user[:id]
-        full_tweets.push [tweet, user_tweet]
-      end
-  end
+  tweets = TweetService.tweets
 
   if session[:user]
     if session[:user][:username] == user[:username]
-      erb :my_page, :locals => { :user => user, :tweets => full_tweets }
+      erb :my_page, :locals => { :user => user, :tweets => tweets }
     elsif user
-      erb :user_page,  :locals => { :user => user, :tweets => full_tweets }
+      erb :user_page,  :locals => { :user => user, :tweets => tweets }
     else
       error 404, { :error => 'user not found' }.to_json
     end
-    elsif user
-    erb :user_page,  :locals => { :user => user, :tweets => full_tweets }
+  elsif user
+    erb :user_page,  :locals => { :user => user, :tweets => tweets }
   end
 
 end
@@ -142,16 +116,10 @@ post '/nanotwitter/v1.0/users' do
 end
 
 post '/nanotwitter/v1.0/users/id/:id/tweet' do
-  begin
-    tweet = Tweet.create( text: params[:tweet],
-                          user_id: params[:id])
-    if tweet.valid?
-      tweet.to_json
-      redirect back
-    else
-      error 400, tweet.errors.to_json
-    end
-  end
+    TweetService.new({ text: params[:tweet],
+                user_id: params[:id]
+              })
+    redirect back
 end
 
 # verify a user name and password
