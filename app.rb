@@ -24,7 +24,6 @@ get '/' do
     else
       session.clear
     end
-
   end
 
   if session[:user] # If user has credentials saved in session cookie (is logged in)
