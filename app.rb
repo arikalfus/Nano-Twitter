@@ -207,6 +207,13 @@ put '/nanotwitter/v1.0/users/:id' do
   end
 end
 
+# udpate an existing user using follow functions.
+post '/nanotwitter/v1.0/users/:username/follow'
+  followee = User.find_by_username params[:username]
+  session[:user].followees << followee
+  redirect back
+end
+
 # destroy an existing user
 # delete '/nanotwitter/v1.0/users/:name' do
 #   user = User.find_by_name params[:name]
