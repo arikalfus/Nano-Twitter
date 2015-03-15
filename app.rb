@@ -64,7 +64,7 @@ end
 get '/nanotwitter/v1.0/users/:username' do
   user = User.find_by_username params[:username]
 
-  tweets = TweetService.tweets
+  tweets = TweetService.tweets_by_user_id user[:id]
 
   if session[:user]
     if session[:user][:username] == user[:username]
