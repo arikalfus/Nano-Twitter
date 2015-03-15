@@ -1,0 +1,10 @@
+<div class="page-header">
+  <div class="container-fluid">
+    <span class="pull-left">
+      <h2><%= user['username'] %></h2>
+    </span>
+  </div>
+</div>
+
+<%= erb :tweet, :locals => { :user => user } %>
+<%= erb :feed, :locals => { :tweets => tweets } %>

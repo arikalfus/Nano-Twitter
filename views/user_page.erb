@@ -1,0 +1,12 @@
+<div class="page-header">
+  <div class="container-fluid">
+    <span class="pull-left">
+      <h2><%= user['username'] %></h2>
+    </span>
+    <span class="pull-right" style="margin-top: 25px">
+      <input class="btn btn-default" type="Submit"value="Follow">
+    </span>
+  </div>
+</div>
+
+<%= erb :feed, :locals => { :tweets => tweets } %>
