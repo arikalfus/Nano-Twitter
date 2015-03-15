@@ -11,7 +11,7 @@
         <p style="color: red">You are now logged out.</p>
       <% end %>
       <% if defined? login_error%>
-        <p style="color: red">Account credentials are invalid.</p>
+        <p style="color: red"><%= login_error[:message] %><br>If you are interested, you triggered error <%= login_error[:error_codes].to_s %>.</p>
       <% end %>
     </span>
   </div>

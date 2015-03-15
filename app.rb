@@ -12,18 +12,6 @@ set :public_folder, File.dirname(__FILE__) + '/static'
 enable :sessions
 set :session_secret, '48fa3729hf0219f4rfbf39hf231b313fb3f723bf8287dadk54'
 
-
-get '/nanotwitter/v1.0/users/profile' do
-  if session[:user] # If user has credentials saved in session cookie (is logged in)
-    followees = Follow.where follower_id: session[:user][:id]
-    erb :profile, :locals => { :user => session[:user], :followees => followees }
-   else
-    redirect to '/'
-  end
-end
-
-
-
 get '/' do
   # Verify cookie contains current data.
   if session[:user]
@@ -50,16 +38,27 @@ get '/' do
       user = User.find_by_id tweet[:user_id]
       full_tweets.push [tweet, user]
     end
+
     erb :logged_root, :locals => { :user => session[:user], :tweets => full_tweets }
   elsif session[:login_error]
-    erb :root, :locals => { :tweets => full_tweets, :login_error => session[:login_error] }
+    tweets = Tweet.limit(25).order created_at: :desc
+    full_tweets = []
+    tweets.each do |tweet|
+      user = User.find_by_id tweet[:user_id]
+      full_tweets.push [tweet, user]
+    end
+    login_error = session[:login_error]
+    session[:login_error] = nil
+
+    erb :root, :locals => { :tweets => full_tweets, :login_error => login_error }
   else
-      tweets = Tweet.limit(25).order created_at: :desc
-      full_tweets = []
-      tweets.each do |tweet|
-        user = User.find_by_id tweet[:user_id]
-        full_tweets.push [tweet, user]
-      end
+    tweets = Tweet.limit(25).order created_at: :desc
+    full_tweets = []
+    tweets.each do |tweet|
+      user = User.find_by_id tweet[:user_id]
+      full_tweets.push [tweet, user]
+    end
+
     erb :root, :locals => { :tweets => full_tweets }
   end
 end
@@ -71,6 +70,7 @@ get '/logout' do
     user = User.find_by id: tweet[:user_id]
     full_tweets.push [tweet, user]
   end
+
   erb :root, :locals => { :tweets => full_tweets, :logout => true }
 end
 
@@ -80,62 +80,44 @@ get '/nanotwitter/v1.0/logout' do
   redirect to '/logout'
 end
 
-get '/users/:username' do
-  puts "Username: is #{params[:username]}"
-    user = User.find_by_username params[:username]
-    tweets = Tweet.limit(25).order created_at: :desc
-    full_tweets = []
-    tweets.each do |tweet|
-        user_tweet = User.find_by_id tweet[:user_id]
-        if tweet[:user_id] == user[:id]
-          full_tweets.push [tweet, user_tweet]
-        end
-    end
+get '/nanotwitter/v1.0/users/:username' do
+  user = User.find_by_username params[:username]
+
+  tweets = Tweet.limit(25).order created_at: :desc
+  full_tweets = []
+  tweets.each do |tweet|
+      user_tweet = User.find_by_id tweet[:user_id]
+      if tweet[:user_id] == user[:id]
+        full_tweets.push [tweet, user_tweet]
+      end
+  end
+
+  if session[:user]
     if session[:user][:username] == user[:username]
       erb :my_page, :locals => { :user => user, :tweets => full_tweets }
     elsif user
-        erb :user_page,  :locals => { :user => user, :tweets => full_tweets }
+      erb :user_page,  :locals => { :user => user, :tweets => full_tweets }
     else
-       error 404, { :error => 'user not found' }.to_json
-   end 
-
-end
-
-get '/user/:id' do
-    user = User.find_by_name params[:id]
-    tweets = Tweet.limit(25).order created_at: :desc
-    full_tweets = []
-    tweets.each do |tweet|
-        user_tweet = User.find_by_id tweet[:user_id]
-        if tweet[:user_id] == user[:id]
-          full_tweets.push [tweet, user_tweet]
-        end
+      error 404, { :error => 'user not found' }.to_json
     end
-    erb :my_page, :locals => {user => :user, :tweets => full_tweets } if session[:id] == user[:id]
-    if user
-        erb :user_page,  :locals => {:user => user, :tweets => full_tweets }
-    else
-       error 404, { :error => 'user not found' }.to_json
-   end 
-end
-
-# get a user by name
-get '/nanotwitter/v1.0/users/:username' do
-  user = User.find_by_username params[:username]
-  if user
-    user.to_json
-  else
-    error 404, { :error => 'user not found' }.to_json
+    elsif user
+    erb :user_page,  :locals => { :user => user, :tweets => full_tweets }
   end
+
 end
 
-# get a user by table id
+# Get a user by table id
 get '/nanotwitter/v1.0/users/id/:id' do
   user = User.find_by_id params[:id]
-  if user
-    user.to_json
+  redirect to "/nanotwitter/v1.0/users/#{user[:username]}"
+end
+
+get '/nanotwitter/v1.0/users/profile' do
+  if session[:user] # If user has credentials saved in session cookie (is logged in)
+    followees = Follow.where follower_id: session[:user][:id]
+    erb :profile, :locals => { :user => session[:user], :followees => followees }
   else
-    error 404, { :error => 'user not found' }.to_json
+    redirect to '/'
   end
 end
 
@@ -150,7 +132,7 @@ post '/nanotwitter/v1.0/users' do
     if user.valid?
       session[:user] = user
       user.to_json
-      redirect to '/'
+      redirect back
     else
       error 400, user.errors.to_json
     end
@@ -159,10 +141,10 @@ post '/nanotwitter/v1.0/users' do
   end
 end
 
-post '/nanotwitter/v1.0/tweets' do
+post '/nanotwitter/v1.0/users/id/:id/tweet' do
   begin
     tweet = Tweet.create( text: params[:tweet],
-                          user_id: session[:user]['id'])
+                          user_id: params[:id])
     if tweet.valid?
       tweet.to_json
       redirect back
@@ -177,25 +159,15 @@ post '/nanotwitter/v1.0/users/session' do
   user = User.find_by_username_and_password params[:username], params[:password]
   if user
     session[:user] = user
-    redirect to '/'
     user.to_json
   else
-    error 400 do
-      session[:login_error] = {:error_code => [1], :error => 'Account credentials are invalid.' }
-      redirect to '/'
-    end
+    session[:login_error] = { :error_codes => [1], :message => 'Account credentials are invalid.' }
   end
-end
-
-
-# logout and delete session cookie
-get '/nanotwitter/v1.0/logout' do
-  session[:user] = nil
-  redirect to '/logout'
+  redirect back
 end
 
 # update an existing user by table id
-put '/nanotwitter/v1.0/users/:id' do
+put '/nanotwitter/v1.0/users/id/:id' do
   user = User.find_by_id params[:id]
   if user
     begin
@@ -210,6 +182,12 @@ put '/nanotwitter/v1.0/users/:id' do
   else
     error 404, { :error => 'user not found' }.to_json
   end
+end
+
+# logout and delete session cookie
+delete '/nanotwitter/v1.0/logout' do
+  session[:user] = nil
+  redirect to '/logout'
 end
 
 # destroy an existing user

@@ -6,5 +6,5 @@
   </div>
 </div>
 
-<%= erb :tweet %>
+<%= erb :tweet, :locals => { :user => user } %>
 <%= erb :feed, :locals => { :tweets => tweets } %>
