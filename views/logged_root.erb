@@ -8,7 +8,7 @@
     </span>
   </div>
 </div>
-<%= erb :tweet %>
+<%= erb :tweet, :locals => {:user => user } %>
 <%= erb :feed, :locals => { :tweets => tweets } %>
 
 <div class="modal fade" id="logout-confirm-modal" role="dialog" aria-hidden="true">
