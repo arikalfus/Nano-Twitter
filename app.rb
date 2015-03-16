@@ -161,7 +161,7 @@ post '/nanotwitter/v1.0/users/:username/follow' do
   redirect back
 end 
 
-delete '/nanotwitter/v1.0/users/:username/unfollow' do
+post '/nanotwitter/v1.0/users/:username/unfollow' do
   followee = User.find_by_username params[:username]
   session[:user].unfollow(followee)
   redirect back
