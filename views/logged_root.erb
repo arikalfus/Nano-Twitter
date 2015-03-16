@@ -1,7 +1,11 @@
 <div class="page-header">
   <div class="container-fluid">
     <span class="pull-left">
-      <h2><a href="/nanotwitter/v1.0/users/<%= user[:username] %>/profile"><%= user['username'] %></a>, you are logged in</h2>
+      <img src=<%= user[:image] %> alt="avatar" class="img-thumbnail" style="width:150px;height:150px">
+    </span>
+    <span class="pull-left">
+      <h3><a href="/nanotwitter/v1.0/users/<%= user[:username] %>/profile">&nbsp<%= user['name'] %></a></h3>
+      <h5>&nbsp@<%= user['username'] %></h5>
     </span>
     <span class="pull-right" style="margin-top: 25px">
       <button class="btn btn-danger" data-toggle="modal" data-target="#logout-confirm-modal">Logout</button>

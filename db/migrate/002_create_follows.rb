@@ -6,6 +6,10 @@ class CreateFollows < ActiveRecord::Migration
     end
   end
 
+	add_index :follows, :follower_id
+  add_index :follows, :followee_id
+  add_index :follows, [:follower_id, :followee_id], unique: true
+
   def self.down
     drop_table :follows
   end

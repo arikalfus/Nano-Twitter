@@ -1,10 +1,10 @@
 class User < ActiveRecord::Base
   #validates_uniqueness_of :name, :email, :username, :phone
 
-  has_many :follows, :class_name => "Follow", :foreign_key => "follower_id"
-  has_many :followees, :through => :follows
-  has_many :reverse_follows, :class_name => "Follow", :foreign_key => "followee_id"
-  has_many :followers, :through => :reverse_follows
+  has_many :follows, :class_name => "Follow", :foreign_key => "follower_id", dependent: :destroy
+  has_many :followees, :through => :follows, source: :followee
+  has_many :reverse_follows, :class_name => "Follow", :foreign_key => "followee_id", dependent: :destroy
+  has_many :followers, :through => :reverse_follows, source: :follower
   has_many :tweets
 
   def to_json
