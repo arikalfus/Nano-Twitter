@@ -17,24 +17,21 @@ get '/' do
   # Verify cookie contains current data.
   if session[:user]
     # If cookie is out of date, delete it.
-    user = UserService.get_by_id session[:user][:id]
-    if user
-      unless session[:user][:updated_at] == user[:updated_at]
+    user = UserService.get_by_id session[:user]
+    unless user
         session.clear
-      end
-    else
-      session.clear
     end
   end
 
   if session[:user] # If user has credentials saved in session cookie (is logged in)
-    users_to_follow = session[:user].followees
-    followees = users_to_follow.collect { |user| user[:id] }
-    followees.push session[:user][:id] # you should see your own tweets as well
+    user = UserService.get_by_id session[:user]
+    users_to_follow = user.followees
+    followees = users_to_follow.collect { |u| u[:id] }
+    followees.push user[:id] # you should see your own tweets as well
 
     tweets = TweetService.tweets_by_user_id followees
 
-    erb :logged_root, :locals => { :user => session[:user], :tweets => tweets }
+    erb :logged_root, :locals => { :user => user, :tweets => tweets }
   elsif session[:login_error]
     tweets = TweetService.tweets
 
@@ -74,8 +71,9 @@ get '/nanotwitter/v1.0/users/:username' do
   tweets = TweetService.tweets_by_user_id user[:id]
 
   if session[:user]
-    if user
-      erb :user_page, :locals => { :user => session[:user], :profile_user => user, :tweets => tweets }
+    logged_in_user = UserService.get_by_id session[:user]
+    if user && logged_in_user
+      erb :user_page, :locals => { :user => logged_in_user, :profile_user => user, :tweets => tweets }
     else
       error 404, { :error => 'user not found' }.to_json
     end
@@ -95,19 +93,20 @@ end
 
 get '/nanotwitter/v1.0/users/:username/profile' do
   if session[:user] # If user has credentials saved in session cookie (is logged in)
+    logged_in_user = UserService.get_by_id session[:user]
     user = UserService.get_by_username params[:username]
-    if session[:user][:username] == user[:username] #if user is watching their own page
-      followees = Follow.where follower_id: session[:user][:id]
+    if logged_in_user[:username] == user[:username] # if user is requesting their own page
+      followees = Follow.where follower_id: logged_in_user[:id]
       users = []
       followees.each do |user| 
         users.push UserService.get_by_id user[:followee_id]
       end
-      erb :user_profile, :locals => { :user => session[:user], :users => users }
+      erb :user_profile, :locals => { :user => logged_in_user, :users => users }
     else
-      redirect to '/'
+      error 403, { :error=> 'forbidden from accessing this page' }.to_json # forbidden from accessing this page
     end
   else
-    redirect to '/'
+    error 401, { :error => 'must be logged in to access' }.to_json # must be logged in to access
   end
 end
 
@@ -196,7 +195,7 @@ post '/nanotwitter/v1.0/users' do
                            password: form[:password],
                            phone: form[:phone])
     if user
-      session[:user] = user
+      session[:user] = user[:id]
       puts "User session 1: #{session[:user].to_json}"
       redirect to '/'
     else
@@ -216,24 +215,35 @@ end
 post '/nanotwitter/v1.0/users/session' do
   user = UserService.get_by_username_and_password({ :username => params[:username], :password => params[:password] })
   if user
-    session[:user] = user
+    session[:user] = user[:id]
   else
-    session[:login_error] = { :error_codes => [1], :message => 'Account credentials are invalid.' }
+    session[:login_error] = { :error_codes => ['l-inv'], :message => 'Account credentials are invalid.' }
   end
   redirect to '/'
 end
 
 # udpate an existing user using follow functions.
 post '/nanotwitter/v1.0/users/:username/follow' do
-  followee = User.find_by_username params[:username]
-  session[:user].follow followee
-  redirect back
+  if session[:user]
+    logged_in_user = UserService.get_by_id session[:user]
+    followee = User.find_by_username params[:username]
+
+    logged_in_user.follow followee
+    redirect back
+  else
+    error 401, { :error => 'must be logged in to access' }.to_json # must be logged in to access
+  end
 end
 
 post '/nanotwitter/v1.0/users/:username/unfollow' do
-  followee = User.find_by_username params[:username]
-  session[:user].unfollow followee
-  redirect back
+  if session[:user]
+    logged_in_user = UserService.get_by_id session[:user]
+    followee = User.find_by_username params[:username]
+    logged_in_user.unfollow followee
+    redirect back
+  else
+    error 401, { :error => 'must be logged in to access' }.to_json # must be logged in to access
+  end
 end
 
 # update an existing user by table id
