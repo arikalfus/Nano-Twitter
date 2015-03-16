@@ -66,15 +66,15 @@ get '/nanotwitter/v1.0/users/:username' do
   tweets = TweetService.tweets_by_user_id user[:id]
 
   if session[:user]
-    if session[:user][:username] == user[:username]
-      erb :my_page, :locals => { :user => user, :tweets => tweets }
-    elsif user
-      erb :user_page,  :locals => { :user => session[:user], :profile_user => user, :tweets => tweets }
+    if user
+      erb :profile_page, :locals => { :user => session[:user], :profile_user => user, :tweets => tweets }
     else
       error 404, { :error => 'user not found' }.to_json
     end
   elsif user
-    erb :user_page,  :locals => { :profile_user => user, :tweets => tweets }
+    erb :profile_page,  :locals => { :profile_user => user, :tweets => tweets }
+  else
+    error 404, { :error => 'user not found' }.to_json
   end
 
 end
@@ -85,10 +85,19 @@ get '/nanotwitter/v1.0/users/id/:id' do
   redirect to "/nanotwitter/v1.0/users/#{user[:username]}"
 end
 
-get '/nanotwitter/v1.0/users/profile' do
+get '/nanotwitter/v1.0/users/:username/profile' do
   if session[:user] # If user has credentials saved in session cookie (is logged in)
-    followees = Follow.where follower_id: session[:user][:id]
-    erb :profile, :locals => { :user => session[:user], :followees => followees }
+    user = UserService.get_by_username params[:username]
+    if session[:user][:username] == user[:username] #if user is watching their own page
+      followees = Follow.where follower_id: session[:user][:id]
+      users = []
+      followees.each do |user| 
+        users.push UserService.get_by_id user[:followee_id]
+      end
+      erb :user_profile, :locals => { :user => session[:user], :users => users }
+    else
+      redirect to '/'
+    end
   else
     redirect to '/'
   end

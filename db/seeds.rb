@@ -36,7 +36,30 @@ Tweet.create([{user_id:5, text: 'Try to parse the GB interface, maybe it will na
 
 # just some people shimon follows
 x = User.find_by(username:'shiramy')
+
 x.followees << User.find(5)
-x.followees << User.find(6)
-x.followees << User.find(7)
-x.followees << User.find(8)
+x.followees << User.find(1)
+x.followees << User.find(3)
+x.followees << User.find(4)
+
+y = User.find_by(username:'dev1')
+
+y.followees << User.find(5)
+y.followees << User.find(2)
+y.followees << User.find(3)
+y.followees << User.find(4)
+
+z = User.find_by(username:'gaviv')
+
+z.followees << User.find(5)
+z.followees << User.find(1)
+z.followees << User.find(2)
+z.followees << User.find(4)
+
+t = User.find_by(username:'tgray')
+
+t.followees << User.find(5)
+t.followees << User.find(2)
+t.followees << User.find(3)
+t.followees << User.find(1)
+
