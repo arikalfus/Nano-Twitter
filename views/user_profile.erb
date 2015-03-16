@@ -1,7 +1,8 @@
 <div class="page-header">
   <div class="container-fluid">
     <span class="pull-left">
-      <h1><%= user['username'] %>'s profile</h1>
+    <span><img src=<%= user[:image] %> alt="avatar" class="img-thumbnail" style="width:150px;height:150px"></span>
+      <h3><%= user['name'] %></h3>
       <h5><%= user['email'] %></h5>
     </span>
   </div>
