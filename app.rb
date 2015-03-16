@@ -136,6 +136,19 @@ post '/nanotwitter/v1.0/users/session' do
   redirect to '/'
 end
 
+# udpate an existing user using follow functions.
+post '/nanotwitter/v1.0/users/:username/follow' do
+  followee = User.find_by_username params[:username]
+  session[:user].follow followee
+  redirect back
+end
+
+post '/nanotwitter/v1.0/users/:username/unfollow' do
+  followee = User.find_by_username params[:username]
+  session[:user].unfollow followee
+  redirect back
+end
+
 # update an existing user by table id
 put '/nanotwitter/v1.0/users/id/:id' do
   user = UserService.get_by_id params[:id]
@@ -153,20 +166,6 @@ put '/nanotwitter/v1.0/users/id/:id' do
     error 404, { :error => 'user not found' }.to_json
   end
 end
-
-# udpate an existing user using follow functions.
-post '/nanotwitter/v1.0/users/:username/follow' do
-  followee = User.find_by_username params[:username]
-  session[:user].followees << followee
-  redirect back
-end 
-  
-# logout and delete session cookie
-delete '/nanotwitter/v1.0/logout' do
-  session[:user] = nil
-  redirect to '/logout'
-end
-
 
 # destroy an existing user
 # delete '/nanotwitter/v1.0/users/:name' do

@@ -1,18 +1,23 @@
 <div class="page-header">
   <div class="container-fluid">
+    <% if defined? logout %>
+      <div class="alert alert-danger fade in center-block text-center" role="alert">
+        You have been logged out.
+        <button class="close" data-dismiss="alert" aria-label="close"><span aria-hidden="true">&times;</span></button>
+      </div>
+    <% end %>
+    <% if defined? login_error %>
+      <div class="alert alert-danger fade in center-block text-center" role="alert">
+        <%= login_error[:message] %><br>If you are interested, you triggered error <%= login_error[:error_codes].to_s %>.
+        <button class="close" data-dismiss="alert" aria-label="close"><span aria-hidden="true">&times;</span></button>
+      </div>
+    <% end %>
     <span class="pull-left">
       <h1>Nano Twitter</h1>
     </span>
     <span class="pull-right" style="margin-top: 25px">
       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#loginModal">Login/Register
       </button>
-
-      <% if defined? logout%>
-        <p style="color: red">You are now logged out.</p>
-      <% end %>
-      <% if defined? login_error%>
-        <p style="color: red"><%= login_error[:message] %><br>If you are interested, you triggered error <%= login_error[:error_codes].to_s %>.</p>
-      <% end %>
     </span>
   </div>
 </div>
