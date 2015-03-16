@@ -4,21 +4,25 @@
       <h2><%= profile_user['username'] %></h2>
     </span>
     <span class="pull-right" style="margin-top: 25px">
-      <!-- If user is logged in, display 'Follow' button -->
-        <% if defined? user %>
+      <!-- If user is logged in and user is not looking at his own page, display 'Follow' button -->
+        <% if defined? user && user[:username] != profile_user[:username]%>
         <!-- Display 'Follow' or 'Following' based on whether user is already following this profile. -->
           <% if user.followees.find_by_username profile_user[:username] %>
             <form action="/nanotwitter/v1.0/users/<%= profile_user[:username] %>/follow" method="delete">
-              <button class="btn btn-default active" style="opacity: 0.5" type="submit">Following</button>
+              <button class="btn btn-primary active" style="opacity: 0.5" type="submit">Following</button>
             </form>
           <% else %>
           <form action="/nanotwitter/v1.0/users/<%= profile_user[:username] %>/follow" method="post">
-            <button class="btn btn-default" type="submit">Follow</button>
+            <button class="btn btn-primary" type="submit">Follow</button>
           </form>
           <% end %>
         <% end %>
     </span>
   </div>
 </div>
+
+<% if user[:username] == profile_user[:username] %>
+  <%= erb :tweet, :locals => { :user => user } %>
+<% end %>
 
 <%= erb :feed, :locals => { :tweets => tweets } %>

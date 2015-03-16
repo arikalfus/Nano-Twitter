@@ -66,15 +66,15 @@ get '/nanotwitter/v1.0/users/:username' do
   tweets = TweetService.tweets_by_user_id user[:id]
 
   if session[:user]
-    if session[:user][:username] == user[:username]
-      erb :user_page, :locals => { :user => user, :tweets => tweets }
-    elsif user
-      erb :profile_page,  :locals => { :user => session[:user], :profile_user => user, :tweets => tweets }
+    if user
+      erb :profile_page, :locals => { :user => session[:user], :profile_user => user, :tweets => tweets }
     else
       error 404, { :error => 'user not found' }.to_json
     end
   elsif user
     erb :profile_page,  :locals => { :profile_user => user, :tweets => tweets }
+  else
+    error 404, { :error => 'user not found' }.to_json
   end
 
 end
