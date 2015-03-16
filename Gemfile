@@ -5,7 +5,13 @@ gem 'sinatra'
 gem 'activerecord'
 gem 'sinatra-activerecord'
 gem 'sinatra-formkeeper'
-gem 'pg'
-gem 'sqlite3'
 gem 'typhoeus'
 gem 'json'
+
+group :development, :test do
+  gem 'sqlite3'
+end
+
+group :production do
+  gem 'pg'
+end
