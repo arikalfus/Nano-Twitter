@@ -90,7 +90,11 @@ get '/nanotwitter/v1.0/users/:username/profile' do
     user = UserService.get_by_username params[:username]
     if session[:user][:username] == user[:username] #if user is watching their own page
       followees = Follow.where follower_id: session[:user][:id]
-      erb :user_profile, :locals => { :user => session[:user], :followees => followees }
+      users = []
+      followees.each do |user| 
+        users.push UserService.get_by_id user[:followee_id]
+      end
+      erb :user_profile, :locals => { :user => session[:user], :users => users }
     else
       redirect to '/'
     end
