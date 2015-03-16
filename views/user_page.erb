@@ -3,15 +3,8 @@
     <span class="pull-left">
       <h2><%= user['username'] %></h2>
     </span>
-    <span class="pull-right" style="margin-top: 25px">
-    	<form action="/nanotwitter/v1.0/users/<%= user[:username] %>/follow" method="post">
-<!--         <input display="none" name="follow"></input>
- -->        <button class="btn btn-default" type="submit">Follow</button>
-    	</form>
-      
- <!--      <input class="btn btn-default" action="/nanotwitter/v1.0/users/<%= user[:username] %>/follow" method="post" type="submit" value="Follow"> -->
-    </span>
   </div>
 </div>
 
+<%= erb :tweet, :locals => { :user => user } %>
 <%= erb :feed, :locals => { :tweets => tweets } %>
