@@ -85,10 +85,10 @@ get '/nanotwitter/v1.0/users/id/:id' do
   redirect to "/nanotwitter/v1.0/users/#{user[:username]}"
 end
 
-get '/nanotwitter/v1.0/users/profile' do
+get '/nanotwitter/v1.0/users/:username/profile' do
   if session[:user] # If user has credentials saved in session cookie (is logged in)
     followees = Follow.where follower_id: session[:user][:id]
-    erb :profile, :locals => { :user => session[:user], :followees => followees }
+    erb :user_profile, :locals => { :user => session[:user], :followees => followees }
   else
     redirect to '/'
   end
