@@ -1,0 +1,23 @@
+<div class="page-header">
+  <div class="container-fluid">
+    <span class="pull-left">
+      <h2><%= profile_user['username'] %></h2>
+    </span>
+    <span class="pull-right" style="margin-top: 25px">
+        <% if defined? user %>
+          <!-- If user is logged in, display 'Follow' button -->
+          <% if user.followees.find_by_username profile_user[:username] %>
+            <form action="/nanotwitter/v1.0/users/<%= profile_user[:username] %>/follow" method="delete">
+              <button class="btn btn-default active" style="opacity: 0.5" type="submit">Following</button>
+            </form>
+          <% else %>
+          <form action="/nanotwitter/v1.0/users/<%= profile_user[:username] %>/follow" method="post">
+            <button class="btn btn-default" type="submit">Follow</button>
+          </form>
+          <% end %>
+        <% end %>
+    </span>
+  </div>
+</div>
+
+<%= erb :feed, :locals => { :tweets => tweets } %>

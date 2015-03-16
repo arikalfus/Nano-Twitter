@@ -67,14 +67,14 @@ get '/nanotwitter/v1.0/users/:username' do
 
   if session[:user]
     if session[:user][:username] == user[:username]
-      erb :my_page, :locals => { :user => user, :tweets => tweets }
+      erb :user_page, :locals => { :user => user, :tweets => tweets }
     elsif user
-      erb :user_page,  :locals => { :user => session[:user], :profile_user => user, :tweets => tweets }
+      erb :profile_page,  :locals => { :user => session[:user], :profile_user => user, :tweets => tweets }
     else
       error 404, { :error => 'user not found' }.to_json
     end
   elsif user
-    erb :user_page,  :locals => { :profile_user => user, :tweets => tweets }
+    erb :profile_page,  :locals => { :profile_user => user, :tweets => tweets }
   end
 
 end
