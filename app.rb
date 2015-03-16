@@ -10,9 +10,10 @@ require_relative 'models/follow'
 set :port, 3765
 set :public_folder, File.dirname(__FILE__) + '/static'
 enable :sessions
-set :session_secret, '48fa3729hf0219f4rfbf39hf231b313fb3f723bf8287dadk54'
+set :session_secret, '48fa3729hf0219f4rfbf39hf2'
 
 get '/' do
+  puts "User session: #{session[:user].to_json}"
   # Verify cookie contains current data.
   if session[:user]
     # If cookie is out of date, delete it.
@@ -196,8 +197,8 @@ post '/nanotwitter/v1.0/users' do
                            phone: form[:phone])
     if user
       session[:user] = user
-      # redirect to '/'
-      session[:user].to_json
+      puts "User session 1: #{session[:user].to_json}"
+      redirect to '/'
     else
       error 400, user.errors.to_json
     end
