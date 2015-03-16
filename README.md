@@ -1,5 +1,7 @@
-# Nano-Twitter
+# Nano-Twitter 
 Project focusing on load testing for COSI 105B: Architecture at Scale at Brandeis University.
+
+<img alt="Status?branch=master" src="https://codeship.com/projects/50007a90-ae63-0132-7ed9-2ecd9a04cc80/status?branch=master" />
 
 # Route descriptions
 
