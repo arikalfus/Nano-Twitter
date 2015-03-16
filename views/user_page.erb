@@ -4,7 +4,12 @@
       <h2><%= user['username'] %></h2>
     </span>
     <span class="pull-right" style="margin-top: 25px">
-      <input class="btn btn-default" type="Submit"value="Follow">
+    	<form action="/nanotwitter/v1.0/users/<%= user[:username] %>/follow" method="post">
+<!--         <input display="none" name="follow"></input>
+ -->        <button class="btn btn-default" type="submit">Follow</button>
+    	</form>
+      
+ <!--      <input class="btn btn-default" action="/nanotwitter/v1.0/users/<%= user[:username] %>/follow" method="post" type="submit" value="Follow"> -->
     </span>
   </div>
 </div>
