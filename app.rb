@@ -196,7 +196,6 @@ post '/nanotwitter/v1.0/users' do
                            phone: form[:phone])
     if user
       session[:user] = user[:id]
-      puts "User session 1: #{session[:user].to_json}"
       redirect to '/'
     else
       error 400, user.errors.to_json
