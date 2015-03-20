@@ -1,12 +1,11 @@
-ENV['RACK_ENV'] = 'test'
-
-require_relative '../app'
-require 'rspec'
+require 'minitest/autorun'
 require 'rack/test'
 
+require_relative '../app'
 
 describe 'app' do
-  include Rack::Test:Methods
+
+  include Rack::Test::Methods
 
   def app
     Sinatra::Application
@@ -30,12 +29,16 @@ describe 'app' do
       Tweet.create([{user_id: @logged_in_user[:id], text: 'Try to parse the GB interface, maybe it will navigate the bluetooth sensor!' },
                     {user_id: @logged_in_user[:id], text: 'Hello world!'}
                    ])
+
+      @browser = Rack::Test::Session.new(Rack::MockSession.new(Sinatra::Application))
     end
 
     it 'loads the root page' do
-      get '/'
-      expect(last_response).to be_ok
+      @browser.get '/'
+      assert @browser.last_response.ok?
 
+      @browser.last_request.env["rack.session"][:user] = @logged_in_user[:id]
+      puts @browser.last_request.env["rack.session"].to_json
     end
 
 
