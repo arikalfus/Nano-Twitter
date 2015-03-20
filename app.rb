@@ -13,7 +13,6 @@ enable :sessions
 set :session_secret, '48fa3729hf0219f4rfbf39hf2'
 
 get '/' do
-  puts "User session: #{session[:user].to_json}"
   # Verify cookie contains current data.
   if session[:user]
     # If cookie is out of date, delete it.
