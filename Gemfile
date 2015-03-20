@@ -6,10 +6,6 @@ gem 'sinatra'
 gem 'activerecord'
 gem 'sinatra-activerecord'
 gem 'sinatra-formkeeper'
-<<<<<<< HEAD
-gem 'pg'
-=======
->>>>>>> master
 gem 'typhoeus'
 gem 'json'
 
