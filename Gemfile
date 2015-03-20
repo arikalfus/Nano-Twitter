@@ -11,7 +11,7 @@ gem 'json'
 
 group :development, :test do
   gem 'sqlite3'
-  gem 'minitest'
+  gem 'rspec'
 end
 
 group :production do
