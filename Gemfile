@@ -11,6 +11,7 @@ gem 'json'
 
 group :development, :test do
   gem 'sqlite3'
+  gem 'rack-test'
   gem 'minitest'
 end
 
