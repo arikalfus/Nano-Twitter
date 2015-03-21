@@ -10,7 +10,12 @@ def self.tweets_by_user_id(user_id)
   full_tweets = []
   tweets.each do |tweet|
     user = User.find_by_id tweet[:user_id]
-    full_tweets.push [tweet, user]
+    if user
+      full_tweets.push [tweet, user]
+    else
+      # Kill a tweet if it belongs to a user that no longer exists
+      Tweet.destroy tweet
+    end
   end
 
   full_tweets
@@ -21,7 +26,12 @@ end
     full_tweets = []
     tweets.each do |tweet|
       user = User.find_by_id tweet[:user_id]
+      if user
       full_tweets.push [tweet, user]
+      else
+        # Kill a tweet if it belongs to a user that no longer exists
+        Tweet.destroy tweet
+      end
     end
 
     full_tweets
