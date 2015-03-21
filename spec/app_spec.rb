@@ -1,7 +1,4 @@
-require 'minitest/autorun'
-require 'rack/test'
-
-require_relative '../app'
+require_relative 'spec_helper'
 
 describe 'app' do
 
