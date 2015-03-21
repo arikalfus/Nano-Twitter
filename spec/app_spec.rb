@@ -36,7 +36,7 @@ describe 'app' do
 
       assert @browser.last_request.env['rack.session'][:user].must_equal @user[:id], 'Session user id is not equal to user'
 
-  end
+    end
 
   end
 
@@ -74,6 +74,7 @@ describe 'app' do
       assert @browser.last_response.ok?, 'Last response was not ok'
       assert @browser.last_request.env['rack.session'][:user].must_be_nil, 'session cookie is not nil'
     end
+  end
 
   describe "POST on /nanotwitter/v1.0/users/:username/follow" do 
 
