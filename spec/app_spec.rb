@@ -66,6 +66,15 @@ describe 'app' do
       assert @browser.last_request.env["rack.session"][:user].must_equal @logged_in_user[:id], 'Session user id is not equal to user'
     end
 
+    it 'should load logged_root if user is logged in' do
+      @browser.get '/'
+      assert @browser.last_response.ok?, 'Last response was not ok'
+      assert @browser.last_request.env["rack.session"][:user].must_equal @logged_in_user[:id], 'Session user id is not equal to user'
+
+      assert !@browser.last_response.body.empty?, 'Body is empty'
+      assert @browser.last_response.body.must_include 'Logout' # in logged_root, but not root
+    end
+
     it 'should delete a cookie if user data is out of date' do
       User.destroy(@logged_in_user[:id])
       user = User.find_by_id(@browser.last_request.env['rack.session'][:user])
@@ -74,6 +83,17 @@ describe 'app' do
       assert @browser.last_response.ok?, 'Last response was not ok'
       assert @browser.last_request.env['rack.session'][:user].must_be_nil, 'session cookie is not nil'
     end
+
+    it 'should load with a login error if user incorrectly logs in' do
+      @browser.post '/nanotwitter/v1.0/users/session', { :username => 'jertest4', :password => 'incorrectpassword' }
+      @browser.follow_redirect!
+      assert @browser.last_response.ok?, 'Response status was not 200'
+
+      assert @browser.last_request.env["rack.session.options"][:path].must_equal '/'
+      assert @browser.last_request.env['rack.session'][:login_error][:error_codes].must_include 'l-inv'
+      assert @browser.last_response.body.must_include 'Logout'
+    end
+
   end
 
   describe "POST on /nanotwitter/v1.0/users/:username/follow" do 
