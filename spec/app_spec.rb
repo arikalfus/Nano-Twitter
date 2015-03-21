@@ -198,5 +198,40 @@ describe 'app' do
       assert @browser.last_response.body.must_include 'Hello world', 'did not include: "hello world"'
     end
   end
+
+  describe  'get /nanotwitter/v1.0/users/:username' do
+    before do
+      @test_session_user = User.create({ name: 'Jerry Test',
+                                      username: 'jertest4',
+                                      password: 'jerrypass',
+                                      phone: 1234567890,
+                                    })
+      @test_user = User.create({ name: 'Terry Jest',
+                                      username: 'terjest4',
+                                      password: 'terrypass',
+                                      phone: 1234567891,
+                                    })
+
+      @browser.post '/nanotwitter/v1.0/users/session', { :username => 'jertest4', :password => 'jerrypass' }
+      @browser.follow_redirect!
+    end
+
+    it 'loads the user page of logged in user' do
+      @browser.get "/nanotwitter/v1.0/users/jertest4"
+      assert @browser.last_response.ok?
+      assert @browser.last_request.env["rack.session"][:user].must_equal @test_session_user[:id], "ID's are not equal"
+
+      html_text = @browser.last_response.body.pretty_inspect
+      assert html_text.must_include('maxlength=\"140\"')
+    end
+
+    it 'loads another user page' do
+      @browser.get "/nanotwitter/v1.0/users/terjest4"
+      assert @browser.last_response.ok?, "This is where it's failing"
+
+      html_text = @browser.last_response.body.pretty_inspect
+      assert html_text.must_include('Follow')
+    end
+  end
   
 end
