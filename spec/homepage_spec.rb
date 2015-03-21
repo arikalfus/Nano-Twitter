@@ -1,0 +1,95 @@
+require 'minitest/autorun'
+require 'rack/test'
+
+require_relative '../app'
+
+describe 'app' do
+
+  include Rack::Test::Methods
+
+  def app
+    Sinatra::Application
+  end
+
+  before :each do
+    User.delete_all
+    Tweet.delete_all
+    Follow.delete_all
+  end
+
+  describe 'GET on /' do
+
+    before do
+      @logged_in_user = User.create({ name: 'Jerry Test',
+                                      username: 'jertest4',
+                                      password: 'jerrypass',
+                                      phone: 1234567890,
+                                    })
+
+      Tweet.create([{user_id: @logged_in_user[:id], text: 'Try to parse the GB interface, maybe it will navigate the bluetooth sensor!' },
+                    {user_id: @logged_in_user[:id], text: 'Hello world!'}
+                   ])
+
+      @browser = Rack::Test::Session.new(Rack::MockSession.new(Sinatra::Application))
+    end
+
+    it 'loads the root page' do
+      @browser.get '/'
+      assert @browser.last_response.ok?
+
+      @browser.last_request.env["rack.session"][:user] = @logged_in_user[:id]
+      assert @browser.last_request.env["rack.session"][:user].must_equal @logged_in_user[:id]
+    end
+
+  end
+
+
+
+  describe "POST on /nanotwitter/v1.0/users/:username/unfollow" do 
+
+    before do
+      @logged_in_user = User.create({ name: 'Jerry Test',
+                                      username: 'jertest4',
+                                      password: 'jerrypass',
+                                      phone: 1234567890,
+                                    })
+
+      Tweet.create([{user_id: @logged_in_user[:id], text: 'Try to parse the GB interface, maybe it will navigate the bluetooth sensor!' },
+                    {user_id: @logged_in_user[:id], text: 'Hello world!'}
+                   ])
+
+      @browser = Rack::Test::Session.new(Rack::MockSession.new(Sinatra::Application))
+    end
+
+    it 'checks for the session[:user]' do
+      @browser.get '/'
+      assert @browser.last_response.ok?
+
+      @browser.last_request.env["rack.session"][:user] = @logged_in_user[:id]
+      assert @browser.last_request.env["rack.session"][:user].must_equal @logged_in_user[:id]
+    end
+
+      followee = User.create({  name: 'followee',
+                                username: 'followeeUserName',
+                                password: 'followeePass',
+                                phone: 1122313,
+                            })
+      
+      #@logged_in_user.follow followee
+      #@browser.post '/nanotwitter/v1.0/users/:username/unfollow', {:username => 'followeeUserName'}.to_json 
+      #assert @browser.last_response.ok?
+      #user.unfollow followee
+      #User.where(["follower_id = ? and followee_id = ?", user[:id], followee[:id]]).must_be_nil
+
+    
+  end
+
+
+
+
+
+
+
+  
+
+end
