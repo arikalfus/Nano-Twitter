@@ -245,22 +245,22 @@ post '/nanotwitter/v1.0/users/:username/unfollow' do
 end
 
 # update an existing user by table id
-put '/nanotwitter/v1.0/users/id/:id' do
-  user = UserService.get_by_id params[:id]
-  if user
-    begin
-      if user.update_attributes JSON.parse request.body.read
-        user.to_json
-      else
-        error 400, user.errors.to_json
-      end
-    rescue => e
-      error 400, e.message.to_json
-    end
-  else
-    error 404, { :error => 'user not found' }.to_json
-  end
-end
+#put '/nanotwitter/v1.0/users/id/:id' do
+#  user = UserService.get_by_id params[:id]
+#  if user
+#    begin
+#      if user.update_attributes JSON.parse request.body.read
+#        user.to_json
+#      else
+#        error 400, user.errors.to_json
+#      end
+#    rescue => e
+#      error 400, e.message.to_json
+#    end
+#  else
+#    error 404, { :error => 'user not found' }.to_json
+#  end
+#end
 
 # destroy an existing user
 # delete '/nanotwitter/v1.0/users/:name' do
