@@ -22,7 +22,7 @@ class UserService
       )
 
       if user.valid?
-        user.to_json
+        user
       else
         error 400, user.errors.to_json
       end

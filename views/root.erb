@@ -12,6 +12,12 @@
         <button class="close" data-dismiss="alert" aria-label="close"><span aria-hidden="true">&times;</span></button>
       </div>
     <% end %>
+    <% if defined? reg_error %>
+      <div class="alert alert-danger fade in center-block text-center" role="alert">
+        <%= reg_error[:message] %><br>If you are interested, you triggered errors <%= reg_error[:error_codes].to_s %>.
+        <button class="close" data-dismiss="alert" aria-label="close"><span aria-hidden="true">&times;</span></button>
+      </div>
+    <% end %>
     <span class="pull-left">
       <h1>Nano Twitter</h1>
     </span>
