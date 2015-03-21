@@ -14,7 +14,7 @@ def self.tweets_by_user_id(user_id)
       full_tweets.push [tweet, user]
     else
       # Kill a tweet if it belongs to a user that no longer exists
-      Tweet.destroy tweet
+      Tweet.destroy tweet[:id]
     end
   end
 
@@ -30,7 +30,7 @@ end
       full_tweets.push [tweet, user]
       else
         # Kill a tweet if it belongs to a user that no longer exists
-        Tweet.destroy tweet
+        Tweet.destroy tweet[:id]
       end
     end
 
