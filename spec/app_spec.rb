@@ -10,10 +10,10 @@ class AppSpec < Minitest::Test
       Sinatra::Application
     end
 
-    before :each do
-      User.delete_all
-      Tweet.delete_all
-      Follow.delete_all
+    before :all do
+      User.destroy_all
+      Tweet.destroy_all
+      Follow.destroy_all
 
       @browser = Rack::Test::Session.new(Rack::MockSession.new(Sinatra::Application))
     end
@@ -65,27 +65,45 @@ class AppSpec < Minitest::Test
         assert @browser.last_response.ok?
         assert @browser.last_request.env["rack.session"][:user].must_equal @logged_in_user[:id]
       end
-
-
     end
 
-describe get '/nanotwitter/v1.0/users/:username' do
+    describe  'get /nanotwitter/v1.0/users/:username' do
       before do
-        test_user = User.create({ name: 'Jerry Test',
+        @test_session_user = User.create({ name: 'Jerry Test',
                                       username: 'jertest4',
                                       password: 'jerrypass',
                                       phone: 1234567890,
                                     })
+        @test_user = User.create({ name: 'Terry Jest',
+                                      username: 'terjest4',
+                                      password: 'terrypass',
+                                      phone: 1234567891,
+                                    })
 
-        @browser = Rack::Test::Session.new(Rack::MockSession.new(Sinatra::Application))
+        @browser.post '/nanotwitter/v1.0/users/session', { :username => 'jertest4', :password => 'jerrypass' }
+        @browser.follow_redirect!
       end
 
-      it 'loads the user page' do
-        @browser.get '/nanotwitter/v1.0/users/test_user[:username]'
-        assert @browser.last_response.ok?
+      it 'loads the user page of logged in user' do
+        @browser.get "/nanotwitter/v1.0/users/jertest4"
+         assert @browser.last_response.ok?
+         assert @browser.last_request.env["rack.session"][:user].must_equal @test_session_user[:id], "ID's are not equal"
 
+        if @browser.last_request.env["rack.session"][:user] == @test_session_user[:id]
+          html_text = @browser.last_response.body.pretty_inspect
+          html_text.must_include(<input class="form-control input-sm " type="text" name="tweet" id="message" placeholder="Message" maxlength="140" rows="7">)
+        end
+      end
+
+      it 'loads another user page'
+      @browser.get "/nanotwitter/v1.0/users/terjest4"
+         assert @browser.last_response.ok?
+
+         if @browser.last_request.env["rack.session"][:user] != @test_session_user[:id]
+          html_text = @browser.last_response.body.pretty_inspect
+          html_text.must_include(<form action="/nanotwitter/v1.0/users/<%= profile_user[:username] %>/follow" method="post">)
+        end
     end
-
+   end
   end
-
 end
