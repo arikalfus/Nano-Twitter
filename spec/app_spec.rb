@@ -38,6 +38,22 @@ describe 'app' do
       assert @browser.last_request.env["rack.session"][:user].must_equal @logged_in_user[:id]
     end
 
+    describe get '/nanotwitter/v1.0/users/:username' do
+      before do
+        test_user = User.create({ name: 'Jerry Test',
+                                      username: 'jertest4',
+                                      password: 'jerrypass',
+                                      phone: 1234567890,
+                                    })
+
+        @browser = Rack::Test::Session.new(Rack::MockSession.new(Sinatra::Application))
+      end
+
+      it 'loads the user page' do
+        @browser.get '/nanotwitter/v1.0/users/test_user[:username]'
+        assert @browser.last_response.ok?
+
+        
 
   end
 
