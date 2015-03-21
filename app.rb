@@ -16,14 +16,14 @@ get '/' do
   # Verify cookie contains current data.
   if session[:user]
     # If cookie is out of date, delete it.
-    user = UserService.get_by_id session[:user]
+    user = UserService.verify UserService.get_by_id session[:user]
     unless user
         session.clear
     end
   end
 
   if session[:user] # If user has credentials saved in session cookie (is logged in)
-    user = UserService.get_by_id session[:user]
+    user = UserService.verify UserService.get_by_id session[:user]
     users_to_follow = user.followees
     followees = users_to_follow.collect { |u| u[:id] }
     followees.push user[:id] # you should see your own tweets as well

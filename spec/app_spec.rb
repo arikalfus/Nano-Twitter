@@ -174,6 +174,7 @@ describe 'app' do
       @browser.post '/nanotwitter/v1.0/users/session', { :username => 'jertest4', :password => 'jerrypass' }
       @browser.follow_redirect!
     end
+
     it 'loads the logout page and delete the user from session' do
       @browser.get '/logout'
       @browser.follow_redirect!
@@ -185,6 +186,7 @@ describe 'app' do
       assert @browser.last_response.body.must_include 'You have been logged out.', 'did not include: "you have been logged out."'
       assert @browser.last_response.body.must_include 'Hello world', 'did not include: "hello world"'
     end
+
     it 'loads the API logout page and delete the user from session' do
       @browser.get '/nanotwitter/v1.0/logout'
       #Asserts that the user was deleted from the current session cookie

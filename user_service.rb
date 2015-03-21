@@ -4,35 +4,57 @@ require_relative 'models/user'
 
 class UserService
 
-  def self.get_by_id(id)
-    User.find_by_id id
-  end
-
-  def self.get_by_username(username)
-    User.find_by_username username
-  end
-
+  #create a user
   def self.new(params)
-    begin
-      user = User.create(name: params[:name],
-                         email: params[:email],
-                         username: params[:username],
-                         password: params[:password],
-                         phone: params[:phone]
-      )
+    user = User.create(name: params[:name],
+                       email: params[:email],
+                       username: params[:username],
+                       password: params[:password],
+                       phone: params[:phone]
+    )
 
-      if user.valid?
-        user
-      else
-        error 400, user.errors.to_json
-      end
-    rescue => e
-      error 400, e.message.to_json
+    if user
+      user
+    else
+      {:status => 404, :message => "user not found"}
     end
   end
 
+  #get user by ID
+  def self.get_by_id(id)
+    user = User.find_by_id id
+
+    if user
+      {:status => 200, :body => user }
+    else
+      {:status => 404, :message => "user not found"}
+    end
+  end
+
+  #get user by username
+  def self.get_by_username(username)
+    user = User.find_by_username username
+
+    if user
+      user
+    else
+      {:status => 404, :message => "user not found"}
+    end
+  end
+
+  #get user by username and password
   def self.get_by_username_and_password(params)
-    User.find_by_username_and_password params[:username], params[:password]
+    user = User.find_by_username_and_password params[:username], params[:password]
+
+    if user
+      user
+    else
+      {:status => 404, :message => "user not found"}
+    end
+  end
+
+  def self.verify(user)
+    user.status == 200 ? user[:body] : nil
   end
 
 end
