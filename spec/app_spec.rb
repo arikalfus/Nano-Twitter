@@ -26,7 +26,7 @@ describe 'app' do
                           })
     end
 
-    it "verifies a user's credentials" do
+    it "should verify a user's credentials" do
 
       @browser.post '/nanotwitter/v1.0/users/session', { :username => 'jertest4', :password => 'jerrypass' }
       assert @browser.last_response.location.must_equal 'http://example.org/', 'Redirect location is not root'
@@ -35,34 +35,66 @@ describe 'app' do
       assert @browser.last_response.ok?
 
       assert @browser.last_request.env['rack.session'][:user].must_equal @user[:id], 'Session user id is not equal to user'
+
     end
+
   end
 
   describe 'GET on /' do
 
     before do
-    # create a user and 2 tweets
+      # create a user and 2 tweets
       @logged_in_user = User.create({ name: 'Jerry Test',
                                       username: 'jertest4',
                                       password: 'jerrypass',
                                       phone: 1234567890
-                                   })
+                                    })
+
       Tweet.create([{user_id: @logged_in_user[:id], text: 'Try to parse the GB interface, maybe it will navigate the bluetooth sensor!' },
-                   {user_id: @logged_in_user[:id], text: 'Hello world!'}
+                    {user_id: @logged_in_user[:id], text: 'Hello world!'}
                    ])
+
       # save user session cookie
       @browser.post '/nanotwitter/v1.0/users/session', { :username => 'jertest4', :password => 'jerrypass' }
       @browser.follow_redirect!
+
     end
-    it 'verify cookie is present' do
+
+    it 'should verify cookie is present' do
       @browser.get '/'
-      assert @browser.last_response.ok?
-      assert @browser.last_request.env["rack.session"][:user].must_equal @logged_in_user[:id]
+      assert @browser.last_response.ok?, 'Last response was not ok'
+      assert @browser.last_request.env["rack.session"][:user].must_equal @logged_in_user[:id], 'Session user id is not equal to user'
     end
+
+    it 'should load logged_root if user is logged in' do
+      @browser.get '/'
+      assert @browser.last_response.ok?, 'Last response was not ok'
+      assert @browser.last_request.env["rack.session"][:user].must_equal @logged_in_user[:id], 'Session user id is not equal to user'
+
+      assert !@browser.last_response.body.empty?, 'Body is empty'
+      assert @browser.last_response.body.must_include 'Logout' # in logged_root, but not root
+    end
+
+    it 'should delete a cookie if user data is out of date' do
+      User.destroy(@logged_in_user[:id])
+      user = User.find_by_id(@browser.last_request.env['rack.session'][:user])
+      assert user.must_be_nil, 'User is not nil'
+      @browser.get '/'
+      assert @browser.last_response.ok?, 'Last response was not ok'
+      assert @browser.last_request.env['rack.session'][:user].must_be_nil, 'session cookie is not nil'
+    end
+
+    it 'should load with a login error if user incorrectly logs in' do
+      @browser.post '/nanotwitter/v1.0/users/session', { :username => 'jertest4', :password => 'incorrectpassword' }
+      @browser.follow_redirect!
+      assert @browser.last_response.ok?, 'Response status was not 200'
+
+      assert @browser.last_request.env["rack.session.options"][:path].must_equal '/'
+      assert @browser.last_request.env['rack.session'][:login_error][:error_codes].must_include 'l-inv'
+      assert @browser.last_response.body.must_include 'Logout'
+    end
+
   end
-
-
-
 
   describe "POST on /nanotwitter/v1.0/users/:username/follow" do 
 
@@ -102,8 +134,6 @@ describe 'app' do
   
   end
 
-
-
   describe "POST on /nanotwitter/v1.0/users/:username/unfollow" do 
 
     before do
@@ -124,7 +154,7 @@ describe 'app' do
       assert @browser.last_request.env["rack.session"][:user].must_equal @logged_in_user[:id]
     end
 
-    it 'unfollow the user' do
+    it 'should unfollow a user' do
 
       @followee = User.create({  name: 'followee',
                                 username: 'followeeUserName',
@@ -140,12 +170,8 @@ describe 'app' do
 
       assert @logged_in_user.following?(@followee).must_equal false
     end
+
   end
-
-
-
-
-
 
   describe 'GET on /logout and GET on /nanotwitter/v1.0/logout' do
 
@@ -188,33 +214,64 @@ describe 'app' do
     end
   end
 
+  describe  'get /nanotwitter/v1.0/users/:username' do
+    before do
+      @test_session_user = User.create({ name: 'Jerry Test',
+                                      username: 'jertest4',
+                                      password: 'jerrypass',
+                                      phone: 1234567890,
+                                    })
+      @test_user = User.create({ name: 'Terry Jest',
+                                      username: 'terjest4',
+                                      password: 'terrypass',
+                                      phone: 1234567891,
+                                    })
+
+      @browser.post '/nanotwitter/v1.0/users/session', { :username => 'jertest4', :password => 'jerrypass' }
+      @browser.follow_redirect!
+    end
+
+    it 'loads the user page of logged in user' do
+      @browser.get "/nanotwitter/v1.0/users/jertest4"
+      assert @browser.last_response.ok?
+      assert @browser.last_request.env["rack.session"][:user].must_equal @test_session_user[:id], "ID's are not equal"
+
+      html_text = @browser.last_response.body.pretty_inspect
+      assert html_text.must_include('maxlength=\"140\"')
+    end
+
+    it 'loads another user page' do
+      @browser.get "/nanotwitter/v1.0/users/terjest4"
+      assert @browser.last_response.ok?, "This is where it's failing"
+
+      html_text = @browser.last_response.body.pretty_inspect
+      assert html_text.must_include('Follow')
+    end
+  end
 
     describe "POST on /nanotwitter/v1.0/users/id/:id/tweet" do 
 
-    before do
-    # create a user and 2 tweets
-      @user = User.create({           
-                            name: 'Jerry Test',
-                            username: 'jertest4',
-                            password: 'jerrypass',
-                            phone: 1234567890
-                          })
-    end
-
-    it 'create a new tweet' do
-      
-      assert Tweet.find_by({:user_id => @user[:id], :text => 'Hello World!'}).must_equal nil
-      @browser.post "/nanotwitter/v1.0/users/id/#{@user[:id]}/tweet", {:tweet => 'Hello World!'}
-      @browser.follow_redirect!
-      @browser.last_response.ok?
-
-      assert Tweet.find_by({:user_id => @user[:id], :text => 'Hello World!'})
-
+      before do
+      # create a user and 2 tweets
+        @user = User.create({           
+                              name: 'Jerry Test',
+                              username: 'jertest4',
+                              password: 'jerrypass',
+                              phone: 1234567890
+                            })
+      end
+  
+      it 'create a new tweet' do
+        assert Tweet.find_by({:user_id => @user[:id], :text => 'Hello World!'}).must_equal nil
+        @browser.post "/nanotwitter/v1.0/users/id/#{@user[:id]}/tweet", {:tweet => 'Hello World!'}
+        @browser.follow_redirect!
+        @browser.last_response.ok?
+        assert Tweet.find_by({:user_id => @user[:id], :text => 'Hello World!'})
+  
+      end
+  
     end
   
-  end
-  
-
 
   describe "POST on /nanotwitter/v1.0/users" do
 
@@ -459,16 +516,5 @@ describe 'app' do
     end
 
   end
-
-
-
-
-
-
-
-
-
-
-
 
 end
