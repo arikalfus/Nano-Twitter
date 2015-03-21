@@ -53,6 +53,8 @@ get '/' do
 end
 
 get '/logout' do
+  redirect to '/nanotwitter/v1.0/logout' unless session[:user].nil?
+
   tweets = TweetService.tweets
 
   erb :root, :locals => { :tweets => tweets, :logout => true }
