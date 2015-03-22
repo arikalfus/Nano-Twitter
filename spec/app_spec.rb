@@ -266,8 +266,8 @@ describe 'app' do
         @browser.post "/nanotwitter/v1.0/users/id/#{@user[:id]}/tweet", {:tweet => 'Hello World!'}
         @browser.follow_redirect!
         @browser.last_response.ok?
-        assert Tweet.find_by({:user_id => @user[:id], :text => 'Hello World!'})
-  
+        tweet = Tweet.find_by({:user_id => @user[:id], :text => 'Hello World!'})
+        refute_nil tweet
       end
   
     end
@@ -285,7 +285,7 @@ describe 'app' do
                                                       :password2 => '33d321421',
                                                       :phone => 4453239920
                                                }
-      assert @browser.last_request.env['rack.session'][:reg_error].must_be_nil, 'some credentials are invalid'      
+      assert_nil @browser.last_request.env['rack.session'][:reg_error]
       assert @browser.last_response.location.must_equal 'http://example.org/', 'Redirect location is not root'
       @browser.follow_redirect!
       assert @browser.last_response.ok?
@@ -301,7 +301,7 @@ describe 'app' do
                                                       :password2 => '33d321421',
                                                       :phone => 4453239920
                                                }
-      assert @browser.last_request.env['rack.session'][:reg_error][:error_codes].must_include 'r-n', 'user name is empty'
+      assert_equal @browser.last_request.env['rack.session'][:reg_error][:error_codes], ['r-n']
       assert @browser.last_response.location.must_equal 'http://example.org/', 'Redirect location is not root'
       @browser.follow_redirect!
       assert @browser.last_response.ok?
@@ -317,7 +317,7 @@ describe 'app' do
                                                       :password2 => '33d321421',
                                                       :phone => 4453239920
                                                }
-      assert @browser.last_request.env['rack.session'][:reg_error][:error_codes].must_include 'r-nalpha', 'user name is empty'
+      assert_equal @browser.last_request.env['rack.session'][:reg_error][:error_codes], ['r-nalpha']
       assert @browser.last_response.location.must_equal 'http://example.org/', 'Redirect location is not root'
       @browser.follow_redirect!
       assert @browser.last_response.ok?
@@ -333,7 +333,7 @@ describe 'app' do
                                                       :password2 => '33d321421',
                                                       :phone => 4453239920
                                                }
-      assert @browser.last_request.env['rack.session'][:reg_error][:error_codes].must_include 'r-e', 'user name is empty'
+      assert_equal @browser.last_request.env['rack.session'][:reg_error][:error_codes], ['r-e']
       assert @browser.last_response.location.must_equal 'http://example.org/', 'Redirect location is not root'
       @browser.follow_redirect!
       assert @browser.last_response.ok?
@@ -349,7 +349,7 @@ describe 'app' do
                                                       :password2 => '33d321421',
                                                       :phone => 4453239920
                                                }
-      assert @browser.last_request.env['rack.session'][:reg_error][:error_codes].must_include 'r-einvalid', 'user name is empty'
+      assert_equal @browser.last_request.env['rack.session'][:reg_error][:error_codes], ['r-einvalid']
       assert @browser.last_response.location.must_equal 'http://example.org/', 'Redirect location is not root'
       @browser.follow_redirect!
       assert @browser.last_response.ok?
@@ -365,7 +365,7 @@ describe 'app' do
                                                       :password2 => '33d321421',
                                                       :phone => 4453239920
                                                }
-      assert @browser.last_request.env['rack.session'][:reg_error][:error_codes].must_include 'r-u', 'user name is empty'
+      assert_equal @browser.last_request.env['rack.session'][:reg_error][:error_codes], ['r-u']
       assert @browser.last_response.location.must_equal 'http://example.org/', 'Redirect location is not root'
       @browser.follow_redirect!
       assert @browser.last_response.ok?
@@ -381,7 +381,7 @@ describe 'app' do
                                                       :password2 => '33d321421',
                                                       :phone => 4453239920
                                                }
-      assert @browser.last_request.env['rack.session'][:reg_error][:error_codes].must_include 'r-uascii', 'user name is empty'
+      assert_equal @browser.last_request.env['rack.session'][:reg_error][:error_codes], ['r-uascii']
       assert @browser.last_response.location.must_equal 'http://example.org/', 'Redirect location is not root'
       @browser.follow_redirect!
       assert @browser.last_response.ok?
@@ -397,7 +397,7 @@ describe 'app' do
                                                       :password2 => '33d321421',
                                                       :phone => 4453239920
                                                }
-      assert @browser.last_request.env['rack.session'][:reg_error][:error_codes].must_include 'r-p', 'user name is empty'
+      assert_equal @browser.last_request.env['rack.session'][:reg_error][:error_codes], ['r-p']
       assert @browser.last_response.location.must_equal 'http://example.org/', 'Redirect location is not root'
       @browser.follow_redirect!
       assert @browser.last_response.ok?
@@ -413,7 +413,7 @@ describe 'app' do
                                                       :password2 => '33d321421',
                                                       :phone => 4453239920
                                                }
-      assert @browser.last_request.env['rack.session'][:reg_error][:error_codes].must_include 'r-pascii', 'user name is empty'
+      assert_equal @browser.last_request.env['rack.session'][:reg_error][:error_codes], ['r-pascii']
       assert @browser.last_response.location.must_equal 'http://example.org/', 'Redirect location is not root'
       @browser.follow_redirect!
       assert @browser.last_response.ok?
@@ -429,7 +429,7 @@ describe 'app' do
                                                       :password2 => '',
                                                       :phone => 4453239920
                                                }
-      assert @browser.last_request.env['rack.session'][:reg_error][:error_codes].must_include 'r-p2', 'user name is empty'
+      assert_equal @browser.last_request.env['rack.session'][:reg_error][:error_codes], ['r-p2']
       assert @browser.last_response.location.must_equal 'http://example.org/', 'Redirect location is not root'
       @browser.follow_redirect!
       assert @browser.last_response.ok?
@@ -445,7 +445,7 @@ describe 'app' do
                                                       :password2 => '33d321421',
                                                       :phone => 4453239920
                                                }
-      assert @browser.last_request.env['rack.session'][:reg_error][:error_codes].must_include 'r-pl', 'user name is empty'
+      assert_equal @browser.last_request.env['rack.session'][:reg_error][:error_codes], ['r-pl']
       assert @browser.last_response.location.must_equal 'http://example.org/', 'Redirect location is not root'
       @browser.follow_redirect!
       assert @browser.last_response.ok?
@@ -461,7 +461,7 @@ describe 'app' do
                                                       :password2 => '33d321421',
                                                       :phone => 4453239920
                                                }
-      assert @browser.last_request.env['rack.session'][:reg_error][:error_codes].must_include 'r-pns', 'user name is empty'
+      assert_equal @browser.last_request.env['rack.session'][:reg_error][:error_codes], ['r-pns']
       assert @browser.last_response.location.must_equal 'http://example.org/', 'Redirect location is not root'
       @browser.follow_redirect!
       assert @browser.last_response.ok?
@@ -477,7 +477,7 @@ describe 'app' do
                                                       :password2 => '33d321421',
                                                       :phone => ''
                                                }
-      assert @browser.last_request.env['rack.session'][:reg_error][:error_codes].must_include 'r-ph', 'user name is empty'
+      assert_equal @browser.last_request.env['rack.session'][:reg_error][:error_codes], ['r-ph']
       assert @browser.last_response.location.must_equal 'http://example.org/', 'Redirect location is not root'
       @browser.follow_redirect!
       assert @browser.last_response.ok?
@@ -493,7 +493,7 @@ describe 'app' do
                                                       :password2 => '33d321421',
                                                       :phone => '44533534a3'
                                                }
-      assert @browser.last_request.env['rack.session'][:reg_error][:error_codes].must_include 'r-phint', 'user name is empty'
+      assert_equal @browser.last_request.env['rack.session'][:reg_error][:error_codes], ['r-phint']
       assert @browser.last_response.location.must_equal 'http://example.org/', 'Redirect location is not root'
       @browser.follow_redirect!
       assert @browser.last_response.ok?
@@ -509,7 +509,7 @@ describe 'app' do
                                                       :password2 => '33d321421',
                                                       :phone => '445335343'
                                                }
-      assert @browser.last_request.env['rack.session'][:reg_error][:error_codes].must_include 'r-phl', 'user name is empty'
+      assert_equal @browser.last_request.env['rack.session'][:reg_error][:error_codes], ['r-phl']
       assert @browser.last_response.location.must_equal 'http://example.org/', 'Redirect location is not root'
       @browser.follow_redirect!
       assert @browser.last_response.ok?
