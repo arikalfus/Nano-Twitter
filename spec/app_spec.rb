@@ -110,7 +110,7 @@ describe 'app' do
       @browser.follow_redirect!
     end
 
-    it 'verify cookie is present' do
+    it 'should verify cookie is present' do
       @browser.get '/'
       assert @browser.last_response.ok?
       assert @browser.last_request.env["rack.session"][:user].must_equal @logged_in_user[:id]
@@ -148,7 +148,7 @@ describe 'app' do
       @browser.follow_redirect!
     end
 
-    it 'verify cookie is present' do
+    it 'should verify cookie is present' do
       @browser.get '/'
       assert @browser.last_response.ok?
       assert @browser.last_request.env["rack.session"][:user].must_equal @logged_in_user[:id]
@@ -188,7 +188,7 @@ describe 'app' do
       @browser.post '/nanotwitter/v1.0/users/session', { :username => 'jertest4', :password => 'jerrypass' }
       @browser.follow_redirect!
     end
-    it 'loads the logout page and delete the user from session' do
+    it 'should load the logout page and delete the user from session' do
       @browser.get '/logout'
       @browser.follow_redirect!
       @browser.follow_redirect!
@@ -199,7 +199,7 @@ describe 'app' do
       assert @browser.last_response.body.must_include 'You have been logged out.', 'did not include: "you have been logged out."'
       assert @browser.last_response.body.must_include 'Hello world', 'did not include: "hello world"'
     end
-    it 'loads the API logout page and delete the user from session' do
+    it 'should load the API logout page and delete the user from session' do
       @browser.get '/nanotwitter/v1.0/logout'
       #Asserts that the user was deleted from the current session cookie
       assert @browser.last_request.env["rack.session"][:user].must_be_nil, 'did not delete the user from session'
@@ -231,7 +231,7 @@ describe 'app' do
       @browser.follow_redirect!
     end
 
-    it 'loads the user page of logged in user' do
+    it 'should load the user page of logged in user' do
       @browser.get "/nanotwitter/v1.0/users/jertest4"
       assert @browser.last_response.ok?
       assert @browser.last_request.env["rack.session"][:user].must_equal @test_session_user[:id], "ID's are not equal"
@@ -240,7 +240,7 @@ describe 'app' do
       assert html_text.must_include('maxlength=\"140\"')
     end
 
-    it 'loads another user page' do
+    it 'should load another user page' do
       @browser.get "/nanotwitter/v1.0/users/terjest4"
       assert @browser.last_response.ok?, "This is where it's failing"
 
@@ -261,7 +261,7 @@ describe 'app' do
                             })
       end
   
-      it 'create a new tweet' do
+      it 'should create a new tweet' do
         assert Tweet.find_by({:user_id => @user[:id], :text => 'Hello World!'}).must_equal nil
         @browser.post "/nanotwitter/v1.0/users/id/#{@user[:id]}/tweet", {:tweet => 'Hello World!'}
         @browser.follow_redirect!
@@ -276,7 +276,7 @@ describe 'app' do
   describe "POST on /nanotwitter/v1.0/users" do
 
     User.delete_all
-    it 'create a new user with valid credentials' do
+    it 'should create a new user with valid credentials' do
       @browser.post "/nanotwitter/v1.0/users", {
                                                       :name => 'Aviv Dev', 
                                                       :email => 'Aviv@Devdev.com',
@@ -292,7 +292,7 @@ describe 'app' do
     end
 
     User.delete_all
-    it 'create a new user with empty name' do
+    it 'should create a new user with empty name' do
       @browser.post "/nanotwitter/v1.0/users", {
                                                       :name => '', 
                                                       :email => 'AvivDev@dev.com',
@@ -308,7 +308,7 @@ describe 'app' do
     end
 
     User.delete_all
-    it 'create a new user with invalid name' do
+    it 'should create a new user with invalid name' do
       @browser.post "/nanotwitter/v1.0/users", {
                                                       :name => 'Aviv ♣ Dev', 
                                                       :email => 'AvivDev@dev.com',
@@ -324,7 +324,7 @@ describe 'app' do
     end
 
     User.delete_all
-    it 'create a new user with empty email' do
+    it 'should create a new user with empty email' do
       @browser.post "/nanotwitter/v1.0/users", {
                                                       :name => 'Aviv Dev', 
                                                       :email => '',
@@ -340,7 +340,7 @@ describe 'app' do
     end
 
     User.delete_all
-    it 'create a new user with invalid email' do
+    it 'should create a new user with invalid email' do
       @browser.post "/nanotwitter/v1.0/users", {
                                                       :name => 'Aviv Dev', 
                                                       :email => 'AvivDevdev.com',
@@ -356,7 +356,7 @@ describe 'app' do
     end
 
     User.delete_all
-    it 'create a new user with empty username' do
+    it 'should create a new user with empty username' do
       @browser.post "/nanotwitter/v1.0/users", {
                                                       :name => 'Aviv Dev', 
                                                       :email => 'AvivDev@dev.com',
@@ -372,7 +372,7 @@ describe 'app' do
     end
 
     User.delete_all
-    it 'create a new user with invalid username' do
+    it 'should create a new user with invalid username' do
       @browser.post "/nanotwitter/v1.0/users", {
                                                       :name => 'Aviv Dev', 
                                                       :email => 'AvivDev@dev.com',
@@ -388,7 +388,7 @@ describe 'app' do
     end
 
     User.delete_all
-    it 'create a new user with empty password' do
+    it 'should create a new user with empty password' do
       @browser.post "/nanotwitter/v1.0/users", {
                                                       :name => 'Aviv Dev', 
                                                       :email => 'AvivDev@dev.com',
@@ -404,7 +404,7 @@ describe 'app' do
     end
 
     User.delete_all
-    it 'create a new user with invalid password' do
+    it 'should create a new user with invalid password' do
       @browser.post "/nanotwitter/v1.0/users", {
                                                       :name => 'Aviv Dev', 
                                                       :email => 'AvivDev@dev.com',
@@ -420,7 +420,7 @@ describe 'app' do
     end
 
     User.delete_all
-    it 'create a new user with empty password2' do
+    it 'should create a new user with empty password2' do
       @browser.post "/nanotwitter/v1.0/users", {
                                                       :name => 'Aviv Dev', 
                                                       :email => 'AvivDev@dev.com',
@@ -436,7 +436,7 @@ describe 'app' do
     end
 
     User.delete_all
-    it 'create a new user with invalid password length' do
+    it 'should create a new user with invalid password length' do
       @browser.post "/nanotwitter/v1.0/users", {
                                                       :name => 'Aviv Dev', 
                                                       :email => 'AvivDev@dev.com',
@@ -452,7 +452,7 @@ describe 'app' do
     end
 
     User.delete_all
-    it 'create a new user with non-matching passwords' do
+    it 'should create a new user with non-matching passwords' do
       @browser.post "/nanotwitter/v1.0/users", {
                                                       :name => 'Aviv Dev', 
                                                       :email => 'AvivDev@dev.com',
@@ -468,7 +468,7 @@ describe 'app' do
     end
 
     User.delete_all
-    it 'create a new user with empty phone' do
+    it 'should create a new user with empty phone' do
       @browser.post "/nanotwitter/v1.0/users", {
                                                       :name => 'Aviv Dev', 
                                                       :email => 'AvivDev@dev.com',
@@ -484,7 +484,7 @@ describe 'app' do
     end
 
     User.delete_all
-    it 'create a new user with invalid phone characters' do
+    it 'should create a new user with invalid phone characters' do
       @browser.post "/nanotwitter/v1.0/users", {
                                                       :name => 'Aviv Dev', 
                                                       :email => 'AvivDev@dev.com',
@@ -500,7 +500,7 @@ describe 'app' do
     end
 
     User.delete_all
-    it 'create a new user with invalid phone length' do
+    it 'should create a new user with invalid phone length' do
       @browser.post "/nanotwitter/v1.0/users", {
                                                       :name => 'Aviv Dev', 
                                                       :email => 'AvivDev@dev.com',
