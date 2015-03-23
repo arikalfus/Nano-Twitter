@@ -1,27 +1,19 @@
 class FormService
 
   def self.validate_registration(form)
+    @form = form
 
-    if form.failed?
+    if @form.failed?
 
       @failed = Hash.new # Set up error hash
       # Note: All error messages must end with a space for proper formatting.
       @failed[:reg_error] = { :error_codes => [], :message => '' }
 
-      # Form validation on :name field
-      validate_name form
-
-      # Form validation on :email field
-      validate_email form
-
-      # Form validation on :username field
-      validate_username form
-
-      # Form validation on :username field
-      validate_password form
-
-      # Form failed on :phone
-      validate_phone form
+      validate_name
+      validate_email
+      validate_username
+      validate_password
+      validate_phone
 
       @failed
     else
@@ -32,74 +24,52 @@ class FormService
 
   private
 
-  # Form validation on :name field
-  def self.validate_name(form)
-    if form.failed_on? :name, :present
-      @failed[:reg_error][:error_codes].push 'r-n'
-      @failed[:reg_error][:message] << 'You must enter a name. '
-    elsif form.failed_on? :name, :alpha_space
-      @failed[:reg_error][:error_codes].push 'r-nalpha'
-      @failed[:reg_error][:message] << 'Your name must consist only of letters and spaces. '
+  # Helper method for validations
+  def self.validate_field(field, type, err_code, err_message)
+    if @form.failed_on? field, type
+      @failed[:reg_error][:error_codes].push err_code
+      @failed[:reg_error][:message] << err_message << ' ' # every message must end with a space for proper formatting
     end
+  end
+
+  # Form validation on :name field
+  def self.validate_name
+    validate_field :name, :present, 'r-n', 'You must enter a name.'
+    validate_field :name, :alpha_space, 'r-nalpha', 'Your name must consist only of letters and spaces.'
   end
 
   # Form validation on :email field
-  def self.validate_email(form)
-    if form.failed_on? :email, :present
-      @failed[:reg_error][:error_codes].push 'r-e'
-      @failed[:reg_error][:message] << 'You must enter an email. '
-    elsif form.failed_on? :email, :email
-      @failed[:reg_error][:error_codes].push 'r-einvalid'
-      @failed[:reg_error][:message] << 'You must enter a correctly formatted email. '
-    end
+  def self.validate_email
+    validate_field :email, :present, 'r-e', 'You must enter an email.'
+    validate_field :email, :email, 'r-einvalid', 'You must enter a correctly formatted email.'
   end
 
   # Form validation on :username field
-  def self.validate_username(form)
-    if form.failed_on? :username, :present
-      @failed[:reg_error][:error_codes].push 'r-u'
-      @failed[:reg_error][:message] << 'You must enter a username. '
-    elsif form.failed_on? :username, :ascii
-      @failed[:reg_error][:error_codes].push 'r-uascii'
-      @failed[:reg_error][:message] << 'Your username must only contain letters, digits, and ascii symbols. '
-    elsif form.failed_on? :username, :length
-      @failed[:reg_error][:error_codes].push 'r-ul'
-      @failed[:reg_error][:message] << 'Your username must be between 3 and 20 characters. '
-    end
+  def self.validate_username
+    validate_field :username, :present, 'r-u', 'You must enter a username.'
+    validate_field :username, :ascii, 'r-uascii', 'Your username must only contain letters, digits, and ascii-accepted symbols.'
+    validate_field :username, :length, 'r-ul', 'Your username must be between 3 and 20 characters.'
   end
 
   # Form validation on :password field
-  def self.validate_password(form)
-    if form.failed_on? :password, :present
-      @failed[:reg_error][:error_codes].push 'r-p'
-      @failed[:reg_error][:message] << 'You must enter a password. '
-    elsif form.failed_on? :password2, :present
-      @failed[:reg_error][:error_codes].push 'r-p2'
-      @failed[:reg_error][:message] << 'You must enter your password twice. '
-    elsif form.failed_on? :password, :ascii
-      @failed[:reg_error][:error_codes].push 'r-pascii'
-      @failed[:reg_error][:message] << 'Your password must contain only letters, digits, and ascii symbols. '
-    elsif form.failed_on? :password, :length
-      @failed[:reg_error][:error_codes].push 'r-pl'
-      @failed[:reg_error][:message] << 'Your password must be between 8 and 30 characters. '
-    elsif form.failed_on? :same_password
+  def self.validate_password
+    validate_field :password, :present, 'r-p', 'You must enter a password.'
+    validate_field :password2, :present, 'r-p2', 'You must enter a password twice.'
+    validate_field :password, :ascii, 'r-pascii', 'Your password must contain only letters, digits, and ascii symbols.'
+    validate_field :password, :length, 'r-pl', 'Your password must be between 8 and 30 characters.'
+    # validate passwords match
+    if @form.failed_on? :same_password
       @failed[:reg_error][:error_codes].push 'r-pns'
       @failed[:reg_error][:message] << 'Your passwords do not match. '
     end
+
   end
 
   # Form validation on :phone field
-  def self.validate_phone(form)
-    if form.failed_on? :phone, :present
-      @failed[:reg_error][:error_codes].push 'r-ph'
-      @failed[:reg_error][:message] << 'You must enter a phone. '
-    elsif form.failed_on? :phone, :int
-      @failed[:reg_error][:error_codes].push 'r-phint'
-      @failed[:reg_error][:message] << 'Your phone number must only consist of digits. '
-    elsif form.failed_on? :phone, :length
-      @failed[:reg_error][:error_codes].push 'r-phl'
-      @failed[:reg_error][:message] << 'Your phone number must contain 10 digits (US numbers only). '
-    end
+  def self.validate_phone
+    validate_field :phone, :present, 'r-ph', 'You must enter a phone number.'
+    validate_field :phone, :int, 'r-phint', 'Your phone number must only consist of digits.'
+    validate_field :phone, :length, 'r-phl', 'Your phone number must consist of only 10 digits.'
   end
 
 end
