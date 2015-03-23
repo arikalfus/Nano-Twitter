@@ -1,6 +1,3 @@
-require 'sinatra/formkeeper'
-
-
 class FormService
 
   def self.validate_registration(form)
