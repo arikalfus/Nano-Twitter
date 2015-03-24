@@ -13,7 +13,7 @@ describe 'root page' do
     Tweet.delete_all
     Follow.delete_all
 
-    @browser = Rack::Test::Session.new(Rack::MockSession.new(Sinatra::Application))
+    @browser = Rack::Test::Session.new(Rack::MockSession.new(app))
   end
 
   describe 'GET on /' do
@@ -39,15 +39,15 @@ describe 'root page' do
     it 'should verify cookie is present' do
       @browser.get '/'
       assert @browser.last_response.ok?, 'Last response was not ok'
-      assert @browser.last_request.env["rack.session"][:user].must_equal @logged_in_user[:id], 'Session user id is not equal to user'
+      assert @browser.last_request.env['rack.session'][:user].must_equal @logged_in_user[:id], 'Session user ID is not equal to user ID'
     end
 
     it 'should load logged_root if user is logged in' do
       @browser.get '/'
       assert @browser.last_response.ok?, 'Last response was not ok'
-      assert @browser.last_request.env["rack.session"][:user].must_equal @logged_in_user[:id], 'Session user id is not equal to user'
+      assert @browser.last_request.env['rack.session'][:user].must_equal @logged_in_user[:id], 'Session user ID is not equal to user ID'
 
-      assert !@browser.last_response.body.empty?, 'Body is empty'
+      refute @browser.last_response.body.empty?, 'Body is empty'
       assert @browser.last_response.body.must_include 'Logout' # in logged_root, but not root
     end
 
@@ -65,9 +65,9 @@ describe 'root page' do
       @browser.follow_redirect!
       assert @browser.last_response.ok?, 'Response status was not 200'
 
-      assert @browser.last_request.env["rack.session.options"][:path].must_equal '/'
-      assert @browser.last_request.env['rack.session'][:login_error][:error_codes].must_include 'l-inv'
-      assert @browser.last_response.body.must_include 'Logout'
+      assert @browser.last_request.env['rack.session.options'][:path].must_equal '/', 'Request path does not include "/"'
+      assert @browser.last_request.env['rack.session'][:login_error][:error_codes].must_include 'l-inv', 'Login error not found in session cookie'
+      assert @browser.last_response.body.must_include 'Logout', "'Logout' not found in response body"
     end
 
   end

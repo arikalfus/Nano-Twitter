@@ -11,10 +11,10 @@ describe 'following and unfollowing a user' do
     Tweet.delete_all
     Follow.delete_all
 
-    @browser = Rack::Test::Session.new(Rack::MockSession.new(Sinatra::Application))
+    @browser = Rack::Test::Session.new(Rack::MockSession.new(app))
   end
 
-  describe "POST on /nanotwitter/v1.0/users/:username/follow" do
+  describe 'POST on /nanotwitter/v1.0/users/:username/follow' do
 
     before do
       # create a user and 2 tweets
@@ -30,8 +30,8 @@ describe 'following and unfollowing a user' do
 
     it 'should verify cookie is present' do
       @browser.get '/'
-      assert @browser.last_response.ok?
-      assert @browser.last_request.env["rack.session"][:user].must_equal @logged_in_user[:id]
+      assert @browser.last_response.ok?, 'Last response was not ok'
+      assert @browser.last_request.env['rack.session'][:user].must_equal @logged_in_user[:id], 'Session user ID does not equal user ID'
     end
 
     it 'follow the user' do
@@ -42,17 +42,17 @@ describe 'following and unfollowing a user' do
                                  phone: 1122313,
                               })
 
-      assert @logged_in_user.following?(@followee).must_equal false
+      assert @logged_in_user.following?(@followee).must_equal false, 'Following was not false'
 
       @browser.post '/nanotwitter/v1.0/users/followeeUserName/follow'
       @browser.follow_redirect!
-      assert @browser.last_response.ok?
-      assert @logged_in_user.following?(@followee)
+      assert @browser.last_response.ok?, 'Last response was not ok'
+      assert @logged_in_user.following?(@followee), 'Following was not true'
     end
 
   end
 
-  describe "POST on /nanotwitter/v1.0/users/:username/unfollow" do
+  describe 'POST on /nanotwitter/v1.0/users/:username/unfollow' do
 
     before do
       # create a user and 2 tweets
@@ -69,7 +69,7 @@ describe 'following and unfollowing a user' do
     it 'should verify cookie is present' do
       @browser.get '/'
       assert @browser.last_response.ok?
-      assert @browser.last_request.env["rack.session"][:user].must_equal @logged_in_user[:id]
+      assert @browser.last_request.env['rack.session'][:user].must_equal @logged_in_user[:id], 'Session user ID does not equal user ID'
     end
 
     it 'should unfollow a user' do
@@ -81,12 +81,12 @@ describe 'following and unfollowing a user' do
                               })
 
       @logged_in_user.follow @followee
-      assert @logged_in_user.following?(@followee)
+      assert @logged_in_user.following?(@followee), 'Following was not true'
       @browser.post '/nanotwitter/v1.0/users/followeeUserName/unfollow'
       @browser.follow_redirect!
-      assert @browser.last_response.ok?
+      assert @browser.last_response.ok?, 'Last response was not ok'
 
-      assert @logged_in_user.following?(@followee).must_equal false
+      assert @logged_in_user.following?(@followee).must_equal false, 'Following was not false'
     end
 
   end

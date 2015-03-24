@@ -11,10 +11,10 @@ describe "/tweet URI's" do
     Tweet.delete_all
     Follow.delete_all
 
-    @browser = Rack::Test::Session.new(Rack::MockSession.new(Sinatra::Application))
+    @browser = Rack::Test::Session.new(Rack::MockSession.new(app))
   end
 
-  describe "POST on /nanotwitter/v1.0/users/id/:id/tweet" do
+  describe 'POST on /nanotwitter/v1.0/users/id/:id/tweet' do
 
     before do
       # create a user and 2 tweets
