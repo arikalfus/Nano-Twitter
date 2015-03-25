@@ -5,34 +5,39 @@ require_relative 'models/user'
 class UserService
 
   def self.get_by_id(id)
-    User.find_by_id id
+    user = User.find_by_id id
+    verify_user user
   end
 
   def self.get_by_username(username)
-    User.find_by_username username
+    user = User.find_by_username username
+    verify_user user
   end
 
-  def self.new(params)
-    begin
-      user = User.create(name: params[:name],
-                         email: params[:email],
-                         username: params[:username],
-                         password: params[:password],
-                         phone: params[:phone]
-      )
+  def self.new(params)7
+    user = User.create(name: params[:name],
+                       email: params[:email],
+                       username: params[:username],
+                       password: params[:password],
+                       phone: params[:phone]
+    )
 
-      if user.valid?
-        user
-      else
-        error 400, user.errors.to_json
-      end
-    rescue => e
-      error 400, e.message.to_json
-    end
+    verify_user user
   end
 
   def self.get_by_username_and_password(params)
-    User.find_by_username_and_password params[:username], params[:password]
+    user = User.find_by_username_and_password params[:username], params[:password]
+    verify_user user
+  end
+
+  private
+
+  def self.verify_user(user)
+    if user
+      user.valid? ? user : nil
+    else
+      nil
+    end
   end
 
 end

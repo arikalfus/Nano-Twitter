@@ -48,6 +48,8 @@ describe "/user/* URI's" do
       html_text = @browser.last_response.body.pretty_inspect
       assert html_text.must_include('Follow'), "'Follow' was not found"
     end
+
+    #TODO: Check server handles search on a user that does not exist
   end
 
   describe 'POST on /nanotwitter/v1.0/users' do
