@@ -6,7 +6,7 @@ require_relative 'models/user'
 class TweetService
 
 def self.tweets_by_user_id(user_id)
-  tweets = Tweet.where(user_id: user_id).limit(25).order created_at: :desc
+  tweets = Tweet.where(user_id: user_id).limit(100).order created_at: :desc
   full_tweets = []
   tweets.each do |tweet|
     user = User.find_by_id tweet[:user_id]
@@ -17,7 +17,7 @@ def self.tweets_by_user_id(user_id)
 end
 
   def self.tweets
-    tweets = Tweet.limit(25).order created_at: :desc
+    tweets = Tweet.limit(100).order created_at: :desc
     full_tweets = []
     tweets.each do |tweet|
       user = User.find_by_id tweet[:user_id]
