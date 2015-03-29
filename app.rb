@@ -3,9 +3,9 @@ require 'sinatra/activerecord'
 require 'sinatra/formkeeper'
 require 'json'
 
-require_relative 'user_service'
-require_relative 'tweet_service'
-require_relative 'form_service'
+require_relative 'services/user_service'
+require_relative 'services/tweet_service'
+require_relative 'services/form_service'
 require_relative 'models/follow'
 
 set :port, 3765
