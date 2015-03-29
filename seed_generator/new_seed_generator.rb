@@ -17,7 +17,7 @@ File.open('new_seed.rb', 'w') do |file|
 		phone = Faker::PhoneNumber.phone_number
 		password = Faker::Internet.password(8)
 		image = Faker::Avatar.image
-		file.write("{name:'#{name}', username:'#{name}', password:'#{password}', email:'#{email}', phone:'#{phone}', image:'#{image}' }")
+		file.write("{name:\"#{name}\", username:\"#{name}\", password:'#{password}', email:'#{email}', phone:'#{phone}', image:'#{image}' }")
 		i+=1
 	end
 	file.write("])\n\n")
