@@ -13,6 +13,10 @@ set :public_folder, File.dirname(__FILE__) + '/static'
 enable :sessions
 set :session_secret, '48fa3729hf0219f4rfbf39hf2'
 
+get '/loaderio-7b84b69492913d259b5266ab9f52dea7.txt' do
+  loaderio-7b84b69492913d259b5266ab9f52dea7
+end
+
 get '/' do
   # Verify cookie contains current data.
   if session[:user]
