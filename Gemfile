@@ -6,8 +6,8 @@ gem 'sinatra'
 gem 'activerecord'
 gem 'sinatra-activerecord'
 gem 'sinatra-formkeeper'
-gem 'typhoeus'
 gem 'json'
+gem 'newrelic_rpm'
 
 group :development, :test do
   gem 'sqlite3'
