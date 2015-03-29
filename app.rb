@@ -1,6 +1,5 @@
 require 'sinatra'
 require 'sinatra/activerecord'
-require 'tilt/erubis'
 require 'sinatra/formkeeper'
 require 'json'
 
