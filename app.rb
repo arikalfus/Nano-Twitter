@@ -5,6 +5,7 @@ require 'json'
 
 require_relative 'user_service'
 require_relative 'tweet_service'
+require_relative 'form_service'
 require_relative 'models/follow'
 
 set :port, 3765
@@ -113,7 +114,8 @@ end
 
 # create a new user
 post '/nanotwitter/v1.0/users' do
-  form do
+
+  form do # Cannot be pulled out into a service - requirement of formkeeper gem
     filters :strip
     field :name, :present => true, :alpha_space => true
     field :email, :present => true, :email => true
@@ -124,70 +126,10 @@ post '/nanotwitter/v1.0/users' do
     field :phone, :present => true, :int => true, :length => 10
   end
 
-  if form.failed?
-    # Note: All error messages must end with a space for proper formatting.
-    session[:reg_error] = { :error_codes => [], :message => '' }
+  failures = FormService.validate_registration form
 
-    # Form failed on :name
-    if form.failed_on? :name, :present
-      session[:reg_error][:error_codes].push 'r-n'
-      session[:reg_error][:message] << 'You must enter a name. '
-    elsif form.failed_on? :name, :alpha_space
-      session[:reg_error][:error_codes].push 'r-nalpha'
-      session[:reg_error][:message] << 'Your name must consist only of letters and spaces. '
-    end
-
-    # Form failed on :email
-    if form.failed_on? :email, :present
-      session[:reg_error][:error_codes].push 'r-e'
-      session[:reg_error][:message] << 'You must enter an email. '
-    elsif form.failed_on? :email, :email
-      session[:reg_error][:error_codes].push 'r-einvalid'
-      session[:reg_error][:message] << 'You must enter a correctly formatted email. '
-    end
-
-    # Form failed on :username
-    if form.failed_on? :username, :present
-      session[:reg_error][:error_codes].push 'r-u'
-      session[:reg_error][:message] << 'You must enter a username. '
-    elsif form.failed_on? :username, :ascii
-      session[:reg_error][:error_codes].push 'r-uascii'
-      session[:reg_error][:message] << 'Your username must only contain letters, digits, and ascii symbols. '
-    elsif form.failed_on? :username, :length
-      session[:reg_error][:error_codes].push 'r-ul'
-      session[:reg_error][:message] << 'Your username must be between 3 and 20 characters. '
-    end
-
-    # Form failed on :password or :password2
-    if form.failed_on? :password, :present
-      session[:reg_error][:error_codes].push 'r-p'
-      session[:reg_error][:message] << 'You must enter a password. '
-    elsif form.failed_on? :password2, :present
-      session[:reg_error][:error_codes].push 'r-p2'
-      session[:reg_error][:message] << 'You must enter your password twice. '
-    elsif form.failed_on? :password, :ascii
-      session[:reg_error][:error_codes].push 'r-pascii'
-      session[:reg_error][:message] << 'Your password must contain only letters, digits, and ascii symbols. '
-    elsif form.failed_on? :password, :length
-      session[:reg_error][:error_codes].push 'r-pl'
-      session[:reg_error][:message] << 'Your password must be between 8 and 30 characters. '
-    elsif form.failed_on? :same_password
-      session[:reg_error][:error_codes].push 'r-pns'
-      session[:reg_error][:message] << 'Your passwords do not match. '
-    end
-
-    # Form failed on :phone
-    if form.failed_on? :phone, :present
-      session[:reg_error][:error_codes].push 'r-ph'
-      session[:reg_error][:message] << 'You must enter a phone. '
-    elsif form.failed_on? :phone, :int
-      session[:reg_error][:error_codes].push 'r-phint'
-      session[:reg_error][:message] << 'Your phone number must only consist of digits. '
-    elsif form.failed_on? :phone, :length
-      session[:reg_error][:error_codes].push 'r-phl'
-      session[:reg_error][:message] << 'Your phone number must contain 10 digits (US numbers only). '
-    end
-
+  if failures
+    session[:reg_error] = failures[:reg_error]
     redirect to '/'
   else
     user = UserService.new(name: form[:name],
