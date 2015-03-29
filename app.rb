@@ -15,7 +15,7 @@ set :session_secret, '48fa3729hf0219f4rfbf39hf2'
 
 # For loader.io 
 get '/loaderio-9499c2875579506814d76c6f83a8f7f8/' do
-  erb 'loaderio-9499c2875579506814d76c6f83a8f7f8'
+  send_file '/loaderio-9499c2875579506814d76c6f83a8f7f8.txt'
 end
 
 get '/' do
