@@ -13,6 +13,7 @@ set :public_folder, File.dirname(__FILE__) + '/static'
 enable :sessions
 set :session_secret, '48fa3729hf0219f4rfbf39hf2'
 
+# for load testing with Loader.io
 get '/loaderio-9499c2875579506814d76c6f83a8f7f8.txt' do
   send_file File.new 'loaderio-9499c2875579506814d76c6f83a8f7f8.txt'
 end
