@@ -3,9 +3,9 @@ require 'sinatra/activerecord'
 require 'sinatra/formkeeper'
 require 'json'
 
-require_relative 'user_service'
-require_relative 'tweet_service'
-require_relative 'form_service'
+require_relative 'services/user_service'
+require_relative 'services/tweet_service'
+require_relative 'services/form_service'
 require_relative 'models/follow'
 
 set :port, 3765
@@ -13,8 +13,9 @@ set :public_folder, File.dirname(__FILE__) + '/static'
 enable :sessions
 set :session_secret, '48fa3729hf0219f4rfbf39hf2'
 
-get '/loaderio-7b84b69492913d259b5266ab9f52dea7' do
-  send_file '/loaderio-7b84b69492913d259b5266ab9f52dea7.txt'
+# for load testing with Loader.io
+get '/loaderio-9499c2875579506814d76c6f83a8f7f8.txt' do
+  send_file File.new 'loaderio-9499c2875579506814d76c6f83a8f7f8.txt'
 end
 
 get '/' do
