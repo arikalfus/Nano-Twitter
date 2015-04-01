@@ -14,7 +14,7 @@ enable :sessions
 set :session_secret, '48fa3729hf0219f4rfbf39hf2'
 
 # for load testing with Loader.io
-get '/loaderio-7b84b69492913d259b5266ab9f52dea7' do
+get '/loaderio-7b84b69492913d259b5266ab9f52dea7/' do
   send_file File.new 'loaderio-7b84b69492913d259b5266ab9f52dea7.txt'
 end
 

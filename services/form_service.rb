@@ -6,7 +6,6 @@ class FormService
     if @form.failed?
 
       @failed = Hash.new # Set up error hash
-      # Note: All error messages must end with a space for proper formatting.
       @failed[:reg_error] = { :error_codes => [], :message => '' }
 
       validate_name
@@ -24,7 +23,7 @@ class FormService
 
   private
 
-  # Helper method for validations
+  # Template method for validations
   def self.validate_field(field, type, err_code, err_message)
     if @form.failed_on? field, type
       @failed[:reg_error][:error_codes].push err_code
