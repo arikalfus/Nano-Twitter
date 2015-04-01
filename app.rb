@@ -18,6 +18,10 @@ get '/loaderio-7b84b69492913d259b5266ab9f52dea7/' do
   send_file File.new 'loaderio-7b84b69492913d259b5266ab9f52dea7.txt'
 end
 
+get '/loaderio-7075d4380f6f2dacc9025ebdc486490d/' do
+	send_file File.new 'loaderio-7075d4380f6f2dacc9025ebdc486490d.txt'
+end
+
 get '/' do
   # Verify cookie contains current data.
   if session[:user]
