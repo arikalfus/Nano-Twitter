@@ -11,6 +11,7 @@ class UserService
 
   def self.get_by_ids(ids)
     users = User.find_by_id ids
+    users
   end
 
   def self.get_by_username(username)
