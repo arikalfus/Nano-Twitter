@@ -9,10 +9,10 @@ class UserService
     verify_user user
   end
 
-  def self.get_by_ids(ids)
-    users = User.find_by_id ids
-    users
-  end
+  # def self.get_by_ids(ids)
+  #   users = User.find_by_id ids
+  #   users
+  # end
 
   def self.get_by_username(username)
     user = User.find_by_username username
