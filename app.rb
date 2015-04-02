@@ -18,8 +18,14 @@ get '/loaderio-7b84b69492913d259b5266ab9f52dea7/' do
   send_file File.new 'loaderio-7b84b69492913d259b5266ab9f52dea7.txt'
 end
 
+# for Pito's load testing
 get '/loaderio-7075d4380f6f2dacc9025ebdc486490d/' do
 	send_file File.new 'loaderio-7075d4380f6f2dacc9025ebdc486490d.txt'
+end
+
+# Additional loaderio account attached to heroku
+get '/loaderio-9499c2875579506814d76c6f83a8f7f8/' do
+	send_file File.new 'loaderio-9499c2875579506814d76c6f83a8f7f8.txt'
 end
 
 get '/' do
