@@ -10,7 +10,7 @@ def self.tweets_by_user_id(user_id)
   full_tweets = []
   users = []
   tweets.each do |tweet|
-    users.push tweet[:id]
+    users.push tweet[:user_id]
   end
   puts "users: #{users}"
   user_ids = UserService.get_by_ids users
@@ -31,7 +31,7 @@ end
     full_tweets = []
     users = []
     tweets.each do |tweet|
-      users.push tweet[:id]
+      users.push tweet[:user_id]
     end
     puts "users: #{users}"
     user_ids = UserService.get_by_ids users
