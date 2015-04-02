@@ -8,10 +8,14 @@ class TweetService
 def self.tweets_by_user_id(user_id)
   tweets = Tweet.where(user_id: user_id).limit(100).order created_at: :desc
   full_tweets = []
-  users = tweets.collect { |id, text| id }
+  users = []
+  tweets.each do |tweet|
+    users.push tweet[:id]
+  end
   puts "users: #{users}"
   user_ids = UserService.get_by_ids users
   puts "user ids: #{user_ids}"
+
   for i in 0...tweets.count
     verify_tweet user_ids[i], tweets[i], full_tweets
   end
@@ -25,10 +29,14 @@ end
   def self.tweets
     tweets = Tweet.limit(100).order created_at: :desc
     full_tweets = []
-    users = tweets.collect {|id, text| id }
+    users = []
+    tweets.each do |tweet|
+      users.push tweet[:id]
+    end
     puts "users: #{users}"
     user_ids = UserService.get_by_ids users
     puts "user ids: #{user_ids}"
+
     for i in 0...tweets.count
       verify_tweet user_ids[i], tweets[i], full_tweets
     end
