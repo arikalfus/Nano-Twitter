@@ -1,17 +1,23 @@
 require 'sinatra/activerecord'
 
 require_relative '../models/tweet'
-require_relative '../models/user'
+require_relative 'user_service'
 
 class TweetService
 
 def self.tweets_by_user_id(user_id)
   tweets = Tweet.where(user_id: user_id).limit(100).order created_at: :desc
   full_tweets = []
-  tweets.each do |tweet|
-    user = User.find_by_id tweet[:user_id]
-    verify_tweet user, tweet, full_tweets
+  users = tweets.collect { |id, text| id }
+  puts "users: #{users}"
+  user_ids = UserService.get_by_ids users
+  puts "user ids: #{user_ids}"
+  for i in 0...tweets.count
+    verify_tweet user_ids[i], tweets[i], full_tweets
   end
+  # tweets.each do |tweet|
+  #   verify_tweet user, tweet, full_tweets
+  # end
 
   full_tweets
 end
@@ -19,10 +25,17 @@ end
   def self.tweets
     tweets = Tweet.limit(100).order created_at: :desc
     full_tweets = []
-    tweets.each do |tweet|
-      user = User.find_by_id tweet[:user_id]
-      verify_tweet user, tweet, full_tweets
+    users = tweets.collect {|id, text| id }
+    puts "users: #{users}"
+    user_ids = UserService.get_by_ids users
+    puts "user ids: #{user_ids}"
+    for i in 0...tweets.count
+      verify_tweet user_ids[i], tweets[i], full_tweets
     end
+    # tweets.each do |tweet|
+    #   user = UserService.get_by_id tweet[:user_id]
+    #   verify_tweet user, tweet, full_tweets
+    # end
 
     full_tweets
   end
