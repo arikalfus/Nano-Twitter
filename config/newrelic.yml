@@ -5,7 +5,7 @@
 #
 # Generated March 29, 2015
 #
-# This configuration file is custom generated for Nano Twitter, Inc.
+# This configuration file is custom generated for app34957594@heroku.com
 
 
 # Here are the settings that are common to all environments
@@ -15,7 +15,7 @@ common: &default_settings
   # You must specify the license key associated with your New Relic
   # account.  This key binds your Agent's data to your account in the
   # New Relic service.
-  license_key: '50cdb8445d6aa4ec032ae720be951d7526a8f57f'
+  license_key: 'd9684322bae7a8c86af3eaaeb7a6799cf0d05c27'
 
   # Agent Enabled (Ruby/Rails Only)
   # Use this setting to force the agent to run or not run.
@@ -70,10 +70,10 @@ common: &default_settings
   # root directory (may be relative or absolute, e.g. 'log/' or
   # '/var/log/') The agent will attempt to create this directory if it
   # does not exist.
-  # log_file_path: 'log'
+  log_file_path: 'log'
 
   # Optionally set the name of the log file, defaults to 'newrelic_agent.log'
-  # log_file_name: 'newrelic_agent.log'
+  log_file_name: 'newrelic_agent.log'
 
   # The newrelic agent communicates with the service via https by default.  This
   # prevents eavesdropping on the performance metrics transmitted by the agent.
