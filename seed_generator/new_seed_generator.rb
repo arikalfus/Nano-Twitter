@@ -5,22 +5,22 @@ File.open('new_seed.rb', 'w') do |file|
 	file.write("# Run this with rake db:seed")
 	file.write("\nUser.destroy_all")
 	file.write("\n#create Nick's users (at :id 1,2,3,4,...,1000)")
-	file.write("\nUser.create([")
+	#file.write("\nUser.create([")
 	i = 0
 	#first load and parse users.csv
 	CSV.foreach("users.csv") do |row|
-		if i>0 then
-			file.write(",\n")
-		end
+		#if i>0 then
+		#	file.write(",\n")
+		#end
 		name = row[1]
 		email = Faker::Internet.email(name)
 		phone = Faker::PhoneNumber.phone_number
 		password = Faker::Internet.password(8)
 		image = Faker::Avatar.image
-		file.write("{name:\"#{name}\", username:\"#{name}\", password:'#{password}', email:'#{email}', phone:'#{phone}', image:'#{image}' }")
+		file.write("\nUser.create({name:\"#{name}\", username:\"#{name}\", password:'#{password}', email:'#{email}', phone:'#{phone}', image:'#{image}' })")
 		i+=1
 	end
-	file.write("])\n\n")
+	#file.write("])\n\n")
 
 	file.write("#create our users (at :id 1001,1002,1003,1004)")
 	file.write("\nUser.create ([{ name: 'Ari Kalfus', username: 'dev1', password: 'devpass', email: 'dev1@dev.com', phone: '8005555555', image: 'https://scontent-ord.xx.fbcdn.net/hphotos-xpf1/v/t1.0-9/10690339_10152768150947510_2341191569753235600_n.jpg?oh=bea3e90c4b19f9e74abdca100ee063a4&oe=55855B0C' }])")
@@ -31,38 +31,38 @@ File.open('new_seed.rb', 'w') do |file|
 
 	file.write("#Now we want to create 0-200 tweets per user (average 100) Tweet :id 1,2,3,4,...,200")
 	file.write("\nTweet.destroy_all")
-	file.write("\nTweet.create([")
+	#file.write("\nTweet.create([")
 
 	i=0
 	#second load and parse tweets.csv
 	CSV.foreach("tweets.csv") do |row|
-		if i>0 then
-			file.write(",\n")
-		end
+		#if i>0 then
+		#	file.write(",\n")
+		#end
 		user_id = row[0]
 		text = row[1]
 		created_at = row[2]
 		updated_at = row[2]
-		file.write("{user_id:#{user_id}, text:\"#{text}\", created_at:\"#{created_at}\", updated_at:\"#{updated_at}\"}")
+		file.write("\nTweet.create({user_id:#{user_id}, text:\"#{text}\", created_at:\"#{created_at}\", updated_at:\"#{updated_at}\"})")
 		i+=1
 	end
-	file.write("])\n\n")
+	#file.write("])\n\n")
 
 	
 	file.write("\n#Processing follows.csv")
 	file.write("\nFollow.destroy_all")
-	file.write("\nFollow.create([")
+	#file.write("\nFollow.create([")
 	#third load and parse follows.csv : id1,id2 where id1 follows id2
 	i=0
 	#second load and parse tweets.csv
 	CSV.foreach("follows.csv") do |row|
-		if i>0 then
-			file.write(",\n")
-		end
+		#if i>0 then
+		#	file.write(",\n")
+		#end
 		follower_id = row[0]
 		followee_id = row[1]
-		file.write("{follower_id:#{follower_id}, followee_id:#{followee_id}}")
+		file.write("\nFollow.create({follower_id:#{follower_id}, followee_id:#{followee_id}})")
 		i+=1
 	end
-	file.write("])\n\n")
+	#file.write("])\n\n")
 end
