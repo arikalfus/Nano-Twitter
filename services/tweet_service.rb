@@ -57,7 +57,7 @@ end
       )
 
       if tweet.valid?
-        tweet.to_json
+        tweet
       else
         error 400, tweet.errors.to_json
       end
