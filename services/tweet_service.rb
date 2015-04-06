@@ -8,42 +8,34 @@ class TweetService
 def self.tweets_by_user_id(user_id)
   tweets = Tweet.where(user_id: user_id).limit(100).order created_at: :desc
   full_tweets = []
-  # user_ids = []
-  # tweets.each do |tweet|
-  #   user_ids.push tweet[:user_id]
-  # end
-  # puts "users: #{user_ids}"
-  # users = UserService.get_by_ids user_ids
-  # puts "user ids: #{users}"
-  #
-  # for i in 0...tweets.count
-  #   verify_tweet users[i], tweets[i], full_tweets
-  # end
+  user_ids = []
+
   tweets.each do |tweet|
-    user = UserService.get_by_id tweet[:user_id]
-    verify_tweet user, tweet, full_tweets
+    user_ids.push tweet[:user_id]
+  end
+  users = UserService.get_by_ids user_ids
+
+  tweets.each do |tweet|
+    tweet_user = users.collect {|user| user[:id] == tweet[:user_id] }.first
+    verify_tweet tweet_user, tweet, full_tweets
   end
 
   full_tweets
-end
+  end
 
   def self.tweets
     tweets = Tweet.limit(100).order created_at: :desc
     full_tweets = []
-    # user_ids = []
-    # tweets.each do |tweet|
-    #   user_ids.push tweet[:user_id]
-    # end
-    # puts "users: #{user_ids}"
-    # users = UserService.get_by_ids user_ids
-    # puts "user ids: #{users}"
-    #
-    # for i in 0...tweets.count
-    #   verify_tweet users[i], tweets[i], full_tweets
-    # end
+    user_ids = []
+
     tweets.each do |tweet|
-      user = UserService.get_by_id tweet[:user_id]
-      verify_tweet user, tweet, full_tweets
+      user_ids.push tweet[:user_id]
+    end
+    users = UserService.get_by_ids user_ids
+
+    tweets.each do |tweet|
+      tweet_user = users.collect {|user| user[:id] == tweet[:user_id] }.first
+      verify_tweet tweet_user, tweet, full_tweets
     end
 
     full_tweets
@@ -56,7 +48,7 @@ end
           user_id: params[:user_id]
       )
 
-      if tweet.valid?
+      if tweet
         tweet
       else
         error 400, tweet.errors.to_json
