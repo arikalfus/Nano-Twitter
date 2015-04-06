@@ -17,7 +17,7 @@ describe 'tweet_service' do
   end
 
   it "should create a tweet with user_id and text" do
-    tweet = TweetService.create({text: 'Try to parse the GB interface, maybe it will navigate the bluetooth sensor!',
+    tweet = TweetService.new({text: 'Try to parse the GB interface, maybe it will navigate the bluetooth sensor!',
                                  user_id: @user[:id]})
 
     assert tweet["text"].must_equal 'Try to parse the GB interface, maybe it will navigate the bluetooth sensor!'
@@ -25,13 +25,14 @@ describe 'tweet_service' do
   end
 
   it "should get an array of tweets by user_id" do
-    tweet = TweetService.create({text: 'Try to parse the GB interface, maybe it will navigate the bluetooth sensor!',
+    tweet = TweetService.new({text: 'Try to parse the GB interface, maybe it will navigate the bluetooth sensor!',
                          user_id: @user[:id]})
 
     full_tweets = []
     full_tweets = TweetService.tweets_by_user_id(@user[:id])
 
-    assert full_tweets[0].must_equal tweet
+    assert full_tweets[0]["text"].must_equal 'Try to parse the GB interface, maybe it will navigate the bluetooth sensor!'
+    assert full_tweets[0]["user_id"].must_equal @user[:id]
   end
 
 

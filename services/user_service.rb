@@ -26,13 +26,19 @@ class UserService
     verify_user user
   end
 
+   def self.get_by_ids(ids)
+    #ids.each do |i|
+    users = User.where id: ids
+    users
+   end
+
   #get user by username
   def self.get_by_username(username)
     user = User.find_by_username username
     verify_user user
   end
 
-  def self.new(params)7
+  def self.new(params)
     user = User.create(name: params[:name],
                        email: params[:email],
                        username: params[:username],
