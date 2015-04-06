@@ -23,9 +23,7 @@ class UserService
   end
 
    def self.get_by_ids(ids)
-    #ids.each do |i|
-    users = User.where id: ids
-    users
+    User.where id: ids
    end
 
   #get user by username
