@@ -35,7 +35,7 @@ get '/' do
     # If cookie is out of date, delete it.
     user = UserService.get_by_id session[:user]
     unless user
-        session.clear
+      session.clear
     end
   end
 
@@ -64,6 +64,7 @@ get '/' do
     erb :root, :locals => { :tweets => tweets, :reg_error => reg_error }
   else
     tweets = TweetService.tweets
+    puts "tweets: #{tweets.pretty_inspect}"
 
     erb :root, :locals => { :tweets => tweets }
   end
