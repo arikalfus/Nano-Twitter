@@ -34,8 +34,11 @@ get '/' do
   if session[:user]
     # If cookie is out of date, delete it.
     user = UserService.get_by_id session[:user]
+    puts "verifying user: #{user.pretty_inspect}"
     unless user
-        session.clear
+      puts 'clearing session'
+      session.clear
+      puts "session: #{session.pretty_inspect}"
     end
   end
 
