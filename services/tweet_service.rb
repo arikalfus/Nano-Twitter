@@ -40,8 +40,9 @@ def self.tweets_by_user_id(user_id)
           tweet_user = user
         end
       end
-      puts tweet_user.pretty_inspect
-      verify_tweet tweet_user, tweet, full_tweets
+      Tweet.destroy(tweet[:id]) if tweet_user.nil?
+      # verify_tweet tweet_user, tweet, full_tweets
+      full_tweets.push [tweet, tweet_user]
     end
 
     full_tweets
