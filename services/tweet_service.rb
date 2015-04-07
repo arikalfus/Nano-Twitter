@@ -47,9 +47,11 @@ class TweetService
           tweet_user = user
         end
       end
-      Tweet.destroy(tweet[:id]) if tweet_user.nil?
-      # verify_tweet tweet_user, tweet, full_tweets
-      full_tweets.push [tweet, tweet_user]
+      if tweet_user.nil?
+        Tweet.destroy(tweet[:id])
+      else
+        full_tweets.push [tweet, tweet_user]
+      end
     end
 
     full_tweets
