@@ -16,8 +16,15 @@ class TweetService
     users = UserService.get_by_ids user_ids
 
     tweets.each do |tweet|
-      tweet_user = users.collect {|user| user[:id] == tweet[:user_id] }.first
-      verify_tweet tweet_user, tweet, full_tweets
+      tweet_user = nil
+      users.each do |user|
+        if user[:id] == tweet[:user_id]
+          tweet_user = user
+        end
+      end
+      Tweet.destroy(tweet[:id]) if tweet_user.nil?
+      # verify_tweet tweet_user, tweet, full_tweets
+      full_tweets.push [tweet, tweet_user]
     end
 
     full_tweets
