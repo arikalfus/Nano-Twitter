@@ -173,7 +173,6 @@ end
 # verify a user name and password
 post '/nanotwitter/v1.0/users/session' do
   user = UserService.get_by_username_and_password({ :username => params[:username], :password => params[:password] })
-  puts "user in /session: #{user.pretty_inspect}"
   if user
     session[:user] = user[:id]
   else
