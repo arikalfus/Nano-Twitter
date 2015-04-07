@@ -30,7 +30,7 @@ describe 'tweet_service' do
 
     full_tweets = TweetService.tweets_by_user_id(@user[:id])
 
-    puts "full_tweets:\n#{full_tweets.pretty_inspect}"
+    puts "full_tweets:\n#{full_tweets}"
 
     assert full_tweets[0]["text"].must_equal 'Try to parse the GB interface, maybe it will navigate the bluetooth sensor!'
     assert full_tweets[0]["user_id"].must_equal @user[:id]
