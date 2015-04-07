@@ -61,6 +61,7 @@ describe 'login and logout' do
       @browser.follow_redirect! # Two redirects are necessary
       assert @browser.last_response.ok?, 'Last response is not ok'
       # Asserts that the user was deleted from the current session cookie
+      puts "rack session:\n#{@browser.last_request.env['rack.session']}"
       assert @browser.last_request.env['rack.session'][:user].must_be_nil, 'did not delete the user from session'
       # Asserts that the rendered page has the logged out message and that it loads the recent tweets from the database
       assert @browser.last_response.body.must_include 'You have been logged out.', 'did not include: "you have been logged out."'
