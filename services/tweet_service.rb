@@ -34,9 +34,14 @@ def self.tweets_by_user_id(user_id)
     users = UserService.get_by_ids user_ids
 
     tweets.each do |tweet|
-      tweet_user = users.collect {|user| user[:id] == tweet[:user_id] }
+      tweet_user = nil
+      users.each do |user|
+        if user[:id] == tweet[:user_id]
+          tweet_user = user
+        end
+      end
       puts tweet_user.pretty_inspect
-      verify_tweet tweet_user.first, tweet, full_tweets
+      verify_tweet tweet_user, tweet, full_tweets
     end
 
     full_tweets
