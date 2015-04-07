@@ -7,7 +7,6 @@ class TweetService
 
   def self.tweets_by_user_id(user_id)
     tweets = Tweet.where(user_id: user_id).limit(100).order created_at: :desc
-    puts "tweets:\n#{tweets.pretty_inspect}"
     full_tweets = []
     user_ids = []
 

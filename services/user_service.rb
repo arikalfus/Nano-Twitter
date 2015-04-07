@@ -42,7 +42,11 @@ class UserService
 
   def self.verify_user(user)
     if user
-      user.valid? ? user : nil
+      if user.valid?
+        user
+      else
+        nil
+      end
     else
       nil
     end
