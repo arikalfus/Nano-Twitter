@@ -40,17 +40,19 @@ class TweetService
     end
     users = UserService.get_by_ids user_ids
 
+    user_hash = Hash.new
+    users.each do |user|
+      user_hash[user[:id]] = user
+    end
+
     tweets.each do |tweet|
       tweet_user = nil
-
-      # tweet_user = users.collect { |user| user if user[:id] == tweet[:user_id]}.first
-
-
-      users.each do |user|
-        if user[:id] == tweet[:user_id]
-          tweet_user = user
-        end
-      end
+      # users.each do |user|
+      #   if user[:id] == tweet[:user_id]
+      #     tweet_user = user
+      #   end
+      # end
+      tweet_user = user_hash[tweet[:user_id]]
       if tweet_user.nil?
         Tweet.destroy(tweet[:id])
       else
