@@ -1,4 +1,5 @@
 require 'sinatra'
+require 'newrelic_rpm'
 require 'sinatra/activerecord'
 require 'sinatra/formkeeper'
 require 'json'
@@ -14,8 +15,18 @@ enable :sessions
 set :session_secret, '48fa3729hf0219f4rfbf39hf2'
 
 # for load testing with Loader.io
-get '/loaderio-7b84b69492913d259b5266ab9f52dea7' do
+get '/loaderio-7b84b69492913d259b5266ab9f52dea7/' do
   send_file File.new 'loaderio-7b84b69492913d259b5266ab9f52dea7.txt'
+end
+
+# for Pito's load testing
+get '/loaderio-7075d4380f6f2dacc9025ebdc486490d/' do
+	send_file File.new 'loaderio-7075d4380f6f2dacc9025ebdc486490d.txt'
+end
+
+# Additional loaderio account attached to heroku
+get '/loaderio-9499c2875579506814d76c6f83a8f7f8/' do
+	send_file File.new 'loaderio-9499c2875579506814d76c6f83a8f7f8.txt'
 end
 
 get '/' do
@@ -24,7 +35,7 @@ get '/' do
     # If cookie is out of date, delete it.
     user = UserService.get_by_id session[:user]
     unless user
-        session.clear
+      session.clear
     end
   end
 
@@ -53,6 +64,7 @@ get '/' do
     erb :root, :locals => { :tweets => tweets, :reg_error => reg_error }
   else
     tweets = TweetService.tweets
+    puts "tweets: #{tweets.pretty_inspect}"
 
     erb :root, :locals => { :tweets => tweets }
   end

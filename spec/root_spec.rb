@@ -53,7 +53,7 @@ describe 'root page' do
 
     it 'should delete a cookie if user data is out of date' do
       User.destroy(@logged_in_user[:id])
-      user = User.find_by_id(@browser.last_request.env['rack.session'][:user])
+      user = UserService.get_by_id(@browser.last_request.env['rack.session'][:user])
       assert user.must_be_nil, 'User is not nil'
       @browser.get '/'
       assert @browser.last_response.ok?, 'Last response was not ok'
