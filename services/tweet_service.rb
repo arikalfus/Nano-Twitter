@@ -43,8 +43,7 @@ class TweetService
     tweets.each do |tweet|
       tweet_user = nil
 
-      tweet_user = users.collect { |user| user if user[:id] == tweet[:user_id]}.first
-      puts "#{tweet_user.pretty_inspect}"
+      # tweet_user = users.collect { |user| user if user[:id] == tweet[:user_id]}.first
 
 
       users.each do |user|
