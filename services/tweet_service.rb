@@ -44,13 +44,14 @@ class TweetService
       tweet_user = nil
 
       tweet_user = users.collect { |user| user if user[:id] == tweet[:user_id]}.first
+      puts "#{tweet_user.pretty_inspect}"
 
 
-      # users.each do |user|
-      #   if user[:id] == tweet[:user_id]
-      #     tweet_user = user
-      #   end
-      # end
+      users.each do |user|
+        if user[:id] == tweet[:user_id]
+          tweet_user = user
+        end
+      end
       if tweet_user.nil?
         Tweet.destroy(tweet[:id])
       else
