@@ -64,7 +64,6 @@ get '/' do
     erb :root, :locals => { :tweets => tweets, :reg_error => reg_error }
   else
     tweets = TweetService.tweets
-    puts "tweets: #{tweets.pretty_inspect}"
 
     erb :root, :locals => { :tweets => tweets }
   end
