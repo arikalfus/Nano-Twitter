@@ -13,11 +13,7 @@ class UserService
                        phone: params[:phone]
     )
 
-    if user
-      user
-    else
-      {:status => 404, :message => "user not found"}
-    end
+    verify_user user
   end
 
   #get user by ID
@@ -27,25 +23,12 @@ class UserService
   end
 
    def self.get_by_ids(ids)
-    #ids.each do |i|
-    users = User.where id: ids
-    users
+    User.where id: ids
    end
 
   #get user by username
   def self.get_by_username(username)
     user = User.find_by_username username
-    verify_user user
-  end
-
-  def self.new(params)
-    user = User.create(name: params[:name],
-                       email: params[:email],
-                       username: params[:username],
-                       password: params[:password],
-                       phone: params[:phone]
-    )
-
     verify_user user
   end
 
@@ -59,7 +42,11 @@ class UserService
 
   def self.verify_user(user)
     if user
-      user.valid? ? user : nil
+      if user.valid?
+        user
+      else
+        nil
+      end
     else
       nil
     end

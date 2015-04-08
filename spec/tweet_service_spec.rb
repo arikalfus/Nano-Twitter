@@ -28,11 +28,11 @@ describe 'tweet_service' do
     tweet = TweetService.new({text: 'Try to parse the GB interface, maybe it will navigate the bluetooth sensor!',
                          user_id: @user[:id]})
 
-    full_tweets = []
     full_tweets = TweetService.tweets_by_user_id(@user[:id])
 
-    assert full_tweets[0]["text"].must_equal 'Try to parse the GB interface, maybe it will navigate the bluetooth sensor!'
-    assert full_tweets[0]["user_id"].must_equal @user[:id]
+    # full_tweets is an 2D array, each entry is [tweet, user]
+    assert full_tweets.first.first["text"].must_equal 'Try to parse the GB interface, maybe it will navigate the bluetooth sensor!'
+    assert full_tweets.first.first["user_id"].must_equal @user[:id]
   end
 
 
