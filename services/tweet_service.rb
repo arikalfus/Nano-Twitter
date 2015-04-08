@@ -42,11 +42,15 @@ class TweetService
 
     tweets.each do |tweet|
       tweet_user = nil
-      users.each do |user|
-        if user[:id] == tweet[:user_id]
-          tweet_user = user
-        end
-      end
+
+      tweet_user = users.collect { |user| user if user[:id] == tweet[:user_id]}.first
+
+
+      # users.each do |user|
+      #   if user[:id] == tweet[:user_id]
+      #     tweet_user = user
+      #   end
+      # end
       if tweet_user.nil?
         Tweet.destroy(tweet[:id])
       else
