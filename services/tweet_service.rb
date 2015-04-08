@@ -15,16 +15,21 @@ class TweetService
     end
     users = UserService.get_by_ids user_ids
 
+    # To optimize full_tweet creation below
+    user_hash = Hash.new
+    users.each do |user|
+      user_hash[user[:id]] = user
+    end
+    users.clear
+
     tweets.each do |tweet|
       tweet_user = nil
-      users.each do |user|
-        if user[:id] == tweet[:user_id]
-          tweet_user = user
-        end
+      tweet_user = user_hash[tweet[:user_id]]
+      if tweet_user.nil?
+        Tweet.destroy(tweet[:id])
+      else
+        full_tweets.push [tweet, tweet_user]
       end
-      Tweet.destroy(tweet[:id]) if tweet_user.nil?
-      # verify_tweet tweet_user, tweet, full_tweets
-      full_tweets.push [tweet, tweet_user]
     end
 
     full_tweets
@@ -49,11 +54,6 @@ class TweetService
 
     tweets.each do |tweet|
       tweet_user = nil
-      # users.each do |user|
-      #   if user[:id] == tweet[:user_id]
-      #     tweet_user = user
-      #   end
-      # end
       tweet_user = user_hash[tweet[:user_id]]
       if tweet_user.nil?
         Tweet.destroy(tweet[:id])
