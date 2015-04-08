@@ -40,10 +40,12 @@ class TweetService
     end
     users = UserService.get_by_ids user_ids
 
+    # To optimize full_tweet creation below
     user_hash = Hash.new
     users.each do |user|
       user_hash[user[:id]] = user
     end
+    users.clear
 
     tweets.each do |tweet|
       tweet_user = nil
