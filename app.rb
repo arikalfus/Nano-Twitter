@@ -1,4 +1,4 @@
-require 'sinatra'
+    require 'sinatra'
 require 'sinatra/activerecord'
 require 'sinatra/formkeeper'
 require 'json'
