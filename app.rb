@@ -1,4 +1,5 @@
 require 'sinatra'
+require 'tilt/erb'
 require 'newrelic_rpm'
 require 'sinatra/activerecord'
 require 'sinatra/formkeeper'
