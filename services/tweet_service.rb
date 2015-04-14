@@ -39,7 +39,7 @@ class TweetService
   def self.tweets
     tweets = Tweet.limit(100).order created_at: :desc
 
-    # Construct an array of [tweet, ugser] pairs.
+    # Construct an array of [tweet, user] pairs.
     user_ids = []
     full_tweets = []
 

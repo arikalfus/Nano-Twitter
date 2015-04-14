@@ -25,11 +25,6 @@ get '/loaderio-7075d4380f6f2dacc9025ebdc486490d/' do
 	send_file File.new 'loaderio-7075d4380f6f2dacc9025ebdc486490d.txt'
 end
 
-# Additional loaderio account attached to heroku
-get '/loaderio-9499c2875579506814d76c6f83a8f7f8/' do
-	send_file File.new 'loaderio-9499c2875579506814d76c6f83a8f7f8.txt'
-end
-
 get '/' do
   # Verify cookie contains current data.
   if session[:user]
@@ -50,38 +45,35 @@ get '/' do
 
     erb :logged_root, :locals => { :user => user, :tweets => tweets }
   elsif session[:login_error]
-    tweets = TweetService.tweets
-
     login_error = session[:login_error]
     session[:login_error] = nil
 
-    erb :root, :locals => { :tweets => tweets, :login_error => login_error }
+    erb :root, :locals => { :login_error => login_error }
   elsif session[:reg_error]
-    tweets = TweetService.tweets
-
     reg_error = session[:reg_error]
     session[:reg_error] = nil
 
-    erb :root, :locals => { :tweets => tweets, :reg_error => reg_error }
+    erb :root, :locals => { :reg_error => reg_error }
   else
-    tweets = TweetService.tweets
-
-    erb :root, :locals => { :tweets => tweets }
+    erb :root
   end
 end
 
 get '/logout' do
   redirect to '/nanotwitter/v1.0/logout' unless session[:user].nil?
 
-  tweets = TweetService.tweets
-
-  erb :root, :locals => { :tweets => tweets, :logout => true }
+  erb :root, :locals => { :logout => true }
 end
 
 # logout and delete session cookie
 get '/nanotwitter/v1.0/logout' do
   session[:user] = nil
   redirect to '/logout'
+end
+
+get '/nanotwitter/v1.0/tweets' do
+  tweets = TweetService.tweets
+  erb :feed, :locals => { tweets: tweets }, :layout => false
 end
 
 get '/nanotwitter/v1.0/users/:username' do
