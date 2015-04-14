@@ -64,7 +64,9 @@ describe 'login and logout' do
       assert @browser.last_request.env['rack.session'][:user].must_be_nil, 'did not delete the user from session'
       # Asserts that the rendered page has the logged out message and that it loads the recent tweets from the database
       assert @browser.last_response.body.must_include 'You have been logged out.', 'did not include: "you have been logged out."'
-      assert @browser.last_response.body.must_include 'Hello world', 'did not include: "Hello world"'
+
+      # This assertion is invalid now that tweet addition is delayed.
+      # assert @browser.last_response.body.must_include 'Hello world', 'did not include: "Hello world"'
     end
 
     it 'should load the API logout page and delete the user from session' do
@@ -78,7 +80,9 @@ describe 'login and logout' do
       assert @browser.last_request.env['PATH_INFO'].must_equal '/logout', 'request path does not include /logout'
       # Asserts that the rendered page has the logged out message and that it loads the recent tweets from the database
       assert @browser.last_response.body.must_include 'You have been logged out.', 'did not include: "you have been logged out."'
-      assert @browser.last_response.body.must_include 'Hello world', 'did not include: "hello world"'
+
+      # This assertion is invald now that tweet addition is delayed.
+      # assert @browser.last_response.body.must_include 'Hello world', 'did not include: "hello world"'
     end
   end
 
