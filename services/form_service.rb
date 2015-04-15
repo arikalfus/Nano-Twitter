@@ -21,6 +21,22 @@ class FormService
 
   end
 
+  def self.validate_search(form)
+    @form = form
+
+    if @form.failed?
+
+      @failed = Hash.new # set up hash
+      @failed[:err] = { :error_codes => [], :message => '' }
+
+      validate_search_terms
+
+      @failed
+    else
+      nil # no failures
+    end
+  end
+
   private
 
   # Template method for validations
@@ -69,6 +85,11 @@ class FormService
     validate_field :phone, :present, 'r-ph', 'You must enter a phone number.'
     validate_field :phone, :int, 'r-phint', 'Your phone number must only consist of digits.'
     validate_field :phone, :length, 'r-phl', 'Your phone number must consist of only 10 digits.'
+  end
+
+  # Form validation on :search field
+  def self.validate_search_terms
+    validate_field :search, :present, 's-p', 'There was no search body.'
   end
 
 end

@@ -141,7 +141,7 @@ end
 # create a new user
 post '/nanotwitter/v1.0/users' do
 
-  form do # Cannot be pulled out into a service - requirement of formkeeper gem
+  form do # Cannot be pulled out into a service due to requirement of formkeeper gem
     filters :strip
     field :name, :present => true, :alpha_space => true
     field :email, :present => true, :email => true
@@ -170,6 +170,29 @@ post '/nanotwitter/v1.0/users' do
       error 400, user.errors.to_json
     end
   end
+end
+
+# search database for user
+post '/nanotwitter/v1.0/users/search' do
+  unless params[:search].length == 0
+    form do # cannot be pulled out into a service due to requirement of formkeeper gem
+      filters :strip
+      field :search, :present => true
+    end
+
+    failures = FormService.validate_search form
+
+    if failures
+      # TODO: do what?
+    else
+      search_terms = form[:search]
+      users = UserService.search_for search_terms
+      erb users.to_json
+    end
+  else
+    redirect back
+  end
+
 end
 
 post '/nanotwitter/v1.0/users/id/:id/tweet' do
