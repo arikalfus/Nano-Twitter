@@ -1487,3 +1487,18 @@
 [04/15/15 16:58:41 -0400 ari-HP-ENVY (6012)] INFO : Finished instrumentation
 [04/15/15 16:58:51 -0400 ari-HP-ENVY (6012)] INFO : Doing deferred dependency-detection before Rack startup
 [04/15/15 16:58:51 -0400 ari-HP-ENVY (6012)] INFO : Installing ActiveRecord 4 instrumentation
+[04/15/15 17:11:21 -0400 ari-HP-ENVY (7485)] INFO : Starting the New Relic agent in "development" environment.
+[04/15/15 17:11:21 -0400 ari-HP-ENVY (7485)] INFO : To prevent agent startup add a NEWRELIC_AGENT_ENABLED=false environment variable or modify the "development" section of your newrelic.yml.
+[04/15/15 17:11:21 -0400 ari-HP-ENVY (7485)] INFO : Reading configuration from config/newrelic.yml (/home/akalfus/Dropbox/College_Work/Spring_2015/cs105b_arikalfus/nanotwitter)
+[04/15/15 17:11:21 -0400 ari-HP-ENVY (7485)] INFO : Environment: development
+[04/15/15 17:11:21 -0400 ari-HP-ENVY (7485)] INFO : No known dispatcher detected.
+[04/15/15 17:11:21 -0400 ari-HP-ENVY (7485)] INFO : Application: Nano Twitter (Development)
+[04/15/15 17:11:21 -0400 ari-HP-ENVY (7485)] INFO : Installing Net instrumentation
+[04/15/15 17:11:21 -0400 ari-HP-ENVY (7485)] INFO : Installing Sinatra instrumentation
+[04/15/15 17:11:21 -0400 ari-HP-ENVY (7485)] INFO : Installing deferred Rack instrumentation
+[04/15/15 17:11:21 -0400 ari-HP-ENVY (7485)] INFO : Installing Rack::Builder middleware instrumentation
+[04/15/15 17:11:21 -0400 ari-HP-ENVY (7485)] INFO : Finished instrumentation
+[04/15/15 17:11:22 -0400 ari-HP-ENVY (7485)] INFO : Reporting to: https://rpm.newrelic.com/accounts/942489/applications/6129566
+[04/15/15 17:11:25 -0400 ari-HP-ENVY (7485)] INFO : Doing deferred dependency-detection before Rack startup
+[04/15/15 17:11:25 -0400 ari-HP-ENVY (7485)] INFO : Installing ActiveRecord 4 instrumentation
+[04/15/15 17:11:26 -0400 ari-HP-ENVY (7485)] WARN : Skipping RUM instrumentation. Unable to find <body> tag in first 50000 bytes of document.
