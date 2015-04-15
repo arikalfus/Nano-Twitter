@@ -10,16 +10,17 @@ require_relative 'services/tweet_service'
 require_relative 'services/form_service'
 require_relative 'models/follow'
 
-set :port, 3765
-set :public_folder, File.dirname(__FILE__) + '/static'
-enable :sessions
-set :session_secret, '48fa3729hf0219f4rfbf39hf2'
-
-# Configure database environment
+# Configure server environment
 configure do
+
   env = ENV['SINATRA_ENV'] || 'development'
   databases = YAML.load(ERB.new(File.read('config/database.yml')).result)
   ActiveRecord::Base.establish_connection databases[env]
+
+  set :port, 3765
+  set :public_folder, File.dirname(__FILE__) + '/static'
+  enable :sessions
+  set :session_secret, '48fa3729hf0219f4rfbf39hf2'
 end
 
 # for load testing with Loader.io
@@ -71,11 +72,13 @@ get '/nanotwitter/v1.0/logout' do
   redirect to '/logout'
 end
 
+# get latest tweets
 get '/nanotwitter/v1.0/tweets' do
   tweets = TweetService.tweets
   erb :feed, :locals => { tweets: tweets }, :layout => false
 end
 
+# get latest tweets from followees of logged in user
 get '/nanotwitter/v1.0/tweets/followees' do
   if session[:user]
     user = UserService.get_by_id session[:user]
