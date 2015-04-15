@@ -13,17 +13,14 @@
 
 ActiveRecord::Schema.define(version: 109) do
 
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
-
   create_table "follows", force: :cascade do |t|
     t.integer "follower_id"
     t.integer "followee_id"
   end
 
-  add_index "follows", ["followee_id"], name: "index_follows_on_followee_id", using: :btree
-  add_index "follows", ["follower_id", "followee_id"], name: "index_follows_on_follower_id_and_followee_id", unique: true, using: :btree
-  add_index "follows", ["follower_id"], name: "index_follows_on_follower_id", using: :btree
+  add_index "follows", ["followee_id"], name: "index_follows_on_followee_id"
+  add_index "follows", ["follower_id", "followee_id"], name: "index_follows_on_follower_id_and_followee_id", unique: true
+  add_index "follows", ["follower_id"], name: "index_follows_on_follower_id"
 
   create_table "tags", force: :cascade do |t|
     t.string "name"

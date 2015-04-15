@@ -15,6 +15,13 @@ set :public_folder, File.dirname(__FILE__) + '/static'
 enable :sessions
 set :session_secret, '48fa3729hf0219f4rfbf39hf2'
 
+# Configure database environment
+configure do
+  env = ENV['SINATRA_ENV'] || 'development'
+  databases = YAML.load(ERB.new(File.read('config/database.yml')).result)
+  ActiveRecord::Base.establish_connection databases[env]
+end
+
 # for load testing with Loader.io
 get '/loaderio-7b84b69492913d259b5266ab9f52dea7/' do
   send_file File.new 'loaderio-7b84b69492913d259b5266ab9f52dea7.txt'
