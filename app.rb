@@ -76,7 +76,7 @@ get '/nanotwitter/v1.0/tweets' do
   erb :feed, :locals => { tweets: tweets }, :layout => false
 end
 
-get 'nanotwitter/v1.0/tweets/followees' do
+get '/nanotwitter/v1.0/tweets/followees' do
   if session[:user]
     user = UserService.get_by_id session[:user]
     users_to_follow = user.followees
@@ -88,7 +88,6 @@ get 'nanotwitter/v1.0/tweets/followees' do
   else
     erb :feed, :locals => {:tweets => [] }, :layout => false
   end
-
 end
 
 get '/nanotwitter/v1.0/users/:username' do

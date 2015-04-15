@@ -582,3 +582,19 @@
 [04/15/15 00:31:28 -0400 ubuntu (8463)] INFO : Doing deferred dependency-detection before Rack startup
 [04/15/15 00:31:28 -0400 ubuntu (8463)] INFO : Installing ActiveRecord 4 instrumentation
 [04/15/15 00:31:32 -0400 ubuntu (8463)] WARN : Skipping RUM instrumentation. Unable to find <body> tag in first 50000 bytes of document.
+[04/15/15 01:40:05 -0400 ubuntu (11470)] INFO : Starting the New Relic agent in "development" environment.
+[04/15/15 01:40:05 -0400 ubuntu (11470)] INFO : To prevent agent startup add a NEWRELIC_AGENT_ENABLED=false environment variable or modify the "development" section of your newrelic.yml.
+[04/15/15 01:40:05 -0400 ubuntu (11470)] INFO : Reading configuration from config/newrelic.yml (/home/akalfus/Dropbox/College_Work/Spring_2015/cs105b_arikalfus/nanotwitter)
+[04/15/15 01:40:05 -0400 ubuntu (11470)] INFO : Environment: development
+[04/15/15 01:40:05 -0400 ubuntu (11470)] INFO : No known dispatcher detected.
+[04/15/15 01:40:05 -0400 ubuntu (11470)] INFO : Application: Nano Twitter (Development)
+[04/15/15 01:40:05 -0400 ubuntu (11470)] INFO : Installing Sinatra instrumentation
+[04/15/15 01:40:05 -0400 ubuntu (11470)] INFO : Installing Net instrumentation
+[04/15/15 01:40:05 -0400 ubuntu (11470)] INFO : Installing deferred Rack instrumentation
+[04/15/15 01:40:05 -0400 ubuntu (11470)] INFO : Installing Rack::Builder middleware instrumentation
+[04/15/15 01:40:05 -0400 ubuntu (11470)] INFO : Finished instrumentation
+[04/15/15 01:40:05 -0400 ubuntu (11470)] INFO : Reporting to: https://rpm.newrelic.com/accounts/942489/applications/6129566
+[04/15/15 01:40:18 -0400 ubuntu (11470)] INFO : Doing deferred dependency-detection before Rack startup
+[04/15/15 01:40:18 -0400 ubuntu (11470)] INFO : Installing ActiveRecord 4 instrumentation
+[04/15/15 01:40:19 -0400 ubuntu (11470)] WARN : Skipping RUM instrumentation. Unable to find <body> tag in first 50000 bytes of document.
+[04/15/15 01:41:54 -0400 ubuntu (11470)] WARN : Skipping RUM instrumentation. Unable to find <body> tag in first 50000 bytes of document.
