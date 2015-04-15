@@ -4,7 +4,7 @@
 </div>
 <div class="table-responsive">
   <table class="table table-striped table-hover">
-    <% unless results.empty? %>
+    <% unless results.nil? %>
       <% results.each do |user| %>
         <tr>
           <td>
@@ -13,7 +13,7 @@
         </tr>
       <% end %>
     <% end %>
-    <% if results.empty? %>
+    <% if results.nil? %>
     <tr>
       <td>Search returned no results!</td>
     </tr>

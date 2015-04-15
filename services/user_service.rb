@@ -40,7 +40,7 @@ class UserService
 
   # search Users table for search terms in username or name
   def self.search_for(search_terms)
-    users = User.where(username: search_terms) | User.where(name: search_terms)
+    users = User.where("username LIKE ?", "#{search_terms}%") | User.where("name LIKE ?", "#{search_terms}%")
 
     users.empty? ? nil : users
   end
