@@ -43,23 +43,16 @@ get '/' do
   end
 
   if session[:user] # If user has credentials saved in session cookie (is logged in)
-    user = UserService.get_by_id session[:user]
-    users_to_follow = user.followees
-    followees = users_to_follow.collect { |u| u[:id] }
-    followees.push user[:id] # you should see your own tweets as well
+    erb :logged_root, :locals => { :user => user }
 
-    tweets = TweetService.tweets_by_user_id followees
-
-    erb :logged_root, :locals => { :user => user, :tweets => tweets }
-  elsif session[:login_error]
+  elsif session[:login_error] # if user entered invalid login credentials
     login_error = session[:login_error]
     session[:login_error] = nil
-
     erb :root, :locals => { :login_error => login_error }
-  elsif session[:reg_error]
+
+  elsif session[:reg_error] # if user encountered an error during account registration
     reg_error = session[:reg_error]
     session[:reg_error] = nil
-
     erb :root, :locals => { :reg_error => reg_error }
   else
     erb :root
@@ -81,6 +74,21 @@ end
 get '/nanotwitter/v1.0/tweets' do
   tweets = TweetService.tweets
   erb :feed, :locals => { tweets: tweets }, :layout => false
+end
+
+get 'nanotwitter/v1.0/tweets/followees' do
+  if session[:user]
+    user = UserService.get_by_id session[:user]
+    users_to_follow = user.followees
+    followees = users_to_follow.collect { |u| u[:id] }
+    followees.push user[:id] # you should see your own tweets as well
+
+    tweets = TweetService.tweets_by_user_id followees
+    erb :feed, :locals => { :tweets => tweets }
+  else
+    erb :feed, :locals => {:tweets => [] }, :layout => false
+  end
+
 end
 
 get '/nanotwitter/v1.0/users/:username' do
