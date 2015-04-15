@@ -187,7 +187,7 @@ post '/nanotwitter/v1.0/users/search' do
     else
       search_terms = form[:search]
       users = UserService.search_for search_terms
-      erb users.to_json
+      erb :search_results, :locals => { results: users, search_term: search_terms }
     end
   else
     redirect back
