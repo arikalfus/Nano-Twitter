@@ -84,7 +84,7 @@ get 'nanotwitter/v1.0/tweets/followees' do
     followees.push user[:id] # you should see your own tweets as well
 
     tweets = TweetService.tweets_by_user_id followees
-    erb :feed, :locals => { :tweets => tweets }
+    erb :feed, :locals => { :tweets => tweets }, :layout => false
   else
     erb :feed, :locals => {:tweets => [] }, :layout => false
   end
