@@ -174,23 +174,17 @@ end
 
 # search database for user
 post '/nanotwitter/v1.0/users/search' do
-  unless params[:search].length == 0
+  if params[:search].length == 0
+    redirect back
+  else
     form do # cannot be pulled out into a service due to requirement of formkeeper gem
       filters :strip
       field :search, :present => true
     end
 
-    failures = FormService.validate_search form
-
-    if failures
-      # TODO: do what?
-    else
-      search_terms = form[:search]
-      users = UserService.search_for search_terms
-      erb :search_results, :locals => { results: users, search_term: search_terms }
-    end
-  else
-    redirect back
+    search_terms = form[:search]
+    users        = UserService.search_for search_terms
+    erb :search_results, :locals => { results: users, search_term: search_terms }
   end
 
 end
@@ -217,7 +211,7 @@ end
 post '/nanotwitter/v1.0/users/:username/follow' do
   if session[:user]
     logged_in_user = UserService.get_by_id session[:user]
-    followee = User.find_by_username params[:username]
+    followee = UserService.get_by_username params[:username]
 
     logged_in_user.follow followee
     redirect back
@@ -229,7 +223,7 @@ end
 post '/nanotwitter/v1.0/users/:username/unfollow' do
   if session[:user]
     logged_in_user = UserService.get_by_id session[:user]
-    followee = User.find_by_username params[:username]
+    followee = UserService.get_by_username params[:username]
     logged_in_user.unfollow followee
     redirect back
   else
