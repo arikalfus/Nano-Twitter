@@ -7,13 +7,11 @@ class TweetService
 
   def self.tweets_by_user_id(user_id)
     tweets = Tweet.where(user_id: user_id).limit(100).order created_at: :desc
-
     build_tweets tweets
   end
 
   def self.tweets
     tweets = Tweet.limit(100).order created_at: :desc
-
     build_tweets tweets
   end
 
@@ -33,12 +31,11 @@ class TweetService
   end
 
 
-  # private
+  private
 
   # Constructs an array of [tweet, user] pairs.
   def self.build_tweets(tweets)
 
-    # Construct an array of [tweet, user] pairs.
     user_ids = []
     full_tweets = []
 
