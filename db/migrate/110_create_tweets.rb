@@ -6,6 +6,8 @@ class CreateTweets < ActiveRecord::Migration
       t.string :text
       t.integer :user_id
     end
+
+    add_index :tweets, :created_at
   end
 
   def self.down
