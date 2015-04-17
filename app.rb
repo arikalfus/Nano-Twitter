@@ -75,7 +75,7 @@ end
 # get latest tweets
 get '/nanotwitter/v1.0/tweets' do
   tweets = TweetService.tweets
-  erb :feed, :locals => { tweets: tweets }, :layout => false
+  erb :feed_tweets, :locals => { tweets: tweets }, :layout => false
 end
 
 # get latest tweets from followees of logged in user
@@ -87,14 +87,10 @@ get '/nanotwitter/v1.0/tweets/followees' do
     followees.push user[:id] # you should see your own tweets as well
 
     tweets = TweetService.tweets_by_user_id followees
-    erb :feed, :locals => { :tweets => tweets }, :layout => false
+    erb :feed_tweets, :locals => { :tweets => tweets }, :layout => false
   else
-    erb :feed, :locals => {:tweets => [] }, :layout => false
+    erb :feed_tweets, :locals => {:tweets => [] }, :layout => false
   end
-end
-
-get '/nanotwitter/v1.0/tweets/users/:id' do
-  tweets = TweetService.tweets_by_user_id params[:id]
 end
 
 get '/nanotwitter/v1.0/users/:username' do
