@@ -1547,3 +1547,59 @@
 [04/15/15 18:10:13 -0400 ari-HP-ENVY (11565)] INFO : Doing deferred dependency-detection before Rack startup
 [04/15/15 18:10:13 -0400 ari-HP-ENVY (11565)] INFO : Installing ActiveRecord 4 instrumentation
 [04/15/15 18:10:13 -0400 ari-HP-ENVY (11565)] WARN : Skipping RUM instrumentation. Unable to find <body> tag in first 50000 bytes of document.
+[04/16/15 14:24:13 -0400 ari-HP-ENVY (18068)] INFO : Starting the New Relic agent in "development" environment.
+[04/16/15 14:24:13 -0400 ari-HP-ENVY (18068)] INFO : To prevent agent startup add a NEWRELIC_AGENT_ENABLED=false environment variable or modify the "development" section of your newrelic.yml.
+[04/16/15 14:24:13 -0400 ari-HP-ENVY (18068)] INFO : Reading configuration from config/newrelic.yml (/home/akalfus/Dropbox/College_Work/Spring_2015/cs105b_arikalfus/nanotwitter)
+[04/16/15 14:24:13 -0400 ari-HP-ENVY (18068)] INFO : Environment: development
+[04/16/15 14:24:13 -0400 ari-HP-ENVY (18068)] INFO : No known dispatcher detected.
+[04/16/15 14:24:13 -0400 ari-HP-ENVY (18068)] INFO : Application: Nano Twitter (Development)
+[04/16/15 14:24:13 -0400 ari-HP-ENVY (18068)] INFO : Installing Net instrumentation
+[04/16/15 14:24:13 -0400 ari-HP-ENVY (18068)] INFO : Installing Sinatra instrumentation
+[04/16/15 14:24:13 -0400 ari-HP-ENVY (18068)] INFO : Installing deferred Rack instrumentation
+[04/16/15 14:24:13 -0400 ari-HP-ENVY (18068)] INFO : Installing Rack::Builder middleware instrumentation
+[04/16/15 14:24:13 -0400 ari-HP-ENVY (18068)] INFO : Finished instrumentation
+[04/16/15 14:24:13 -0400 ari-HP-ENVY (18068)] INFO : Reporting to: https://rpm.newrelic.com/accounts/942489/applications/6129566
+[04/16/15 14:24:19 -0400 ari-HP-ENVY (18068)] INFO : Doing deferred dependency-detection before Rack startup
+[04/16/15 14:24:19 -0400 ari-HP-ENVY (18068)] INFO : Installing ActiveRecord 4 instrumentation
+[04/16/15 14:24:20 -0400 ari-HP-ENVY (18068)] WARN : Skipping RUM instrumentation. Unable to find <body> tag in first 50000 bytes of document.
+[04/16/15 14:34:06 -0400 ari-HP-ENVY (18068)] WARN : Skipping RUM instrumentation. Unable to find <body> tag in first 50000 bytes of document.
+[04/16/15 14:52:48 -0400 ari-HP-ENVY (18068)] WARN : Skipping RUM instrumentation. Unable to find <body> tag in first 50000 bytes of document.
+[04/17/15 13:11:59 -0400 Shimons-MacBook-Pro.local (7250)] INFO : Starting the New Relic agent in "development" environment.
+[04/17/15 13:11:59 -0400 Shimons-MacBook-Pro.local (7250)] INFO : To prevent agent startup add a NEWRELIC_AGENT_ENABLED=false environment variable or modify the "development" section of your newrelic.yml.
+[04/17/15 13:11:59 -0400 Shimons-MacBook-Pro.local (7250)] INFO : Reading configuration from config/newrelic.yml (/Users/shimonmazor/Dropbox/cosi105b_ShimonMazor/nanotwitter)
+[04/17/15 13:11:59 -0400 Shimons-MacBook-Pro.local (7250)] INFO : Environment: development
+[04/17/15 13:11:59 -0400 Shimons-MacBook-Pro.local (7250)] INFO : No known dispatcher detected.
+[04/17/15 13:11:59 -0400 Shimons-MacBook-Pro.local (7250)] INFO : Application: Nano Twitter (Development)
+[04/17/15 13:11:59 -0400 Shimons-MacBook-Pro.local (7250)] INFO : Installing Net instrumentation
+[04/17/15 13:11:59 -0400 Shimons-MacBook-Pro.local (7250)] INFO : Installing Sinatra instrumentation
+[04/17/15 13:11:59 -0400 Shimons-MacBook-Pro.local (7250)] INFO : Installing deferred Rack instrumentation
+[04/17/15 13:11:59 -0400 Shimons-MacBook-Pro.local (7250)] INFO : Installing Rack::Builder middleware instrumentation
+[04/17/15 13:11:59 -0400 Shimons-MacBook-Pro.local (7250)] INFO : Finished instrumentation
+[04/17/15 13:12:00 -0400 Shimons-MacBook-Pro.local (7250)] INFO : Starting Agent shutdown
+[04/17/15 13:14:11 -0400 Shimons-MacBook-Pro.local (7370)] INFO : Starting the New Relic agent in "development" environment.
+[04/17/15 13:14:11 -0400 Shimons-MacBook-Pro.local (7370)] INFO : To prevent agent startup add a NEWRELIC_AGENT_ENABLED=false environment variable or modify the "development" section of your newrelic.yml.
+[04/17/15 13:14:11 -0400 Shimons-MacBook-Pro.local (7370)] INFO : Reading configuration from config/newrelic.yml (/Users/shimonmazor/Dropbox/cosi105b_ShimonMazor/nanotwitter)
+[04/17/15 13:14:11 -0400 Shimons-MacBook-Pro.local (7370)] INFO : Environment: development
+[04/17/15 13:14:11 -0400 Shimons-MacBook-Pro.local (7370)] INFO : No known dispatcher detected.
+[04/17/15 13:14:11 -0400 Shimons-MacBook-Pro.local (7370)] INFO : Application: Nano Twitter (Development)
+[04/17/15 13:14:11 -0400 Shimons-MacBook-Pro.local (7370)] INFO : Installing Net instrumentation
+[04/17/15 13:14:11 -0400 Shimons-MacBook-Pro.local (7370)] INFO : Installing Sinatra instrumentation
+[04/17/15 13:14:11 -0400 Shimons-MacBook-Pro.local (7370)] INFO : Installing deferred Rack instrumentation
+[04/17/15 13:14:11 -0400 Shimons-MacBook-Pro.local (7370)] INFO : Installing Rack::Builder middleware instrumentation
+[04/17/15 13:14:11 -0400 Shimons-MacBook-Pro.local (7370)] INFO : Finished instrumentation
+[04/17/15 13:14:11 -0400 Shimons-MacBook-Pro.local (7370)] INFO : Starting Agent shutdown
+[04/17/15 13:18:33 -0400 Shimons-MacBook-Pro.local (7531)] INFO : Starting the New Relic agent in "development" environment.
+[04/17/15 13:18:33 -0400 Shimons-MacBook-Pro.local (7531)] INFO : To prevent agent startup add a NEWRELIC_AGENT_ENABLED=false environment variable or modify the "development" section of your newrelic.yml.
+[04/17/15 13:18:33 -0400 Shimons-MacBook-Pro.local (7531)] INFO : Reading configuration from config/newrelic.yml (/Users/shimonmazor/Dropbox/cosi105b_ShimonMazor/nanotwitter)
+[04/17/15 13:18:33 -0400 Shimons-MacBook-Pro.local (7531)] INFO : Environment: development
+[04/17/15 13:18:33 -0400 Shimons-MacBook-Pro.local (7531)] INFO : No known dispatcher detected.
+[04/17/15 13:18:33 -0400 Shimons-MacBook-Pro.local (7531)] INFO : Application: Nano Twitter (Development)
+[04/17/15 13:18:33 -0400 Shimons-MacBook-Pro.local (7531)] INFO : Installing Net instrumentation
+[04/17/15 13:18:33 -0400 Shimons-MacBook-Pro.local (7531)] INFO : Installing Sinatra instrumentation
+[04/17/15 13:18:33 -0400 Shimons-MacBook-Pro.local (7531)] INFO : Installing deferred Rack instrumentation
+[04/17/15 13:18:33 -0400 Shimons-MacBook-Pro.local (7531)] INFO : Installing Rack::Builder middleware instrumentation
+[04/17/15 13:18:33 -0400 Shimons-MacBook-Pro.local (7531)] INFO : Finished instrumentation
+[04/17/15 13:18:34 -0400 Shimons-MacBook-Pro.local (7531)] INFO : Reporting to: https://rpm.newrelic.com/accounts/942489/applications/6129566
+[04/17/15 13:18:39 -0400 Shimons-MacBook-Pro.local (7531)] INFO : Doing deferred dependency-detection before Rack startup
+[04/17/15 13:18:39 -0400 Shimons-MacBook-Pro.local (7531)] INFO : Installing ActiveRecord 4 instrumentation
+[04/17/15 13:18:40 -0400 Shimons-MacBook-Pro.local (7531)] WARN : Skipping RUM instrumentation. Unable to find <body> tag in first 50000 bytes of document.
