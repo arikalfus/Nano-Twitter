@@ -93,6 +93,10 @@ get '/nanotwitter/v1.0/tweets/followees' do
   end
 end
 
+get '/nanotwitter/v1.0/tweets/users/:id' do
+  tweets = TweetService.tweets_by_user_id params[:id]
+end
+
 get '/nanotwitter/v1.0/users/:username' do
   user = UserService.get_by_username params[:username]
 
