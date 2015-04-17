@@ -18,6 +18,9 @@
         <button class="close" data-dismiss="alert" aria-label="close"><span aria-hidden="true">&times;</span></button>
       </div>
     <% end %>
+
+    <%= erb :search_bar %>
+
     <span class="pull-left">
       <h1>Nano Twitter <small>Team Hummus and Pitas: Ari Kalfus, Shimon Mazor, Aviv Glick, Toby Gray</small></h1>
     </span>
@@ -28,7 +31,16 @@
   </div>
 </div>
 
-<%= erb :feed, :locals => { :tweets => tweets } %>
+<!-- Div content is replaced by tweet feed by AJAX call -->
+<div id="tweet-feed">
+  Tweets
+  <div class="table-responsive">
+    <table class="table table-striped table-hover">
+      <tr><td class="text-center">Getting the latest tweets, just for you. Please wait...</td></tr>
+    </table>
+  </div>
+</div>
+
 
 <!-- Login/Register modal -->
 <div class="modal fade" id="loginModal" aria-hidden="true" role="dialog">
@@ -74,8 +86,8 @@
   </div>
 </div>
 
-<!-- To open/close login/register modal -->
 <script type="text/javascript">
+  // To open/close login/register modal
   $("#register-button").click(function() {
     $("#login-form").hide();
     $("#register-form").show();
@@ -84,5 +96,14 @@
   $("#login-button").click(function() {
     $("#login-form").show();
     $("#register-form").hide();
+  });
+
+  // To load tweets
+  $.ajax({
+    url:"/nanotwitter/v1.0/tweets",
+    cache: false,
+    success: function(html) {
+      $("#tweet-feed").html(html);
+    }
   });
 </script>

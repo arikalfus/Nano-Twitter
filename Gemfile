@@ -15,6 +15,7 @@ group :development, :test do
   gem 'sqlite3'
   gem 'rack-test'
   gem 'minitest'
+  gem 'pry-byebug'
 end
 
 group :production do
