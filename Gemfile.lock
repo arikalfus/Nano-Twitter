@@ -16,8 +16,12 @@ GEM
       tzinfo (~> 1.1)
     arel (6.0.0)
     builder (3.2.2)
+    byebug (4.0.5)
+      columnize (= 0.9.0)
     celluloid (0.16.0)
       timers (~> 4.0.0)
+    coderay (1.1.0)
+    columnize (0.9.0)
     ffi (1.9.8)
     formkeeper (0.0.14)
       hpricot
@@ -30,9 +34,17 @@ GEM
       celluloid (~> 0.16.0)
       rb-fsevent (>= 0.9.3)
       rb-inotify (>= 0.9)
+    method_source (0.8.2)
     minitest (5.5.1)
     newrelic_rpm (3.11.1.284)
     pg (0.18.1)
+    pry (0.10.1)
+      coderay (~> 1.1.0)
+      method_source (~> 0.8.1)
+      slop (~> 3.4)
+    pry-byebug (3.1.0)
+      byebug (~> 4.0)
+      pry (~> 0.10)
     rack (1.6.0)
     rack-protection (1.5.3)
       rack
@@ -55,6 +67,7 @@ GEM
       hpricot
       rack
       sinatra
+    slop (3.6.0)
     sqlite3 (1.3.10)
     thread_safe (0.3.5)
     tilt (2.0.1)
@@ -72,6 +85,7 @@ DEPENDENCIES
   minitest
   newrelic_rpm
   pg
+  pry-byebug
   rack-test
   rerun
   sinatra

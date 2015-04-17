@@ -1,20 +1,36 @@
-    require 'sinatra'
+require 'sinatra'
+require 'tilt/erb'
+require 'newrelic_rpm'
 require 'sinatra/activerecord'
 require 'sinatra/formkeeper'
 require 'json'
 
-require_relative 'user_service'
-require_relative 'tweet_service'
-require_relative 'form_service'
+require_relative 'services/user_service'
+require_relative 'services/tweet_service'
+require_relative 'services/form_service'
 require_relative 'models/follow'
 
-set :port, 3765
-set :public_folder, File.dirname(__FILE__) + '/static'
-enable :sessions
-set :session_secret, '48fa3729hf0219f4rfbf39hf2'
+# Configure server environment
+configure do
 
-get '/loaderio-7b84b69492913d259b5266ab9f52dea7.txt' do
-  send_file '/loaderio-7b84b69492913d259b5266ab9f52dea7X.txt'
+  env = ENV['SINATRA_ENV'] || 'development'
+  databases = YAML.load(ERB.new(File.read('config/database.yml')).result)
+  ActiveRecord::Base.establish_connection databases[env]
+
+  set :port, 3765
+  set :public_folder, File.dirname(__FILE__) + '/static'
+  enable :sessions
+  set :session_secret, '48fa3729hf0219f4rfbf39hf2'
+end
+
+# for load testing with Loader.io
+get '/loaderio-7b84b69492913d259b5266ab9f52dea7/' do
+  send_file File.new 'loaderio-7b84b69492913d259b5266ab9f52dea7.txt'
+end
+
+# for Pito's load testing
+get '/loaderio-7075d4380f6f2dacc9025ebdc486490d/' do
+	send_file File.new 'loaderio-7075d4380f6f2dacc9025ebdc486490d.txt'
 end
 
 get '/' do
@@ -23,52 +39,58 @@ get '/' do
     # If cookie is out of date, delete it.
     user = UserService.get_by_id session[:user]
     unless user
-        session.clear
+      session.clear
     end
   end
 
   if session[:user] # If user has credentials saved in session cookie (is logged in)
-    user = UserService.get_by_id session[:user]
-    users_to_follow = user.followees
-    followees = users_to_follow.collect { |u| u[:id] }
-    followees.push user[:id] # you should see your own tweets as well
+    erb :logged_root, :locals => { :user => user }
 
-    tweets = TweetService.tweets_by_user_id followees
-
-    erb :logged_root, :locals => { :user => user, :tweets => tweets }
-  elsif session[:login_error]
-    tweets = TweetService.tweets
-
+  elsif session[:login_error] # if user entered invalid login credentials
     login_error = session[:login_error]
     session[:login_error] = nil
+    erb :root, :locals => { :login_error => login_error }
 
-    erb :root, :locals => { :tweets => tweets, :login_error => login_error }
-  elsif session[:reg_error]
-    tweets = TweetService.tweets
-
+  elsif session[:reg_error] # if user encountered an error during account registration
     reg_error = session[:reg_error]
     session[:reg_error] = nil
-
-    erb :root, :locals => { :tweets => tweets, :reg_error => reg_error }
+    erb :root, :locals => { :reg_error => reg_error }
   else
-    tweets = TweetService.tweets
-
-    erb :root, :locals => { :tweets => tweets }
+    erb :root
   end
 end
 
 get '/logout' do
   redirect to '/nanotwitter/v1.0/logout' unless session[:user].nil?
 
-  tweets = TweetService.tweets
-
-  erb :root, :locals => { :tweets => tweets, :logout => true }
+  erb :root, :locals => { :logout => true }
 end
 
 # logout and delete session cookie
 get '/nanotwitter/v1.0/logout' do
   session[:user] = nil
   redirect to '/logout'
+end
+
+# get latest tweets
+get '/nanotwitter/v1.0/tweets' do
+  tweets = TweetService.tweets
+  erb :feed, :locals => { tweets: tweets }, :layout => false
+end
+
+# get latest tweets from followees of logged in user
+get '/nanotwitter/v1.0/tweets/followees' do
+  if session[:user]
+    user = UserService.get_by_id session[:user]
+    users_to_follow = user.followees
+    followees = users_to_follow.collect { |u| u[:id] }
+    followees.push user[:id] # you should see your own tweets as well
+
+    tweets = TweetService.tweets_by_user_id followees
+    erb :feed, :locals => { :tweets => tweets }, :layout => false
+  else
+    erb :feed, :locals => {:tweets => [] }, :layout => false
+  end
 end
 
 get '/nanotwitter/v1.0/users/:username' do
@@ -119,7 +141,7 @@ end
 # create a new user
 post '/nanotwitter/v1.0/users' do
 
-  form do # Cannot be pulled out into a service - requirement of formkeeper gem
+  form do # Cannot be pulled out into a service due to requirement of formkeeper gem
     filters :strip
     field :name, :present => true, :alpha_space => true
     field :email, :present => true, :email => true
@@ -150,6 +172,23 @@ post '/nanotwitter/v1.0/users' do
   end
 end
 
+# search database for user
+post '/nanotwitter/v1.0/users/search' do
+  if params[:search].length == 0
+    redirect back
+  else
+    form do # cannot be pulled out into a service due to requirement of formkeeper gem
+      filters :strip
+      field :search, :present => true
+    end
+
+    search_terms = form[:search]
+    users        = UserService.search_for search_terms
+    erb :search_results, :locals => { results: users, search_term: search_terms }
+  end
+
+end
+
 post '/nanotwitter/v1.0/users/id/:id/tweet' do
     TweetService.new({ text: params[:tweet],
                 user_id: params[:id]
@@ -172,7 +211,7 @@ end
 post '/nanotwitter/v1.0/users/:username/follow' do
   if session[:user]
     logged_in_user = UserService.get_by_id session[:user]
-    followee = User.find_by_username params[:username]
+    followee = UserService.get_by_username params[:username]
 
     logged_in_user.follow followee
     redirect back
@@ -184,7 +223,7 @@ end
 post '/nanotwitter/v1.0/users/:username/unfollow' do
   if session[:user]
     logged_in_user = UserService.get_by_id session[:user]
-    followee = User.find_by_username params[:username]
+    followee = UserService.get_by_username params[:username]
     logged_in_user.unfollow followee
     redirect back
   else
