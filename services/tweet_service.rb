@@ -7,60 +7,12 @@ class TweetService
 
   def self.tweets_by_user_id(user_id)
     tweets = Tweet.where(user_id: user_id).limit(100).order created_at: :desc
-    full_tweets = []
-    user_ids = []
-
-    tweets.each do |tweet|
-      user_ids.push tweet[:user_id]
-    end
-    users = UserService.get_by_ids user_ids
-
-    tweets.each do |tweet|
-      tweet_user = nil
-      users.each do |user|
-        if user[:id] == tweet[:user_id]
-          tweet_user = user
-        end
-      end
-      Tweet.destroy(tweet[:id]) if tweet_user.nil?
-      # verify_tweet tweet_user, tweet, full_tweets
-      full_tweets.push [tweet, tweet_user]
-    end
-
-    full_tweets
+    build_tweets tweets
   end
 
   def self.tweets
     tweets = Tweet.limit(100).order created_at: :desc
-    full_tweets = []
-    user_ids = []
-
-    tweets.each do |tweet|
-      user_ids.push tweet[:user_id]
-    end
-    users = UserService.get_by_ids user_ids
-
-    user_hash = Hash.new
-    users.each do |user|
-      user_hash[user[:id]] = user
-    end
-
-    tweets.each do |tweet|
-      tweet_user = nil
-      # users.each do |user|
-      #   if user[:id] == tweet[:user_id]
-      #     tweet_user = user
-      #   end
-      # end
-      tweet_user = user_hash[tweet[:user_id]]
-      if tweet_user.nil?
-        Tweet.destroy(tweet[:id])
-      else
-        full_tweets.push [tweet, tweet_user]
-      end
-    end
-
-    full_tweets
+    build_tweets tweets
   end
 
   def self.new(params)
@@ -81,14 +33,35 @@ class TweetService
 
   private
 
-# Verifies a tweet's user is valid.
-  def self.verify_tweet(user, tweet, array)
-    if user
-      array.push [tweet, user]
-    else
-      # Kill a tweet if it belongs to a user that no longer exists
-      Tweet.destroy tweet[:id]
+  # Constructs an array of [tweet, user] pairs.
+  def self.build_tweets(tweets)
+
+    user_ids = []
+    full_tweets = []
+
+    tweets.each do |tweet|
+      user_ids.push tweet[:user_id]
     end
+    # multi-get database call
+    users = UserService.get_by_ids user_ids
+
+    # To optimize full_tweet creation below
+    user_hash = Hash.new
+    users.each do |user|
+      user_hash[user[:id]] = user
+    end
+
+    tweets.each do |tweet|
+      tweet_user = user_hash[tweet[:user_id]] # should return nil if no key is found
+      if tweet_user.nil?
+        Tweet.destroy(tweet[:id])
+      else
+        full_tweets.push [tweet, tweet_user]
+      end
+    end
+
+    full_tweets
+
   end
 
 end
