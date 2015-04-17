@@ -1,5 +1,6 @@
 <div class="page-header">
   <div class="container-fluid">
+    <%= erb :search_bar %>
     <span class="pull-left">
       <img src=<%= user[:image] %> alt="avatar" class="img-thumbnail" style="width:150px;height:150px">
     </span>
@@ -12,8 +13,17 @@
     </span>
   </div>
 </div>
+
 <%= erb :tweet, :locals => {:user => user } %>
-<%= erb :feed, :locals => { :tweets => tweets } %>
+<!-- Div content is replaced by tweet feed by AJAX call -->
+<div id="logged-tweet-feed">
+  Tweets
+  <div class="table-responsive">
+    <table class="table table-striped table-hover">
+      <tr><td class="text-center">Getting the latest tweets, just for you. Please wait...</td></tr>
+    </table>
+  </div>
+</div>
 
 <div class="modal fade" id="logout-confirm-modal" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-sm">
@@ -29,3 +39,14 @@
     </div>
   </div>
 </div>
+
+<script type="text/javascript">
+  // To load tweets
+  $.ajax({
+    url:"/nanotwitter/v1.0/tweets/followees",
+    cache: false,
+    success: function(html) {
+      $("#logged-tweet-feed").html(html);
+    }
+  });
+</script>
