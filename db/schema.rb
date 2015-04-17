@@ -38,6 +38,8 @@ ActiveRecord::Schema.define(version: 109) do
     t.integer  "user_id"
   end
 
+  add_index "tweets", ["created_at"], name: "index_tweets_on_created_at"
+
   create_table "users", force: :cascade do |t|
     t.string   "name"
     t.string   "email"

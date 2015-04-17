@@ -7,7 +7,7 @@ class CreateTweets < ActiveRecord::Migration
       t.integer :user_id
     end
 
-    add_index :tweets, :created_at
+    add_index :tweets, :created_at, order: {created_at: :desc}
   end
 
   def self.down
