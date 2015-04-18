@@ -4,10 +4,12 @@ require 'newrelic_rpm'
 require 'sinatra/activerecord'
 require 'sinatra/formkeeper'
 require 'json'
+require 'faker'
 
 require_relative 'services/user_service'
 require_relative 'services/tweet_service'
 require_relative 'services/form_service'
+require_relative 'services/load_test_service'
 require_relative 'models/follow'
 
 # Configure server environment
@@ -231,6 +233,7 @@ post '/nanotwitter/v1.0/users/:username/unfollow' do
   end
 end
 
+<<<<<<< HEAD
 post '/test_tweet' do
   test_user = UserService.get_by_username "test_user"
   TweetService.new({ text: Faker::Hacker.say_something_smart,
@@ -238,6 +241,19 @@ post '/test_tweet' do
             })
 end
 
+=======
+get '/test_tweet' do 
+  LoadTestService.test_tweet
+end
+
+get '/test_follow' do
+  LoadTestService.test_follow
+end
+
+get '/reset' do
+  LoadTestService.reset
+end
+>>>>>>> master
 
 # update an existing user by table id
 #put '/nanotwitter/v1.0/users/id/:id' do
