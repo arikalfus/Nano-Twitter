@@ -4,10 +4,12 @@ require 'newrelic_rpm'
 require 'sinatra/activerecord'
 require 'sinatra/formkeeper'
 require 'json'
+require 'faker'
 
 require_relative 'services/user_service'
 require_relative 'services/tweet_service'
 require_relative 'services/form_service'
+require_relative 'services/load_test_service'
 require_relative 'models/follow'
 
 # Configure server environment
@@ -207,7 +209,7 @@ post '/nanotwitter/v1.0/users/session' do
   redirect to '/'
 end
 
-# udpate an existing user using follow functions.
+# add a followee to a user.
 post '/nanotwitter/v1.0/users/:username/follow' do
   if session[:user]
     logged_in_user = UserService.get_by_id session[:user]
@@ -220,6 +222,7 @@ post '/nanotwitter/v1.0/users/:username/follow' do
   end
 end
 
+# remove a followee from a user.
 post '/nanotwitter/v1.0/users/:username/unfollow' do
   if session[:user]
     logged_in_user = UserService.get_by_id session[:user]
@@ -229,4 +232,16 @@ post '/nanotwitter/v1.0/users/:username/unfollow' do
   else
     error 401, { :error => 'must be logged in to access' }.to_json # must be logged in to access
   end
+end
+
+get '/test_tweet' do 
+  LoadTestService.test_tweet
+end
+
+get '/test_follow' do
+  LoadTestService.test_follow
+end
+
+get '/reset' do
+  LoadTestService.reset
 end
