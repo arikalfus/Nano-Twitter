@@ -8,8 +8,7 @@ gem 'sinatra-activerecord'
 gem 'sinatra-formkeeper'
 gem 'json'
 gem 'newrelic_rpm'
-# gem 'memcachier'
-# gem 'dalli' # memcached ruby client
+gem 'faker'
 
 group :development, :test do
   gem 'sqlite3'
