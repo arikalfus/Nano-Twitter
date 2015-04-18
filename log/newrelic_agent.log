@@ -1684,3 +1684,19 @@
 [04/17/15 13:20:40 -0400 Shimons-MacBook-Pro.local (7873)] INFO : Installing Rack::Builder middleware instrumentation
 [04/17/15 13:20:40 -0400 Shimons-MacBook-Pro.local (7873)] INFO : Finished instrumentation
 [04/17/15 13:20:40 -0400 Shimons-MacBook-Pro.local (7873)] INFO : Reporting to: https://rpm.newrelic.com/accounts/942489/applications/6129566
+[04/18/15 14:55:10 -0400 toby-HP-Pavilion-dv6-Notebook-PC (3141)] INFO : Starting the New Relic agent in "development" environment.
+[04/18/15 14:55:10 -0400 toby-HP-Pavilion-dv6-Notebook-PC (3141)] INFO : To prevent agent startup add a NEWRELIC_AGENT_ENABLED=false environment variable or modify the "development" section of your newrelic.yml.
+[04/18/15 14:55:10 -0400 toby-HP-Pavilion-dv6-Notebook-PC (3141)] INFO : Reading configuration from config/newrelic.yml (/home/toby/Dropbox/cs105_TobyGray/Nano-Twitter)
+[04/18/15 14:55:10 -0400 toby-HP-Pavilion-dv6-Notebook-PC (3141)] INFO : Environment: development
+[04/18/15 14:55:10 -0400 toby-HP-Pavilion-dv6-Notebook-PC (3141)] INFO : No known dispatcher detected.
+[04/18/15 14:55:10 -0400 toby-HP-Pavilion-dv6-Notebook-PC (3141)] INFO : Application: Nano Twitter (Development)
+[04/18/15 14:55:10 -0400 toby-HP-Pavilion-dv6-Notebook-PC (3141)] INFO : Installing deferred Rack instrumentation
+[04/18/15 14:55:10 -0400 toby-HP-Pavilion-dv6-Notebook-PC (3141)] INFO : Installing Rack::Builder middleware instrumentation
+[04/18/15 14:55:10 -0400 toby-HP-Pavilion-dv6-Notebook-PC (3141)] INFO : Installing Sinatra instrumentation
+[04/18/15 14:55:10 -0400 toby-HP-Pavilion-dv6-Notebook-PC (3141)] INFO : Installing Net instrumentation
+[04/18/15 14:55:10 -0400 toby-HP-Pavilion-dv6-Notebook-PC (3141)] INFO : Finished instrumentation
+[04/18/15 14:55:15 -0400 toby-HP-Pavilion-dv6-Notebook-PC (3141)] INFO : Reporting to: https://rpm.newrelic.com/accounts/942489/applications/6129566
+[04/18/15 14:55:17 -0400 toby-HP-Pavilion-dv6-Notebook-PC (3141)] INFO : Doing deferred dependency-detection before Rack startup
+[04/18/15 14:55:17 -0400 toby-HP-Pavilion-dv6-Notebook-PC (3141)] INFO : Installing ActiveRecord 4 instrumentation
+[04/18/15 14:55:21 -0400 toby-HP-Pavilion-dv6-Notebook-PC (3141)] WARN : Skipping RUM instrumentation. Unable to find <body> tag in first 50000 bytes of document.
+[04/18/15 14:57:00 -0400 toby-HP-Pavilion-dv6-Notebook-PC (3141)] WARN : Skipping RUM instrumentation. Unable to find <body> tag in first 50000 bytes of document.
