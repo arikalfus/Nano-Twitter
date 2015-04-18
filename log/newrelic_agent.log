@@ -1564,3 +1564,17 @@
 [04/16/15 14:24:20 -0400 ari-HP-ENVY (18068)] WARN : Skipping RUM instrumentation. Unable to find <body> tag in first 50000 bytes of document.
 [04/16/15 14:34:06 -0400 ari-HP-ENVY (18068)] WARN : Skipping RUM instrumentation. Unable to find <body> tag in first 50000 bytes of document.
 [04/16/15 14:52:48 -0400 ari-HP-ENVY (18068)] WARN : Skipping RUM instrumentation. Unable to find <body> tag in first 50000 bytes of document.
+[04/18/15 11:31:09 -0400 toby-HP-Pavilion-dv6-Notebook-PC (2962)] INFO : Starting the New Relic agent in "development" environment.
+[04/18/15 11:31:09 -0400 toby-HP-Pavilion-dv6-Notebook-PC (2962)] INFO : To prevent agent startup add a NEWRELIC_AGENT_ENABLED=false environment variable or modify the "development" section of your newrelic.yml.
+[04/18/15 11:31:09 -0400 toby-HP-Pavilion-dv6-Notebook-PC (2962)] INFO : Reading configuration from config/newrelic.yml (/home/toby/Dropbox/cs105_TobyGray/Nano-Twitter)
+[04/18/15 11:31:09 -0400 toby-HP-Pavilion-dv6-Notebook-PC (2962)] INFO : Environment: development
+[04/18/15 11:31:09 -0400 toby-HP-Pavilion-dv6-Notebook-PC (2962)] INFO : No known dispatcher detected.
+[04/18/15 11:31:09 -0400 toby-HP-Pavilion-dv6-Notebook-PC (2962)] INFO : Application: Nano Twitter (Development)
+[04/18/15 11:31:10 -0400 toby-HP-Pavilion-dv6-Notebook-PC (2962)] INFO : Installing deferred Rack instrumentation
+[04/18/15 11:31:10 -0400 toby-HP-Pavilion-dv6-Notebook-PC (2962)] INFO : Installing Rack::Builder middleware instrumentation
+[04/18/15 11:31:10 -0400 toby-HP-Pavilion-dv6-Notebook-PC (2962)] INFO : Installing Sinatra instrumentation
+[04/18/15 11:31:10 -0400 toby-HP-Pavilion-dv6-Notebook-PC (2962)] INFO : Installing Net instrumentation
+[04/18/15 11:31:10 -0400 toby-HP-Pavilion-dv6-Notebook-PC (2962)] INFO : Finished instrumentation
+[04/18/15 11:31:16 -0400 toby-HP-Pavilion-dv6-Notebook-PC (2962)] INFO : Reporting to: https://rpm.newrelic.com/accounts/942489/applications/6129566
+[04/18/15 11:31:17 -0400 toby-HP-Pavilion-dv6-Notebook-PC (2962)] INFO : Doing deferred dependency-detection before Rack startup
+[04/18/15 11:31:17 -0400 toby-HP-Pavilion-dv6-Notebook-PC (2962)] INFO : Installing ActiveRecord 4 instrumentation
