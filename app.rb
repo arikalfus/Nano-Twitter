@@ -231,6 +231,14 @@ post '/nanotwitter/v1.0/users/:username/unfollow' do
   end
 end
 
+post '/test_tweet' do
+  test_user = UserService.get_by_username "test_user"
+  TweetService.new({ text: Faker::Hacker.say_something_smart,
+              user_id: test_user[:id]
+            })
+end
+
+
 # update an existing user by table id
 #put '/nanotwitter/v1.0/users/id/:id' do
 #  user = UserService.get_by_id params[:id]

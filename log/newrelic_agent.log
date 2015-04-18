@@ -1648,3 +1648,30 @@
 [04/18/15 11:35:17 -0400 toby-HP-Pavilion-dv6-Notebook-PC (3521)] INFO : Reporting to: https://rpm.newrelic.com/accounts/942489/applications/6129566
 [04/18/15 11:35:18 -0400 toby-HP-Pavilion-dv6-Notebook-PC (3521)] INFO : Doing deferred dependency-detection before Rack startup
 [04/18/15 11:35:18 -0400 toby-HP-Pavilion-dv6-Notebook-PC (3521)] INFO : Installing ActiveRecord 4 instrumentation
+[04/18/15 11:39:30 -0400 toby-HP-Pavilion-dv6-Notebook-PC (7597)] INFO : Starting the New Relic agent in "development" environment.
+[04/18/15 11:39:30 -0400 toby-HP-Pavilion-dv6-Notebook-PC (7597)] INFO : To prevent agent startup add a NEWRELIC_AGENT_ENABLED=false environment variable or modify the "development" section of your newrelic.yml.
+[04/18/15 11:39:30 -0400 toby-HP-Pavilion-dv6-Notebook-PC (7597)] INFO : Reading configuration from config/newrelic.yml (/home/toby/Dropbox/cs105_TobyGray/Nano-Twitter)
+[04/18/15 11:39:30 -0400 toby-HP-Pavilion-dv6-Notebook-PC (7597)] INFO : Environment: development
+[04/18/15 11:39:30 -0400 toby-HP-Pavilion-dv6-Notebook-PC (7597)] INFO : No known dispatcher detected.
+[04/18/15 11:39:30 -0400 toby-HP-Pavilion-dv6-Notebook-PC (7597)] INFO : Application: Nano Twitter (Development)
+[04/18/15 11:39:30 -0400 toby-HP-Pavilion-dv6-Notebook-PC (7597)] INFO : Installing deferred Rack instrumentation
+[04/18/15 11:39:30 -0400 toby-HP-Pavilion-dv6-Notebook-PC (7597)] INFO : Installing Rack::Builder middleware instrumentation
+[04/18/15 11:39:30 -0400 toby-HP-Pavilion-dv6-Notebook-PC (7597)] INFO : Installing Sinatra instrumentation
+[04/18/15 11:39:30 -0400 toby-HP-Pavilion-dv6-Notebook-PC (7597)] INFO : Installing Net instrumentation
+[04/18/15 11:39:30 -0400 toby-HP-Pavilion-dv6-Notebook-PC (7597)] INFO : Finished instrumentation
+[04/18/15 11:39:31 -0400 toby-HP-Pavilion-dv6-Notebook-PC (7597)] INFO : Reporting to: https://rpm.newrelic.com/accounts/942489/applications/6129566
+[04/18/15 11:39:39 -0400 toby-HP-Pavilion-dv6-Notebook-PC (7597)] INFO : Doing deferred dependency-detection before Rack startup
+[04/18/15 11:39:39 -0400 toby-HP-Pavilion-dv6-Notebook-PC (7597)] INFO : Installing ActiveRecord 4 instrumentation
+[04/18/15 11:52:45 -0400 toby-HP-Pavilion-dv6-Notebook-PC (926)] INFO : Starting the New Relic agent in "development" environment.
+[04/18/15 11:52:45 -0400 toby-HP-Pavilion-dv6-Notebook-PC (926)] INFO : To prevent agent startup add a NEWRELIC_AGENT_ENABLED=false environment variable or modify the "development" section of your newrelic.yml.
+[04/18/15 11:52:45 -0400 toby-HP-Pavilion-dv6-Notebook-PC (926)] INFO : Reading configuration from config/newrelic.yml (/home/toby/Dropbox/cs105_TobyGray/Nano-Twitter)
+[04/18/15 11:52:45 -0400 toby-HP-Pavilion-dv6-Notebook-PC (926)] INFO : Environment: development
+[04/18/15 11:52:45 -0400 toby-HP-Pavilion-dv6-Notebook-PC (926)] INFO : No known dispatcher detected.
+[04/18/15 11:52:45 -0400 toby-HP-Pavilion-dv6-Notebook-PC (926)] INFO : Application: Nano Twitter (Development)
+[04/18/15 11:52:45 -0400 toby-HP-Pavilion-dv6-Notebook-PC (926)] INFO : Installing deferred Rack instrumentation
+[04/18/15 11:52:45 -0400 toby-HP-Pavilion-dv6-Notebook-PC (926)] INFO : Installing Rack::Builder middleware instrumentation
+[04/18/15 11:52:45 -0400 toby-HP-Pavilion-dv6-Notebook-PC (926)] INFO : Installing Sinatra instrumentation
+[04/18/15 11:52:45 -0400 toby-HP-Pavilion-dv6-Notebook-PC (926)] INFO : Installing Net instrumentation
+[04/18/15 11:52:45 -0400 toby-HP-Pavilion-dv6-Notebook-PC (926)] INFO : Finished instrumentation
+[04/18/15 11:52:56 -0400 toby-HP-Pavilion-dv6-Notebook-PC (926)] INFO : Doing deferred dependency-detection before Rack startup
+[04/18/15 11:52:56 -0400 toby-HP-Pavilion-dv6-Notebook-PC (926)] INFO : Installing ActiveRecord 4 instrumentation
