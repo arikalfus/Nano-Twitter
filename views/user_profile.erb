@@ -8,4 +8,22 @@
   </div>
 </div>
 
-<%= erb :feed_followees, :locals => { :users => users } %>
+<div id="followee-feed">
+  Tweets
+  <div class="table-responsive">
+    <table class="table table-striped table-hover">
+      <tr><td class="text-center">Getting the users you are following. Please wait...</td></tr>
+    </table>
+  </div>
+</div>
+
+<script type="text/javascript">
+  // To load followees
+  $.ajax({
+    url:"/nanotwitter/v1.0/users/followees",
+    cache: false,
+    success: function(html) {
+      $("#followee-feed").html(html);
+    }
+  });
+</script>
