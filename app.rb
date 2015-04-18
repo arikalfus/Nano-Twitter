@@ -4,6 +4,7 @@ require 'newrelic_rpm'
 require 'sinatra/activerecord'
 require 'sinatra/formkeeper'
 require 'json'
+require 'faker'
 
 require_relative 'services/user_service'
 require_relative 'services/tweet_service'
@@ -106,6 +107,20 @@ get '/nanotwitter/v1.0/users/followees' do
   else
     erb :feed_followees, :locals => { :users => [] }, :layout => false
   end
+end
+
+get '/reset' do
+  user = UserService.get_by_username 'test_user'
+  user.tweets.destroy_all
+  user.followees.destroy_all
+end
+
+get '/test_tweet' do
+  test_user = UserService.get_by_username "test_user"
+  TweetService.new({  text: Faker::Hacker.say_something_smart,
+                      user_id: test_user[:id]
+                  })
+  redirect back
 end
 
 

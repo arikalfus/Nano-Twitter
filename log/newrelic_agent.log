@@ -1646,3 +1646,362 @@
 [04/18/15 11:41:14 -0400 Avivs-MacBook-Pro.local (3045)] INFO : Doing deferred dependency-detection before Rack startup
 [04/18/15 11:41:14 -0400 Avivs-MacBook-Pro.local (3045)] INFO : Installing ActiveRecord 4 instrumentation
 [04/18/15 11:41:15 -0400 Avivs-MacBook-Pro.local (3045)] WARN : Skipping RUM instrumentation. Unable to find <body> tag in first 50000 bytes of document.
+[04/18/15 12:07:34 -0400 Avivs-MacBook-Pro.local (3486)] INFO : Starting the New Relic agent in "development" environment.
+[04/18/15 12:07:34 -0400 Avivs-MacBook-Pro.local (3486)] INFO : To prevent agent startup add a NEWRELIC_AGENT_ENABLED=false environment variable or modify the "development" section of your newrelic.yml.
+[04/18/15 12:07:34 -0400 Avivs-MacBook-Pro.local (3486)] INFO : Reading configuration from config/newrelic.yml (/Users/avivgl/Desktop/Nano-Twitter)
+[04/18/15 12:07:34 -0400 Avivs-MacBook-Pro.local (3486)] INFO : Environment: development
+[04/18/15 12:07:34 -0400 Avivs-MacBook-Pro.local (3486)] INFO : No known dispatcher detected.
+[04/18/15 12:07:34 -0400 Avivs-MacBook-Pro.local (3486)] INFO : Application: Nano Twitter (Development)
+[04/18/15 12:07:35 -0400 Avivs-MacBook-Pro.local (3486)] INFO : Reporting to: https://rpm.newrelic.com/accounts/942489/applications/6129566
+[04/18/15 12:07:35 -0400 Avivs-MacBook-Pro.local (3486)] INFO : Installing Net instrumentation
+[04/18/15 12:07:35 -0400 Avivs-MacBook-Pro.local (3486)] INFO : Installing Sinatra instrumentation
+[04/18/15 12:07:35 -0400 Avivs-MacBook-Pro.local (3486)] INFO : Installing deferred Rack instrumentation
+[04/18/15 12:07:35 -0400 Avivs-MacBook-Pro.local (3486)] INFO : Installing Rack::Builder middleware instrumentation
+[04/18/15 12:07:35 -0400 Avivs-MacBook-Pro.local (3486)] INFO : Finished instrumentation
+[04/18/15 12:07:45 -0400 Avivs-MacBook-Pro.local (3486)] INFO : Doing deferred dependency-detection before Rack startup
+[04/18/15 12:07:45 -0400 Avivs-MacBook-Pro.local (3486)] INFO : Installing ActiveRecord 4 instrumentation
+[04/18/15 12:08:10 -0400 Avivs-MacBook-Pro.local (3486)] WARN : Skipping RUM instrumentation. Unable to find <body> tag in first 50000 bytes of document.
+[04/18/15 12:09:16 -0400 Avivs-MacBook-Pro.local (3703)] INFO : Starting the New Relic agent in "development" environment.
+[04/18/15 12:09:16 -0400 Avivs-MacBook-Pro.local (3703)] INFO : To prevent agent startup add a NEWRELIC_AGENT_ENABLED=false environment variable or modify the "development" section of your newrelic.yml.
+[04/18/15 12:09:16 -0400 Avivs-MacBook-Pro.local (3703)] INFO : Reading configuration from config/newrelic.yml (/Users/avivgl/Desktop/Nano-Twitter)
+[04/18/15 12:09:16 -0400 Avivs-MacBook-Pro.local (3703)] INFO : Environment: development
+[04/18/15 12:09:16 -0400 Avivs-MacBook-Pro.local (3703)] INFO : No known dispatcher detected.
+[04/18/15 12:09:16 -0400 Avivs-MacBook-Pro.local (3703)] INFO : Application: Nano Twitter (Development)
+[04/18/15 12:09:16 -0400 Avivs-MacBook-Pro.local (3703)] INFO : Installing Net instrumentation
+[04/18/15 12:09:16 -0400 Avivs-MacBook-Pro.local (3703)] INFO : Installing Sinatra instrumentation
+[04/18/15 12:09:16 -0400 Avivs-MacBook-Pro.local (3703)] INFO : Installing deferred Rack instrumentation
+[04/18/15 12:09:16 -0400 Avivs-MacBook-Pro.local (3703)] INFO : Installing Rack::Builder middleware instrumentation
+[04/18/15 12:09:16 -0400 Avivs-MacBook-Pro.local (3703)] INFO : Finished instrumentation
+[04/18/15 12:09:16 -0400 Avivs-MacBook-Pro.local (3703)] INFO : Reporting to: https://rpm.newrelic.com/accounts/942489/applications/6129566
+[04/18/15 12:09:18 -0400 Avivs-MacBook-Pro.local (3703)] INFO : Doing deferred dependency-detection before Rack startup
+[04/18/15 12:09:18 -0400 Avivs-MacBook-Pro.local (3703)] INFO : Installing ActiveRecord 4 instrumentation
+[04/18/15 12:10:33 -0400 Avivs-MacBook-Pro.local (3703)] WARN : Skipping RUM instrumentation. Unable to find <body> tag in first 50000 bytes of document.
+[04/18/15 12:11:52 -0400 Avivs-MacBook-Pro.local (4024)] INFO : Starting the New Relic agent in "development" environment.
+[04/18/15 12:11:52 -0400 Avivs-MacBook-Pro.local (4024)] INFO : To prevent agent startup add a NEWRELIC_AGENT_ENABLED=false environment variable or modify the "development" section of your newrelic.yml.
+[04/18/15 12:11:52 -0400 Avivs-MacBook-Pro.local (4024)] INFO : Reading configuration from config/newrelic.yml (/Users/avivgl/Desktop/Nano-Twitter)
+[04/18/15 12:11:52 -0400 Avivs-MacBook-Pro.local (4024)] INFO : Environment: development
+[04/18/15 12:11:52 -0400 Avivs-MacBook-Pro.local (4024)] INFO : No known dispatcher detected.
+[04/18/15 12:11:52 -0400 Avivs-MacBook-Pro.local (4024)] INFO : Application: Nano Twitter (Development)
+[04/18/15 12:11:52 -0400 Avivs-MacBook-Pro.local (4024)] INFO : Installing Net instrumentation
+[04/18/15 12:11:52 -0400 Avivs-MacBook-Pro.local (4024)] INFO : Installing Sinatra instrumentation
+[04/18/15 12:11:52 -0400 Avivs-MacBook-Pro.local (4024)] INFO : Installing deferred Rack instrumentation
+[04/18/15 12:11:52 -0400 Avivs-MacBook-Pro.local (4024)] INFO : Installing Rack::Builder middleware instrumentation
+[04/18/15 12:11:52 -0400 Avivs-MacBook-Pro.local (4024)] INFO : Finished instrumentation
+[04/18/15 12:11:53 -0400 Avivs-MacBook-Pro.local (4024)] INFO : Reporting to: https://rpm.newrelic.com/accounts/942489/applications/6129566
+[04/18/15 12:12:04 -0400 Avivs-MacBook-Pro.local (4057)] INFO : Starting the New Relic agent in "development" environment.
+[04/18/15 12:12:04 -0400 Avivs-MacBook-Pro.local (4057)] INFO : To prevent agent startup add a NEWRELIC_AGENT_ENABLED=false environment variable or modify the "development" section of your newrelic.yml.
+[04/18/15 12:12:04 -0400 Avivs-MacBook-Pro.local (4057)] INFO : Reading configuration from config/newrelic.yml (/Users/avivgl/Desktop/Nano-Twitter)
+[04/18/15 12:12:04 -0400 Avivs-MacBook-Pro.local (4057)] INFO : Environment: development
+[04/18/15 12:12:04 -0400 Avivs-MacBook-Pro.local (4057)] INFO : No known dispatcher detected.
+[04/18/15 12:12:04 -0400 Avivs-MacBook-Pro.local (4057)] INFO : Application: Nano Twitter (Development)
+[04/18/15 12:12:04 -0400 Avivs-MacBook-Pro.local (4057)] INFO : Installing Net instrumentation
+[04/18/15 12:12:04 -0400 Avivs-MacBook-Pro.local (4057)] INFO : Installing Sinatra instrumentation
+[04/18/15 12:12:04 -0400 Avivs-MacBook-Pro.local (4057)] INFO : Installing deferred Rack instrumentation
+[04/18/15 12:12:04 -0400 Avivs-MacBook-Pro.local (4057)] INFO : Installing Rack::Builder middleware instrumentation
+[04/18/15 12:12:04 -0400 Avivs-MacBook-Pro.local (4057)] INFO : Finished instrumentation
+[04/18/15 12:12:04 -0400 Avivs-MacBook-Pro.local (4057)] INFO : Reporting to: https://rpm.newrelic.com/accounts/942489/applications/6129566
+[04/18/15 12:12:05 -0400 Avivs-MacBook-Pro.local (4057)] INFO : Doing deferred dependency-detection before Rack startup
+[04/18/15 12:12:05 -0400 Avivs-MacBook-Pro.local (4057)] INFO : Installing ActiveRecord 4 instrumentation
+[04/18/15 12:12:05 -0400 Avivs-MacBook-Pro.local (4057)] WARN : Skipping RUM instrumentation. Unable to find <body> tag in first 50000 bytes of document.
+[04/18/15 12:12:30 -0400 Avivs-MacBook-Pro.local (4119)] INFO : Starting the New Relic agent in "development" environment.
+[04/18/15 12:12:30 -0400 Avivs-MacBook-Pro.local (4119)] INFO : To prevent agent startup add a NEWRELIC_AGENT_ENABLED=false environment variable or modify the "development" section of your newrelic.yml.
+[04/18/15 12:12:30 -0400 Avivs-MacBook-Pro.local (4119)] INFO : Reading configuration from config/newrelic.yml (/Users/avivgl/Desktop/Nano-Twitter)
+[04/18/15 12:12:30 -0400 Avivs-MacBook-Pro.local (4119)] INFO : Environment: development
+[04/18/15 12:12:30 -0400 Avivs-MacBook-Pro.local (4119)] INFO : No known dispatcher detected.
+[04/18/15 12:12:30 -0400 Avivs-MacBook-Pro.local (4119)] INFO : Application: Nano Twitter (Development)
+[04/18/15 12:12:30 -0400 Avivs-MacBook-Pro.local (4119)] INFO : Installing Net instrumentation
+[04/18/15 12:12:30 -0400 Avivs-MacBook-Pro.local (4119)] INFO : Installing Sinatra instrumentation
+[04/18/15 12:12:30 -0400 Avivs-MacBook-Pro.local (4119)] INFO : Installing deferred Rack instrumentation
+[04/18/15 12:12:30 -0400 Avivs-MacBook-Pro.local (4119)] INFO : Installing Rack::Builder middleware instrumentation
+[04/18/15 12:12:30 -0400 Avivs-MacBook-Pro.local (4119)] INFO : Finished instrumentation
+[04/18/15 12:12:30 -0400 Avivs-MacBook-Pro.local (4119)] INFO : Reporting to: https://rpm.newrelic.com/accounts/942489/applications/6129566
+[04/18/15 12:15:39 -0400 Avivs-MacBook-Pro.local (4506)] INFO : Starting the New Relic agent in "development" environment.
+[04/18/15 12:15:39 -0400 Avivs-MacBook-Pro.local (4506)] INFO : To prevent agent startup add a NEWRELIC_AGENT_ENABLED=false environment variable or modify the "development" section of your newrelic.yml.
+[04/18/15 12:15:39 -0400 Avivs-MacBook-Pro.local (4506)] INFO : Reading configuration from config/newrelic.yml (/Users/avivgl/Desktop/Nano-Twitter)
+[04/18/15 12:15:39 -0400 Avivs-MacBook-Pro.local (4506)] INFO : Environment: development
+[04/18/15 12:15:39 -0400 Avivs-MacBook-Pro.local (4506)] INFO : No known dispatcher detected.
+[04/18/15 12:15:39 -0400 Avivs-MacBook-Pro.local (4506)] INFO : Application: Nano Twitter (Development)
+[04/18/15 12:15:39 -0400 Avivs-MacBook-Pro.local (4506)] INFO : Installing Net instrumentation
+[04/18/15 12:15:39 -0400 Avivs-MacBook-Pro.local (4506)] INFO : Installing Sinatra instrumentation
+[04/18/15 12:15:39 -0400 Avivs-MacBook-Pro.local (4506)] INFO : Installing deferred Rack instrumentation
+[04/18/15 12:15:39 -0400 Avivs-MacBook-Pro.local (4506)] INFO : Installing Rack::Builder middleware instrumentation
+[04/18/15 12:15:39 -0400 Avivs-MacBook-Pro.local (4506)] INFO : Finished instrumentation
+[04/18/15 12:15:39 -0400 Avivs-MacBook-Pro.local (4506)] INFO : Reporting to: https://rpm.newrelic.com/accounts/942489/applications/6129566
+[04/18/15 12:15:43 -0400 Avivs-MacBook-Pro.local (4506)] INFO : Doing deferred dependency-detection before Rack startup
+[04/18/15 12:15:43 -0400 Avivs-MacBook-Pro.local (4506)] INFO : Installing ActiveRecord 4 instrumentation
+[04/18/15 12:16:13 -0400 Avivs-MacBook-Pro.local (4506)] WARN : Skipping RUM instrumentation. Unable to find <body> tag in first 50000 bytes of document.
+[04/18/15 12:18:02 -0400 Avivs-MacBook-Pro.local (4803)] INFO : Starting the New Relic agent in "development" environment.
+[04/18/15 12:18:02 -0400 Avivs-MacBook-Pro.local (4803)] INFO : To prevent agent startup add a NEWRELIC_AGENT_ENABLED=false environment variable or modify the "development" section of your newrelic.yml.
+[04/18/15 12:18:02 -0400 Avivs-MacBook-Pro.local (4803)] INFO : Reading configuration from config/newrelic.yml (/Users/avivgl/Desktop/Nano-Twitter)
+[04/18/15 12:18:02 -0400 Avivs-MacBook-Pro.local (4803)] INFO : Environment: development
+[04/18/15 12:18:02 -0400 Avivs-MacBook-Pro.local (4803)] INFO : No known dispatcher detected.
+[04/18/15 12:18:02 -0400 Avivs-MacBook-Pro.local (4803)] INFO : Application: Nano Twitter (Development)
+[04/18/15 12:18:02 -0400 Avivs-MacBook-Pro.local (4803)] INFO : Installing Net instrumentation
+[04/18/15 12:18:02 -0400 Avivs-MacBook-Pro.local (4803)] INFO : Installing Sinatra instrumentation
+[04/18/15 12:18:02 -0400 Avivs-MacBook-Pro.local (4803)] INFO : Installing deferred Rack instrumentation
+[04/18/15 12:18:02 -0400 Avivs-MacBook-Pro.local (4803)] INFO : Installing Rack::Builder middleware instrumentation
+[04/18/15 12:18:02 -0400 Avivs-MacBook-Pro.local (4803)] INFO : Finished instrumentation
+[04/18/15 12:18:03 -0400 Avivs-MacBook-Pro.local (4803)] INFO : Reporting to: https://rpm.newrelic.com/accounts/942489/applications/6129566
+[04/18/15 12:18:45 -0400 Avivs-MacBook-Pro.local (4803)] INFO : Doing deferred dependency-detection before Rack startup
+[04/18/15 12:18:45 -0400 Avivs-MacBook-Pro.local (4803)] INFO : Installing ActiveRecord 4 instrumentation
+[04/18/15 12:18:55 -0400 Avivs-MacBook-Pro.local (4920)] INFO : Starting the New Relic agent in "development" environment.
+[04/18/15 12:18:55 -0400 Avivs-MacBook-Pro.local (4920)] INFO : To prevent agent startup add a NEWRELIC_AGENT_ENABLED=false environment variable or modify the "development" section of your newrelic.yml.
+[04/18/15 12:18:55 -0400 Avivs-MacBook-Pro.local (4920)] INFO : Reading configuration from config/newrelic.yml (/Users/avivgl/Desktop/Nano-Twitter)
+[04/18/15 12:18:55 -0400 Avivs-MacBook-Pro.local (4920)] INFO : Environment: development
+[04/18/15 12:18:55 -0400 Avivs-MacBook-Pro.local (4920)] INFO : No known dispatcher detected.
+[04/18/15 12:18:55 -0400 Avivs-MacBook-Pro.local (4920)] INFO : Application: Nano Twitter (Development)
+[04/18/15 12:18:55 -0400 Avivs-MacBook-Pro.local (4920)] INFO : Installing Net instrumentation
+[04/18/15 12:18:55 -0400 Avivs-MacBook-Pro.local (4920)] INFO : Installing Sinatra instrumentation
+[04/18/15 12:18:55 -0400 Avivs-MacBook-Pro.local (4920)] INFO : Installing deferred Rack instrumentation
+[04/18/15 12:18:55 -0400 Avivs-MacBook-Pro.local (4920)] INFO : Installing Rack::Builder middleware instrumentation
+[04/18/15 12:18:55 -0400 Avivs-MacBook-Pro.local (4920)] INFO : Finished instrumentation
+[04/18/15 12:18:55 -0400 Avivs-MacBook-Pro.local (4920)] INFO : Reporting to: https://rpm.newrelic.com/accounts/942489/applications/6129566
+[04/18/15 12:18:58 -0400 Avivs-MacBook-Pro.local (4935)] INFO : Starting the New Relic agent in "development" environment.
+[04/18/15 12:18:58 -0400 Avivs-MacBook-Pro.local (4935)] INFO : To prevent agent startup add a NEWRELIC_AGENT_ENABLED=false environment variable or modify the "development" section of your newrelic.yml.
+[04/18/15 12:18:58 -0400 Avivs-MacBook-Pro.local (4935)] INFO : Reading configuration from config/newrelic.yml (/Users/avivgl/Desktop/Nano-Twitter)
+[04/18/15 12:18:58 -0400 Avivs-MacBook-Pro.local (4935)] INFO : Environment: development
+[04/18/15 12:18:58 -0400 Avivs-MacBook-Pro.local (4935)] INFO : No known dispatcher detected.
+[04/18/15 12:18:58 -0400 Avivs-MacBook-Pro.local (4935)] INFO : Application: Nano Twitter (Development)
+[04/18/15 12:18:58 -0400 Avivs-MacBook-Pro.local (4935)] INFO : Installing Net instrumentation
+[04/18/15 12:18:58 -0400 Avivs-MacBook-Pro.local (4935)] INFO : Installing Sinatra instrumentation
+[04/18/15 12:18:58 -0400 Avivs-MacBook-Pro.local (4935)] INFO : Installing deferred Rack instrumentation
+[04/18/15 12:18:58 -0400 Avivs-MacBook-Pro.local (4935)] INFO : Installing Rack::Builder middleware instrumentation
+[04/18/15 12:18:58 -0400 Avivs-MacBook-Pro.local (4935)] INFO : Finished instrumentation
+[04/18/15 12:18:58 -0400 Avivs-MacBook-Pro.local (4935)] INFO : Reporting to: https://rpm.newrelic.com/accounts/942489/applications/6129566
+[04/18/15 12:19:02 -0400 Avivs-MacBook-Pro.local (4935)] INFO : Doing deferred dependency-detection before Rack startup
+[04/18/15 12:19:02 -0400 Avivs-MacBook-Pro.local (4935)] INFO : Installing ActiveRecord 4 instrumentation
+[04/18/15 12:19:03 -0400 Avivs-MacBook-Pro.local (4935)] WARN : Skipping RUM instrumentation. Unable to find <body> tag in first 50000 bytes of document.
+[04/18/15 12:19:52 -0400 Avivs-MacBook-Pro.local (5054)] INFO : Starting the New Relic agent in "development" environment.
+[04/18/15 12:19:52 -0400 Avivs-MacBook-Pro.local (5054)] INFO : To prevent agent startup add a NEWRELIC_AGENT_ENABLED=false environment variable or modify the "development" section of your newrelic.yml.
+[04/18/15 12:19:52 -0400 Avivs-MacBook-Pro.local (5054)] INFO : Reading configuration from config/newrelic.yml (/Users/avivgl/Desktop/Nano-Twitter)
+[04/18/15 12:19:52 -0400 Avivs-MacBook-Pro.local (5054)] INFO : Environment: development
+[04/18/15 12:19:52 -0400 Avivs-MacBook-Pro.local (5054)] INFO : No known dispatcher detected.
+[04/18/15 12:19:52 -0400 Avivs-MacBook-Pro.local (5054)] INFO : Application: Nano Twitter (Development)
+[04/18/15 12:19:52 -0400 Avivs-MacBook-Pro.local (5054)] INFO : Installing Net instrumentation
+[04/18/15 12:19:52 -0400 Avivs-MacBook-Pro.local (5054)] INFO : Installing Sinatra instrumentation
+[04/18/15 12:19:52 -0400 Avivs-MacBook-Pro.local (5054)] INFO : Installing deferred Rack instrumentation
+[04/18/15 12:19:52 -0400 Avivs-MacBook-Pro.local (5054)] INFO : Installing Rack::Builder middleware instrumentation
+[04/18/15 12:19:52 -0400 Avivs-MacBook-Pro.local (5054)] INFO : Finished instrumentation
+[04/18/15 12:19:53 -0400 Avivs-MacBook-Pro.local (5054)] INFO : Reporting to: https://rpm.newrelic.com/accounts/942489/applications/6129566
+[04/18/15 12:19:53 -0400 Avivs-MacBook-Pro.local (5054)] INFO : Doing deferred dependency-detection before Rack startup
+[04/18/15 12:19:53 -0400 Avivs-MacBook-Pro.local (5054)] INFO : Installing ActiveRecord 4 instrumentation
+[04/18/15 12:19:54 -0400 Avivs-MacBook-Pro.local (5054)] WARN : Skipping RUM instrumentation. Unable to find <body> tag in first 50000 bytes of document.
+[04/18/15 12:34:21 -0400 Avivs-MacBook-Pro.local (6798)] INFO : Starting the New Relic agent in "development" environment.
+[04/18/15 12:34:22 -0400 Avivs-MacBook-Pro.local (6806)] INFO : Starting the New Relic agent in "development" environment.
+[04/18/15 12:34:22 -0400 Avivs-MacBook-Pro.local (6806)] INFO : To prevent agent startup add a NEWRELIC_AGENT_ENABLED=false environment variable or modify the "development" section of your newrelic.yml.
+[04/18/15 12:34:22 -0400 Avivs-MacBook-Pro.local (6806)] INFO : Reading configuration from config/newrelic.yml (/Users/avivgl/Desktop/Nano-Twitter)
+[04/18/15 12:34:22 -0400 Avivs-MacBook-Pro.local (6806)] INFO : Environment: development
+[04/18/15 12:34:22 -0400 Avivs-MacBook-Pro.local (6806)] INFO : No known dispatcher detected.
+[04/18/15 12:34:22 -0400 Avivs-MacBook-Pro.local (6806)] INFO : Application: Nano Twitter (Development)
+[04/18/15 12:34:22 -0400 Avivs-MacBook-Pro.local (6806)] INFO : Reporting to: https://rpm.newrelic.com/accounts/942489/applications/6129566
+[04/18/15 12:34:22 -0400 Avivs-MacBook-Pro.local (6806)] INFO : Installing Net instrumentation
+[04/18/15 12:34:22 -0400 Avivs-MacBook-Pro.local (6806)] INFO : Installing Sinatra instrumentation
+[04/18/15 12:34:22 -0400 Avivs-MacBook-Pro.local (6806)] INFO : Installing deferred Rack instrumentation
+[04/18/15 12:34:22 -0400 Avivs-MacBook-Pro.local (6806)] INFO : Installing Rack::Builder middleware instrumentation
+[04/18/15 12:34:22 -0400 Avivs-MacBook-Pro.local (6806)] INFO : Finished instrumentation
+[04/18/15 12:34:28 -0400 Avivs-MacBook-Pro.local (6806)] INFO : Doing deferred dependency-detection before Rack startup
+[04/18/15 12:34:28 -0400 Avivs-MacBook-Pro.local (6806)] INFO : Installing ActiveRecord 4 instrumentation
+[04/18/15 12:34:29 -0400 Avivs-MacBook-Pro.local (6806)] WARN : Skipping RUM instrumentation. Unable to find <body> tag in first 50000 bytes of document.
+[04/18/15 12:38:07 -0400 Avivs-MacBook-Pro.local (7265)] INFO : Starting the New Relic agent in "development" environment.
+[04/18/15 12:38:07 -0400 Avivs-MacBook-Pro.local (7265)] INFO : To prevent agent startup add a NEWRELIC_AGENT_ENABLED=false environment variable or modify the "development" section of your newrelic.yml.
+[04/18/15 12:38:07 -0400 Avivs-MacBook-Pro.local (7265)] INFO : Reading configuration from config/newrelic.yml (/Users/avivgl/Desktop/Nano-Twitter)
+[04/18/15 12:38:07 -0400 Avivs-MacBook-Pro.local (7265)] INFO : Environment: development
+[04/18/15 12:38:07 -0400 Avivs-MacBook-Pro.local (7265)] INFO : No known dispatcher detected.
+[04/18/15 12:38:07 -0400 Avivs-MacBook-Pro.local (7265)] INFO : Application: Nano Twitter (Development)
+[04/18/15 12:38:08 -0400 Avivs-MacBook-Pro.local (7265)] INFO : Installing Net instrumentation
+[04/18/15 12:38:08 -0400 Avivs-MacBook-Pro.local (7265)] INFO : Installing Sinatra instrumentation
+[04/18/15 12:38:08 -0400 Avivs-MacBook-Pro.local (7265)] INFO : Installing deferred Rack instrumentation
+[04/18/15 12:38:08 -0400 Avivs-MacBook-Pro.local (7265)] INFO : Installing Rack::Builder middleware instrumentation
+[04/18/15 12:38:08 -0400 Avivs-MacBook-Pro.local (7265)] INFO : Finished instrumentation
+[04/18/15 12:38:08 -0400 Avivs-MacBook-Pro.local (7265)] INFO : Reporting to: https://rpm.newrelic.com/accounts/942489/applications/6129566
+[04/18/15 12:38:15 -0400 Avivs-MacBook-Pro.local (7265)] INFO : Doing deferred dependency-detection before Rack startup
+[04/18/15 12:38:15 -0400 Avivs-MacBook-Pro.local (7265)] INFO : Installing ActiveRecord 4 instrumentation
+[04/18/15 12:38:15 -0400 Avivs-MacBook-Pro.local (7265)] WARN : Skipping RUM instrumentation. Unable to find <body> tag in first 50000 bytes of document.
+[04/18/15 12:38:36 -0400 Avivs-MacBook-Pro.local (7331)] INFO : Starting the New Relic agent in "development" environment.
+[04/18/15 12:38:36 -0400 Avivs-MacBook-Pro.local (7331)] INFO : To prevent agent startup add a NEWRELIC_AGENT_ENABLED=false environment variable or modify the "development" section of your newrelic.yml.
+[04/18/15 12:38:36 -0400 Avivs-MacBook-Pro.local (7331)] INFO : Reading configuration from config/newrelic.yml (/Users/avivgl/Desktop/Nano-Twitter)
+[04/18/15 12:38:36 -0400 Avivs-MacBook-Pro.local (7331)] INFO : Environment: development
+[04/18/15 12:38:36 -0400 Avivs-MacBook-Pro.local (7331)] INFO : No known dispatcher detected.
+[04/18/15 12:38:36 -0400 Avivs-MacBook-Pro.local (7331)] INFO : Application: Nano Twitter (Development)
+[04/18/15 12:38:36 -0400 Avivs-MacBook-Pro.local (7331)] INFO : Installing Net instrumentation
+[04/18/15 12:38:36 -0400 Avivs-MacBook-Pro.local (7331)] INFO : Installing Sinatra instrumentation
+[04/18/15 12:38:36 -0400 Avivs-MacBook-Pro.local (7331)] INFO : Installing deferred Rack instrumentation
+[04/18/15 12:38:36 -0400 Avivs-MacBook-Pro.local (7331)] INFO : Installing Rack::Builder middleware instrumentation
+[04/18/15 12:38:36 -0400 Avivs-MacBook-Pro.local (7331)] INFO : Finished instrumentation
+[04/18/15 12:38:44 -0400 Avivs-MacBook-Pro.local (7331)] INFO : Doing deferred dependency-detection before Rack startup
+[04/18/15 12:38:44 -0400 Avivs-MacBook-Pro.local (7331)] INFO : Installing ActiveRecord 4 instrumentation
+[04/18/15 12:39:11 -0400 Avivs-MacBook-Pro.local (7331)] INFO : Reporting to: https://rpm.newrelic.com/accounts/942489/applications/6129566
+[04/18/15 12:39:30 -0400 Avivs-MacBook-Pro.local (7331)] WARN : Skipping RUM instrumentation. Unable to find <body> tag in first 50000 bytes of document.
+[04/18/15 12:39:53 -0400 Avivs-MacBook-Pro.local (7495)] INFO : Starting the New Relic agent in "development" environment.
+[04/18/15 12:39:53 -0400 Avivs-MacBook-Pro.local (7495)] INFO : To prevent agent startup add a NEWRELIC_AGENT_ENABLED=false environment variable or modify the "development" section of your newrelic.yml.
+[04/18/15 12:39:53 -0400 Avivs-MacBook-Pro.local (7495)] INFO : Reading configuration from config/newrelic.yml (/Users/avivgl/Desktop/Nano-Twitter)
+[04/18/15 12:39:53 -0400 Avivs-MacBook-Pro.local (7495)] INFO : Environment: development
+[04/18/15 12:39:53 -0400 Avivs-MacBook-Pro.local (7495)] INFO : No known dispatcher detected.
+[04/18/15 12:39:53 -0400 Avivs-MacBook-Pro.local (7495)] INFO : Application: Nano Twitter (Development)
+[04/18/15 12:39:53 -0400 Avivs-MacBook-Pro.local (7495)] INFO : Installing Net instrumentation
+[04/18/15 12:39:53 -0400 Avivs-MacBook-Pro.local (7495)] INFO : Installing Sinatra instrumentation
+[04/18/15 12:39:53 -0400 Avivs-MacBook-Pro.local (7495)] INFO : Installing deferred Rack instrumentation
+[04/18/15 12:39:53 -0400 Avivs-MacBook-Pro.local (7495)] INFO : Installing Rack::Builder middleware instrumentation
+[04/18/15 12:39:53 -0400 Avivs-MacBook-Pro.local (7495)] INFO : Finished instrumentation
+[04/18/15 12:39:54 -0400 Avivs-MacBook-Pro.local (7495)] INFO : Reporting to: https://rpm.newrelic.com/accounts/942489/applications/6129566
+[04/18/15 12:39:56 -0400 Avivs-MacBook-Pro.local (7495)] INFO : Doing deferred dependency-detection before Rack startup
+[04/18/15 12:39:56 -0400 Avivs-MacBook-Pro.local (7495)] INFO : Installing ActiveRecord 4 instrumentation
+[04/18/15 12:39:56 -0400 Avivs-MacBook-Pro.local (7495)] WARN : Skipping RUM instrumentation. Unable to find <body> tag in first 50000 bytes of document.
+[04/18/15 12:41:49 -0400 Avivs-MacBook-Pro.local (7737)] INFO : Starting the New Relic agent in "development" environment.
+[04/18/15 12:41:49 -0400 Avivs-MacBook-Pro.local (7737)] INFO : To prevent agent startup add a NEWRELIC_AGENT_ENABLED=false environment variable or modify the "development" section of your newrelic.yml.
+[04/18/15 12:41:49 -0400 Avivs-MacBook-Pro.local (7737)] INFO : Reading configuration from config/newrelic.yml (/Users/avivgl/Desktop/Nano-Twitter)
+[04/18/15 12:41:49 -0400 Avivs-MacBook-Pro.local (7737)] INFO : Environment: development
+[04/18/15 12:41:49 -0400 Avivs-MacBook-Pro.local (7737)] INFO : No known dispatcher detected.
+[04/18/15 12:41:49 -0400 Avivs-MacBook-Pro.local (7737)] INFO : Application: Nano Twitter (Development)
+[04/18/15 12:41:49 -0400 Avivs-MacBook-Pro.local (7737)] INFO : Installing Net instrumentation
+[04/18/15 12:41:49 -0400 Avivs-MacBook-Pro.local (7737)] INFO : Installing Sinatra instrumentation
+[04/18/15 12:41:49 -0400 Avivs-MacBook-Pro.local (7737)] INFO : Installing deferred Rack instrumentation
+[04/18/15 12:41:49 -0400 Avivs-MacBook-Pro.local (7737)] INFO : Installing Rack::Builder middleware instrumentation
+[04/18/15 12:41:49 -0400 Avivs-MacBook-Pro.local (7737)] INFO : Finished instrumentation
+[04/18/15 12:41:50 -0400 Avivs-MacBook-Pro.local (7737)] INFO : Reporting to: https://rpm.newrelic.com/accounts/942489/applications/6129566
+[04/18/15 12:41:55 -0400 Avivs-MacBook-Pro.local (7737)] INFO : Doing deferred dependency-detection before Rack startup
+[04/18/15 12:41:55 -0400 Avivs-MacBook-Pro.local (7737)] INFO : Installing ActiveRecord 4 instrumentation
+[04/18/15 12:41:56 -0400 Avivs-MacBook-Pro.local (7737)] WARN : Skipping RUM instrumentation. Unable to find <body> tag in first 50000 bytes of document.
+[04/18/15 12:43:13 -0400 Avivs-MacBook-Pro.local (7915)] INFO : Starting the New Relic agent in "development" environment.
+[04/18/15 12:43:13 -0400 Avivs-MacBook-Pro.local (7915)] INFO : To prevent agent startup add a NEWRELIC_AGENT_ENABLED=false environment variable or modify the "development" section of your newrelic.yml.
+[04/18/15 12:43:13 -0400 Avivs-MacBook-Pro.local (7915)] INFO : Reading configuration from config/newrelic.yml (/Users/avivgl/Desktop/Nano-Twitter)
+[04/18/15 12:43:13 -0400 Avivs-MacBook-Pro.local (7915)] INFO : Environment: development
+[04/18/15 12:43:13 -0400 Avivs-MacBook-Pro.local (7915)] INFO : No known dispatcher detected.
+[04/18/15 12:43:13 -0400 Avivs-MacBook-Pro.local (7915)] INFO : Application: Nano Twitter (Development)
+[04/18/15 12:43:13 -0400 Avivs-MacBook-Pro.local (7915)] INFO : Installing Net instrumentation
+[04/18/15 12:43:13 -0400 Avivs-MacBook-Pro.local (7915)] INFO : Installing Sinatra instrumentation
+[04/18/15 12:43:13 -0400 Avivs-MacBook-Pro.local (7915)] INFO : Installing deferred Rack instrumentation
+[04/18/15 12:43:13 -0400 Avivs-MacBook-Pro.local (7915)] INFO : Installing Rack::Builder middleware instrumentation
+[04/18/15 12:43:13 -0400 Avivs-MacBook-Pro.local (7915)] INFO : Finished instrumentation
+[04/18/15 12:43:13 -0400 Avivs-MacBook-Pro.local (7915)] INFO : Reporting to: https://rpm.newrelic.com/accounts/942489/applications/6129566
+[04/18/15 12:43:16 -0400 Avivs-MacBook-Pro.local (7915)] INFO : Doing deferred dependency-detection before Rack startup
+[04/18/15 12:43:16 -0400 Avivs-MacBook-Pro.local (7915)] INFO : Installing ActiveRecord 4 instrumentation
+[04/18/15 12:43:20 -0400 Avivs-MacBook-Pro.local (7915)] WARN : Skipping RUM instrumentation. Unable to find <body> tag in first 50000 bytes of document.
+[04/18/15 12:44:14 -0400 Avivs-MacBook-Pro.local (8044)] INFO : Starting the New Relic agent in "development" environment.
+[04/18/15 12:44:14 -0400 Avivs-MacBook-Pro.local (8044)] INFO : To prevent agent startup add a NEWRELIC_AGENT_ENABLED=false environment variable or modify the "development" section of your newrelic.yml.
+[04/18/15 12:44:14 -0400 Avivs-MacBook-Pro.local (8044)] INFO : Reading configuration from config/newrelic.yml (/Users/avivgl/Desktop/Nano-Twitter)
+[04/18/15 12:44:14 -0400 Avivs-MacBook-Pro.local (8044)] INFO : Environment: development
+[04/18/15 12:44:14 -0400 Avivs-MacBook-Pro.local (8044)] INFO : No known dispatcher detected.
+[04/18/15 12:44:14 -0400 Avivs-MacBook-Pro.local (8044)] INFO : Application: Nano Twitter (Development)
+[04/18/15 12:44:14 -0400 Avivs-MacBook-Pro.local (8044)] INFO : Installing Net instrumentation
+[04/18/15 12:44:14 -0400 Avivs-MacBook-Pro.local (8044)] INFO : Installing Sinatra instrumentation
+[04/18/15 12:44:14 -0400 Avivs-MacBook-Pro.local (8044)] INFO : Installing deferred Rack instrumentation
+[04/18/15 12:44:14 -0400 Avivs-MacBook-Pro.local (8044)] INFO : Installing Rack::Builder middleware instrumentation
+[04/18/15 12:44:14 -0400 Avivs-MacBook-Pro.local (8044)] INFO : Finished instrumentation
+[04/18/15 12:44:16 -0400 Avivs-MacBook-Pro.local (8059)] INFO : Starting the New Relic agent in "development" environment.
+[04/18/15 12:44:16 -0400 Avivs-MacBook-Pro.local (8059)] INFO : To prevent agent startup add a NEWRELIC_AGENT_ENABLED=false environment variable or modify the "development" section of your newrelic.yml.
+[04/18/15 12:44:16 -0400 Avivs-MacBook-Pro.local (8059)] INFO : Reading configuration from config/newrelic.yml (/Users/avivgl/Desktop/Nano-Twitter)
+[04/18/15 12:44:16 -0400 Avivs-MacBook-Pro.local (8059)] INFO : Environment: development
+[04/18/15 12:44:16 -0400 Avivs-MacBook-Pro.local (8059)] INFO : No known dispatcher detected.
+[04/18/15 12:44:16 -0400 Avivs-MacBook-Pro.local (8059)] INFO : Application: Nano Twitter (Development)
+[04/18/15 12:44:16 -0400 Avivs-MacBook-Pro.local (8059)] INFO : Installing Net instrumentation
+[04/18/15 12:44:16 -0400 Avivs-MacBook-Pro.local (8059)] INFO : Installing Sinatra instrumentation
+[04/18/15 12:44:16 -0400 Avivs-MacBook-Pro.local (8059)] INFO : Installing deferred Rack instrumentation
+[04/18/15 12:44:16 -0400 Avivs-MacBook-Pro.local (8059)] INFO : Installing Rack::Builder middleware instrumentation
+[04/18/15 12:44:16 -0400 Avivs-MacBook-Pro.local (8059)] INFO : Finished instrumentation
+[04/18/15 12:44:16 -0400 Avivs-MacBook-Pro.local (8059)] INFO : Reporting to: https://rpm.newrelic.com/accounts/942489/applications/6129566
+[04/18/15 12:44:26 -0400 Avivs-MacBook-Pro.local (8059)] INFO : Doing deferred dependency-detection before Rack startup
+[04/18/15 12:44:26 -0400 Avivs-MacBook-Pro.local (8059)] INFO : Installing ActiveRecord 4 instrumentation
+[04/18/15 12:44:31 -0400 Avivs-MacBook-Pro.local (8059)] WARN : Skipping RUM instrumentation. Unable to find <body> tag in first 50000 bytes of document.
+[04/18/15 12:47:36 -0400 Avivs-MacBook-Pro.local (8463)] INFO : Starting the New Relic agent in "development" environment.
+[04/18/15 12:47:36 -0400 Avivs-MacBook-Pro.local (8463)] INFO : To prevent agent startup add a NEWRELIC_AGENT_ENABLED=false environment variable or modify the "development" section of your newrelic.yml.
+[04/18/15 12:47:36 -0400 Avivs-MacBook-Pro.local (8463)] INFO : Reading configuration from config/newrelic.yml (/Users/avivgl/Desktop/Nano-Twitter)
+[04/18/15 12:47:36 -0400 Avivs-MacBook-Pro.local (8463)] INFO : Environment: development
+[04/18/15 12:47:36 -0400 Avivs-MacBook-Pro.local (8463)] INFO : No known dispatcher detected.
+[04/18/15 12:47:36 -0400 Avivs-MacBook-Pro.local (8463)] INFO : Application: Nano Twitter (Development)
+[04/18/15 12:47:36 -0400 Avivs-MacBook-Pro.local (8463)] INFO : Installing Net instrumentation
+[04/18/15 12:47:36 -0400 Avivs-MacBook-Pro.local (8463)] INFO : Installing Sinatra instrumentation
+[04/18/15 12:47:36 -0400 Avivs-MacBook-Pro.local (8463)] INFO : Installing deferred Rack instrumentation
+[04/18/15 12:47:36 -0400 Avivs-MacBook-Pro.local (8463)] INFO : Installing Rack::Builder middleware instrumentation
+[04/18/15 12:47:36 -0400 Avivs-MacBook-Pro.local (8463)] INFO : Finished instrumentation
+[04/18/15 12:47:36 -0400 Avivs-MacBook-Pro.local (8463)] INFO : Reporting to: https://rpm.newrelic.com/accounts/942489/applications/6129566
+[04/18/15 12:47:52 -0400 Avivs-MacBook-Pro.local (8508)] INFO : Starting the New Relic agent in "development" environment.
+[04/18/15 12:47:52 -0400 Avivs-MacBook-Pro.local (8508)] INFO : To prevent agent startup add a NEWRELIC_AGENT_ENABLED=false environment variable or modify the "development" section of your newrelic.yml.
+[04/18/15 12:47:52 -0400 Avivs-MacBook-Pro.local (8508)] INFO : Reading configuration from config/newrelic.yml (/Users/avivgl/Desktop/Nano-Twitter)
+[04/18/15 12:47:52 -0400 Avivs-MacBook-Pro.local (8508)] INFO : Environment: development
+[04/18/15 12:47:52 -0400 Avivs-MacBook-Pro.local (8508)] INFO : No known dispatcher detected.
+[04/18/15 12:47:52 -0400 Avivs-MacBook-Pro.local (8508)] INFO : Application: Nano Twitter (Development)
+[04/18/15 12:47:52 -0400 Avivs-MacBook-Pro.local (8508)] INFO : Installing Net instrumentation
+[04/18/15 12:47:52 -0400 Avivs-MacBook-Pro.local (8508)] INFO : Installing Sinatra instrumentation
+[04/18/15 12:47:52 -0400 Avivs-MacBook-Pro.local (8508)] INFO : Installing deferred Rack instrumentation
+[04/18/15 12:47:52 -0400 Avivs-MacBook-Pro.local (8508)] INFO : Installing Rack::Builder middleware instrumentation
+[04/18/15 12:47:52 -0400 Avivs-MacBook-Pro.local (8508)] INFO : Finished instrumentation
+[04/18/15 12:54:04 -0400 Avivs-MacBook-Pro.local (8651)] INFO : Starting the New Relic agent in "development" environment.
+[04/18/15 12:54:04 -0400 Avivs-MacBook-Pro.local (8651)] INFO : To prevent agent startup add a NEWRELIC_AGENT_ENABLED=false environment variable or modify the "development" section of your newrelic.yml.
+[04/18/15 12:54:04 -0400 Avivs-MacBook-Pro.local (8651)] INFO : Reading configuration from config/newrelic.yml (/Users/avivgl/Desktop/Nano-Twitter)
+[04/18/15 12:54:04 -0400 Avivs-MacBook-Pro.local (8651)] INFO : Environment: development
+[04/18/15 12:54:04 -0400 Avivs-MacBook-Pro.local (8651)] INFO : No known dispatcher detected.
+[04/18/15 12:54:04 -0400 Avivs-MacBook-Pro.local (8651)] INFO : Application: Nano Twitter (Development)
+[04/18/15 12:54:04 -0400 Avivs-MacBook-Pro.local (8651)] INFO : Reporting to: https://rpm.newrelic.com/accounts/942489/applications/6129566
+[04/18/15 12:54:05 -0400 Avivs-MacBook-Pro.local (8651)] INFO : Installing Net instrumentation
+[04/18/15 12:54:05 -0400 Avivs-MacBook-Pro.local (8651)] INFO : Installing Sinatra instrumentation
+[04/18/15 12:54:05 -0400 Avivs-MacBook-Pro.local (8651)] INFO : Installing deferred Rack instrumentation
+[04/18/15 12:54:05 -0400 Avivs-MacBook-Pro.local (8651)] INFO : Installing Rack::Builder middleware instrumentation
+[04/18/15 12:54:05 -0400 Avivs-MacBook-Pro.local (8651)] INFO : Finished instrumentation
+[04/18/15 12:54:17 -0400 Avivs-MacBook-Pro.local (8690)] INFO : Starting the New Relic agent in "development" environment.
+[04/18/15 12:54:17 -0400 Avivs-MacBook-Pro.local (8690)] INFO : To prevent agent startup add a NEWRELIC_AGENT_ENABLED=false environment variable or modify the "development" section of your newrelic.yml.
+[04/18/15 12:54:17 -0400 Avivs-MacBook-Pro.local (8690)] INFO : Reading configuration from config/newrelic.yml (/Users/avivgl/Desktop/Nano-Twitter)
+[04/18/15 12:54:17 -0400 Avivs-MacBook-Pro.local (8690)] INFO : Environment: development
+[04/18/15 12:54:17 -0400 Avivs-MacBook-Pro.local (8690)] INFO : No known dispatcher detected.
+[04/18/15 12:54:17 -0400 Avivs-MacBook-Pro.local (8690)] INFO : Application: Nano Twitter (Development)
+[04/18/15 12:54:17 -0400 Avivs-MacBook-Pro.local (8690)] INFO : Installing Net instrumentation
+[04/18/15 12:54:17 -0400 Avivs-MacBook-Pro.local (8690)] INFO : Installing Sinatra instrumentation
+[04/18/15 12:54:17 -0400 Avivs-MacBook-Pro.local (8690)] INFO : Installing deferred Rack instrumentation
+[04/18/15 12:54:17 -0400 Avivs-MacBook-Pro.local (8690)] INFO : Installing Rack::Builder middleware instrumentation
+[04/18/15 12:54:17 -0400 Avivs-MacBook-Pro.local (8690)] INFO : Finished instrumentation
+[04/18/15 12:54:18 -0400 Avivs-MacBook-Pro.local (8690)] INFO : Reporting to: https://rpm.newrelic.com/accounts/942489/applications/6129566
+[04/18/15 12:54:26 -0400 Avivs-MacBook-Pro.local (8690)] INFO : Doing deferred dependency-detection before Rack startup
+[04/18/15 12:54:26 -0400 Avivs-MacBook-Pro.local (8690)] INFO : Installing ActiveRecord 4 instrumentation
+[04/18/15 12:54:49 -0400 Avivs-MacBook-Pro.local (8690)] WARN : Skipping RUM instrumentation. Unable to find <body> tag in first 50000 bytes of document.
+[04/18/15 12:55:31 -0400 Avivs-MacBook-Pro.local (8690)] WARN : Skipping RUM instrumentation. Unable to find <body> tag in first 50000 bytes of document.
+[04/18/15 12:56:12 -0400 Avivs-MacBook-Pro.local (8932)] INFO : Starting the New Relic agent in "development" environment.
+[04/18/15 12:56:12 -0400 Avivs-MacBook-Pro.local (8932)] INFO : To prevent agent startup add a NEWRELIC_AGENT_ENABLED=false environment variable or modify the "development" section of your newrelic.yml.
+[04/18/15 12:56:12 -0400 Avivs-MacBook-Pro.local (8932)] INFO : Reading configuration from config/newrelic.yml (/Users/avivgl/Desktop/Nano-Twitter)
+[04/18/15 12:56:12 -0400 Avivs-MacBook-Pro.local (8932)] INFO : Environment: development
+[04/18/15 12:56:12 -0400 Avivs-MacBook-Pro.local (8932)] INFO : No known dispatcher detected.
+[04/18/15 12:56:12 -0400 Avivs-MacBook-Pro.local (8932)] INFO : Application: Nano Twitter (Development)
+[04/18/15 12:56:12 -0400 Avivs-MacBook-Pro.local (8932)] INFO : Installing Net instrumentation
+[04/18/15 12:56:12 -0400 Avivs-MacBook-Pro.local (8932)] INFO : Installing Sinatra instrumentation
+[04/18/15 12:56:12 -0400 Avivs-MacBook-Pro.local (8932)] INFO : Installing deferred Rack instrumentation
+[04/18/15 12:56:12 -0400 Avivs-MacBook-Pro.local (8932)] INFO : Installing Rack::Builder middleware instrumentation
+[04/18/15 12:56:12 -0400 Avivs-MacBook-Pro.local (8932)] INFO : Finished instrumentation
+[04/18/15 12:56:55 -0400 Avivs-MacBook-Pro.local (8985)] INFO : Starting the New Relic agent in "development" environment.
+[04/18/15 12:56:55 -0400 Avivs-MacBook-Pro.local (8985)] INFO : To prevent agent startup add a NEWRELIC_AGENT_ENABLED=false environment variable or modify the "development" section of your newrelic.yml.
+[04/18/15 12:56:55 -0400 Avivs-MacBook-Pro.local (8985)] INFO : Reading configuration from config/newrelic.yml (/Users/avivgl/Desktop/Nano-Twitter)
+[04/18/15 12:56:55 -0400 Avivs-MacBook-Pro.local (8985)] INFO : Environment: development
+[04/18/15 12:56:55 -0400 Avivs-MacBook-Pro.local (8985)] INFO : No known dispatcher detected.
+[04/18/15 12:56:55 -0400 Avivs-MacBook-Pro.local (8985)] INFO : Application: Nano Twitter (Development)
+[04/18/15 12:56:55 -0400 Avivs-MacBook-Pro.local (8985)] INFO : Installing Net instrumentation
+[04/18/15 12:56:56 -0400 Avivs-MacBook-Pro.local (8985)] INFO : Installing Sinatra instrumentation
+[04/18/15 12:56:56 -0400 Avivs-MacBook-Pro.local (8985)] INFO : Installing deferred Rack instrumentation
+[04/18/15 12:56:56 -0400 Avivs-MacBook-Pro.local (8985)] INFO : Installing Rack::Builder middleware instrumentation
+[04/18/15 12:56:56 -0400 Avivs-MacBook-Pro.local (8985)] INFO : Finished instrumentation
+[04/18/15 12:56:56 -0400 Avivs-MacBook-Pro.local (8985)] INFO : Reporting to: https://rpm.newrelic.com/accounts/942489/applications/6129566
+[04/18/15 12:59:00 -0400 Avivs-MacBook-Pro.local (8985)] INFO : Doing deferred dependency-detection before Rack startup
+[04/18/15 12:59:00 -0400 Avivs-MacBook-Pro.local (8985)] INFO : Installing ActiveRecord 4 instrumentation
+[04/18/15 12:59:34 -0400 Avivs-MacBook-Pro.local (8985)] WARN : Skipping RUM instrumentation. Unable to find <body> tag in first 50000 bytes of document.
+[04/18/15 13:00:00 -0400 Avivs-MacBook-Pro.local (8985)] WARN : Skipping RUM instrumentation. Unable to find <body> tag in first 50000 bytes of document.
+[04/18/15 13:00:48 -0400 Avivs-MacBook-Pro.local (9471)] INFO : Starting the New Relic agent in "development" environment.
+[04/18/15 13:00:48 -0400 Avivs-MacBook-Pro.local (9471)] INFO : To prevent agent startup add a NEWRELIC_AGENT_ENABLED=false environment variable or modify the "development" section of your newrelic.yml.
+[04/18/15 13:00:48 -0400 Avivs-MacBook-Pro.local (9471)] INFO : Reading configuration from config/newrelic.yml (/Users/avivgl/Desktop/Nano-Twitter)
+[04/18/15 13:00:48 -0400 Avivs-MacBook-Pro.local (9471)] INFO : Environment: development
+[04/18/15 13:00:48 -0400 Avivs-MacBook-Pro.local (9471)] INFO : No known dispatcher detected.
+[04/18/15 13:00:48 -0400 Avivs-MacBook-Pro.local (9471)] INFO : Application: Nano Twitter (Development)
+[04/18/15 13:00:49 -0400 Avivs-MacBook-Pro.local (9471)] INFO : Installing Net instrumentation
+[04/18/15 13:00:49 -0400 Avivs-MacBook-Pro.local (9471)] INFO : Reporting to: https://rpm.newrelic.com/accounts/942489/applications/6129566
+[04/18/15 13:00:49 -0400 Avivs-MacBook-Pro.local (9471)] INFO : Installing Sinatra instrumentation
+[04/18/15 13:00:49 -0400 Avivs-MacBook-Pro.local (9471)] INFO : Installing deferred Rack instrumentation
+[04/18/15 13:00:49 -0400 Avivs-MacBook-Pro.local (9471)] INFO : Installing Rack::Builder middleware instrumentation
+[04/18/15 13:00:49 -0400 Avivs-MacBook-Pro.local (9471)] INFO : Finished instrumentation
+[04/18/15 13:01:40 -0400 Avivs-MacBook-Pro.local (9829)] INFO : Starting the New Relic agent in "development" environment.
+[04/18/15 13:01:40 -0400 Avivs-MacBook-Pro.local (9829)] INFO : To prevent agent startup add a NEWRELIC_AGENT_ENABLED=false environment variable or modify the "development" section of your newrelic.yml.
+[04/18/15 13:01:40 -0400 Avivs-MacBook-Pro.local (9829)] INFO : Reading configuration from config/newrelic.yml (/Users/avivgl/Desktop/Nano-Twitter)
+[04/18/15 13:01:40 -0400 Avivs-MacBook-Pro.local (9829)] INFO : Environment: development
+[04/18/15 13:01:40 -0400 Avivs-MacBook-Pro.local (9829)] INFO : No known dispatcher detected.
+[04/18/15 13:01:40 -0400 Avivs-MacBook-Pro.local (9829)] INFO : Application: Nano Twitter (Development)
+[04/18/15 13:01:40 -0400 Avivs-MacBook-Pro.local (9829)] INFO : Installing Net instrumentation
+[04/18/15 13:01:40 -0400 Avivs-MacBook-Pro.local (9829)] INFO : Installing Sinatra instrumentation
+[04/18/15 13:01:40 -0400 Avivs-MacBook-Pro.local (9829)] INFO : Installing deferred Rack instrumentation
+[04/18/15 13:01:40 -0400 Avivs-MacBook-Pro.local (9829)] INFO : Installing Rack::Builder middleware instrumentation
+[04/18/15 13:01:40 -0400 Avivs-MacBook-Pro.local (9829)] INFO : Finished instrumentation
+[04/18/15 13:01:40 -0400 Avivs-MacBook-Pro.local (9829)] INFO : Reporting to: https://rpm.newrelic.com/accounts/942489/applications/6129566
