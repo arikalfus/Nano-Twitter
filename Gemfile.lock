@@ -55,6 +55,7 @@ GEM
     rb-fsevent (0.9.4)
     rb-inotify (0.9.5)
       ffi (>= 0.5.0)
+    redis (3.2.1)
     rerun (0.10.0)
       listen (~> 2.7, >= 2.7.3)
     sinatra (1.4.6)
@@ -90,6 +91,7 @@ DEPENDENCIES
   pg
   pry-byebug
   rack-test
+  redis
   rerun
   sinatra
   sinatra-activerecord
