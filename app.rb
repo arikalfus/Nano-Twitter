@@ -34,7 +34,7 @@ end
 begin
   @redis.ping
   puts "ping was a success!"
-rescue Esception => e
+rescue Exception => e
   puts e.inspect
   puts e.message
 end
