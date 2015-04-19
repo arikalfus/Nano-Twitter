@@ -8,6 +8,8 @@ gem 'sinatra-activerecord'
 gem 'sinatra-formkeeper'
 gem 'json'
 gem 'newrelic_rpm'
+gem 'faker'
+gem 'redis'
 
 group :development, :test do
   gem 'sqlite3'
