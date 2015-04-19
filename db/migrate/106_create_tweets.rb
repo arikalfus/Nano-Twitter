@@ -8,6 +8,7 @@ class CreateTweets < ActiveRecord::Migration
     end
 
     add_index :tweets, :created_at, order: {created_at: :desc}
+    add_index :tweets, :updated_at, order: {updated_at: :desc}
   end
 
   def self.down
