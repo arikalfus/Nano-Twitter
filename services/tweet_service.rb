@@ -18,7 +18,7 @@ class TweetService
       tweets = Tweet.limit(100).order created_at: :desc
     else
       tweet_ids = JSON.parse redis.get(:tweet_ids)
-      tweets = Tweet.where(id: tweet_ids)
+      tweets = Tweet.where id: tweet_ids
     end
 
     full_tweets = build_tweets tweets
@@ -66,7 +66,7 @@ class TweetService
     tweets.each do |tweet|
       tweet_user = user_hash[tweet[:user_id]] # should return nil if no key is found
       if tweet_user.nil?
-        Tweet.destroy(tweet[:id])
+        Tweet.destroy tweet[:id]
       else
         full_tweets.push [tweet, tweet_user]
       end
@@ -82,7 +82,7 @@ class TweetService
       tweets.each do |tweet, user|
         tweet_ids.push tweet[:id]
       end
-      redis.set(:tweet_ids, tweet_ids.to_json)
+      redis.set :tweet_ids, tweet_ids.to_json
     end
   end
 
