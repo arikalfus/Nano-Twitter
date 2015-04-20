@@ -1,5 +1,4 @@
 require 'sinatra/activerecord'
-require 'redis'
 require 'json'
 
 require_relative '../models/tweet'
