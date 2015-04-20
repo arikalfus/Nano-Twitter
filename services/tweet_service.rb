@@ -15,7 +15,7 @@ class TweetService
     if redis.get(:tweets).nil?
       tweets = Tweet.limit(100).order created_at: :desc
     else
-      tweets = JSON.parse redis.get(:tweets)
+      tweets = redis.get :tweets
     end
 
     full_tweets = build_tweets tweets
@@ -79,7 +79,7 @@ class TweetService
       tweets.each do |tweet, user|
         tweets.push tweet
       end
-      redis.set(:tweets, tweets.to_json)
+      redis.set :tweets, tweets
     end
   end
 
