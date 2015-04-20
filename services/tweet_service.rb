@@ -1,4 +1,6 @@
 require 'sinatra/activerecord'
+require 'redis'
+require 'json'
 
 require_relative '../models/tweet'
 require_relative 'user_service'
@@ -12,10 +14,11 @@ class TweetService
 
   def self.tweets(redis)
     tweets = []
-    if redis.get(:tweets).nil?
+    if redis.get(:tweet_ids).nil?
       tweets = Tweet.limit(100).order created_at: :desc
     else
-      tweets = redis.get :tweets
+      tweet_ids = JSON.parse redis.get(:tweet_ids)
+      tweets = Tweet.where(id: tweet_ids)
     end
 
     full_tweets = build_tweets tweets
@@ -73,13 +76,13 @@ class TweetService
 
   end
 
-  def self.cache_check(full_tweets, redis)
-    if redis.get(:tweets).nil?
-      tweets = []
-      full_tweets.each do |tweet, user|
-        tweets.push tweet
+  def self.cache_check(tweets, redis)
+    if redis.get(:tweet_ids).nil?
+      tweet_ids = []
+      tweets.each do |tweet, user|
+        tweet_ids.push tweet[:id]
       end
-      redis.set :tweets, tweets
+      redis.set(:tweet_ids, tweet_ids.to_json)
     end
   end
 
