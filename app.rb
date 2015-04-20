@@ -6,6 +6,8 @@ require 'sinatra/formkeeper'
 require 'faker'
 require 'redis'
 
+require 'pry-byebug'
+
 require_relative 'services/user_service'
 require_relative 'services/tweet_service'
 require_relative 'services/form_service'
@@ -24,19 +26,12 @@ configure do
   enable :sessions
   set :session_secret, '48fa3729hf0219f4rfbf39hf2'
 
-  @redis = Redis.new(
-                    :host => 'pub-redis-13514.us-east-1-3.2.ec2.garantiadata.com',
-                    :port => '13514',
-                    :password => 'nanotwitter'
+  @@redis = Redis.new(
+      :host => 'pub-redis-13514.us-east-1-3.2.ec2.garantiadata.com',
+      :port => '13514',
+      :password => 'nanotwitter'
   )
-end
 
-begin
-  @redis.ping
-  puts "ping was a success!"
-rescue Exception => e
-  puts e.inspect
-  puts e.message
 end
 
 # for load testing with Loader.io
@@ -90,7 +85,8 @@ end
 
 # get latest tweets
 get '/nanotwitter/v1.0/tweets' do
-  tweets = TweetService.tweets @redis
+  binding.pry
+  tweets = TweetService.tweets @@redis
   erb :feed_tweets, :locals => { tweets: tweets }, :layout => false
 end
 

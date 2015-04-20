@@ -14,10 +14,11 @@ class TweetService
 
   def self.tweets(redis)
     tweets = []
-    if JSON.parse(redis.get(:tweet_ids)).nil?
+    if redis.get(:tweet_ids).nil?
       tweets = Tweet.limit(100).order created_at: :desc
     else
-      tweets = JSON.parse redis.get(:tweet_ids)
+      tweet_ids = JSON.parse redis.get(:tweet_ids)
+      tweets = Tweets.where(id: tweet_ids)
     end
 
     full_tweets = build_tweets tweets
@@ -76,7 +77,7 @@ class TweetService
   end
 
   def self.cache_check(tweets, redis)
-    if JSON.parse(redis.get(:tweet_ids)).nil?
+    if redis.get(:tweet_ids).nil?
       tweet_ids = []
       tweets.each do |tweet, user|
         tweet_ids.push tweet[:id]
