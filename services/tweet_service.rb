@@ -14,7 +14,7 @@ class TweetService
   def self.tweets(redis)
     tweets = []
     if redis.get(:tweet_ids).nil?
-      tweets = Tweet.limit(100).order created_at: :desc
+      tweets = Tweet.order(created_at: :desc).limit 100
     else
       tweet_ids = JSON.parse redis.get(:tweet_ids)
       tweets = Tweet.where id: tweet_ids
