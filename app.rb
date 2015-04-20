@@ -24,7 +24,7 @@ configure do
   enable :sessions
   set :session_secret, '48fa3729hf0219f4rfbf39hf2'
 
-  @@redis = Redis.new(
+  $redis = Redis.new(
       :host => 'pub-redis-13514.us-east-1-3.2.ec2.garantiadata.com',
       :port => '13514',
       :password => 'nanotwitter'
@@ -83,7 +83,7 @@ end
 
 # get latest tweets
 get '/nanotwitter/v1.0/tweets' do
-  tweets = TweetService.tweets @@redis
+  tweets = TweetService.tweets $redis
   erb :feed_tweets, :locals => { tweets: tweets }, :layout => false
 end
 

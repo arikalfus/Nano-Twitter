@@ -18,7 +18,7 @@ class TweetService
       tweets = Tweet.limit(100).order created_at: :desc
     else
       tweet_ids = JSON.parse redis.get(:tweet_ids)
-      tweets = Tweets.where(id: tweet_ids)
+      tweets = Tweet.where(id: tweet_ids)
     end
 
     full_tweets = build_tweets tweets
