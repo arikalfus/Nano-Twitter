@@ -73,10 +73,10 @@ class TweetService
 
   end
 
-  def self.cache_check(tweets, redis)
+  def self.cache_check(full_tweets, redis)
     if redis.get(:tweets).nil?
       tweets = []
-      tweets.each do |tweet, user|
+      full_tweets.each do |tweet, user|
         tweets.push tweet
       end
       redis.set :tweets, tweets
