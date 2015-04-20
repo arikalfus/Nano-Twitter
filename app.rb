@@ -6,8 +6,6 @@ require 'sinatra/formkeeper'
 require 'faker'
 require 'redis'
 
-require 'pry-byebug'
-
 require_relative 'services/user_service'
 require_relative 'services/tweet_service'
 require_relative 'services/form_service'
@@ -85,7 +83,6 @@ end
 
 # get latest tweets
 get '/nanotwitter/v1.0/tweets' do
-  binding.pry
   tweets = TweetService.tweets @@redis
   erb :feed_tweets, :locals => { tweets: tweets }, :layout => false
 end
