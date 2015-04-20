@@ -1,6 +1,6 @@
 require 'sinatra'
 require 'tilt/erb'
-require 'newrelic_rpm'
+# require 'newrelic_rpm'
 require 'sinatra/activerecord'
 require 'sinatra/formkeeper'
 require 'faker'

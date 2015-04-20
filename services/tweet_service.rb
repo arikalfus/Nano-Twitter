@@ -7,7 +7,7 @@ require_relative 'user_service'
 class TweetService
 
   def self.tweets_by_user_id(user_id)
-    tweets = Tweet.where(user_id: user_id).limit(100).order created_at: :desc
+    tweets = Tweet.where(user_id: user_id).order(created_at: :desc).limit 100
     build_tweets tweets
   end
 
