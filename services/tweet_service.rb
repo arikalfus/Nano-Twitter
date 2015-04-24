@@ -42,8 +42,10 @@ class TweetService
   end
 
   def self.update_cache(tweet, redis)
-    redis.lpush :tweet_ids, tweet[:id].to_json
-    redis.rpop :tweet_ids
+    redis.multi do
+      redis.lpush :tweet_ids, tweet[:id].to_json
+      redis.rpop :tweet_ids
+    end
   end
 
 

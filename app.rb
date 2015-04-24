@@ -250,5 +250,5 @@ end
 
 get '/reset' do
   LoadTestService.reset
-  redirect back
+  redirect to '/'
 end
