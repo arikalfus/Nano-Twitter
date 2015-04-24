@@ -6,16 +6,15 @@ require_relative 'user_service'
 
 class TweetService
 
-  def self.tweets_by_user_id(user_id, redis)
+  def self.tweets_by_user_id(user_id)
     tweets = Tweet.where(user_id: user_id).order(created_at: :desc).limit 100
     build_tweets tweets
   end
 
   def self.tweets(redis)
     tweets = []
-    if redis.get(:tweets).nil?
+    if redis.get(:tweet_ids).nil?
       tweets = Tweet.order(created_at: :desc).limit 100
-      # TODO: Construct tweets...convert to erb? How to do this...
     else
       tweet_ids = JSON.parse redis.get(:tweet_ids)
       tweets = Tweet.where id: tweet_ids
@@ -39,6 +38,13 @@ class TweetService
       else
         error 400, tweet.errors.to_json
       end
+    end
+  end
+
+  def self.update_cache(tweet, redis)
+    redis.multi do
+      redis.lpush :tweet_ids, tweet[:id].to_json
+      redis.rpop :tweet_ids
     end
   end
 

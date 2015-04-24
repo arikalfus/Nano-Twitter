@@ -1,16 +1,13 @@
 require 'sinatra'
 require 'tilt/erb'
-require 'newrelic_rpm'
+# require 'newrelic_rpm'
 require 'sinatra/activerecord'
 require 'sinatra/formkeeper'
 require 'faker'
 require 'redis'
+require 'require_all'
 
-require_relative 'services/user_service'
-require_relative 'services/tweet_service'
-require_relative 'services/form_service'
-require_relative 'services/load_test_service'
-require_relative 'models/follow'
+require_rel 'services/*', 'models/follow'
 
 # Configure server environment
 configure do
@@ -25,6 +22,7 @@ configure do
   set :session_secret, '48fa3729hf0219f4rfbf39hf2'
 
   $redis = Redis.new(
+      :driver => :hiredis,
       :host => 'pub-redis-13514.us-east-1-3.2.ec2.garantiadata.com',
       :port => '13514',
       :password => 'nanotwitter'
@@ -90,14 +88,12 @@ end
 # get latest tweets from followees of logged in user
 get '/nanotwitter/v1.0/tweets/followees' do
   if session[:user]
-    # TODO: Optimize this database call with caching
     user = UserService.get_by_id session[:user]
     users_to_follow = user.followees
     followees = users_to_follow.collect { |u| u[:id] }
     followees.push user[:id] # you should see your own tweets as well
 
-    # TODO: Cache generated HTML of tweets in redis
-    tweets = TweetService.tweets_by_user_id followees, $redis
+    tweets = TweetService.tweets_by_user_id followees
     erb :feed_tweets, :locals => { :tweets => tweets }, :layout => false
   else
     erb :feed_tweets, :locals => {:tweets => [] }, :layout => false
@@ -107,7 +103,7 @@ end
 get '/nanotwitter/v1.0/users/:username' do
   user = UserService.get_by_username params[:username]
 
-  tweets = TweetService.tweets_by_user_id user[:id], $redis
+  tweets = TweetService.tweets_by_user_id user[:id]
 
   if session[:user]
     logged_in_user = UserService.get_by_id session[:user]
@@ -201,9 +197,10 @@ post '/nanotwitter/v1.0/users/search' do
 end
 
 post '/nanotwitter/v1.0/users/id/:id/tweet' do
-    TweetService.new({ text: params[:tweet],
+    tweet = TweetService.new({ text: params[:tweet],
                 user_id: params[:id]
               })
+    TweetService.update_cache tweet, $redis
     redirect back
 end
 
@@ -253,4 +250,5 @@ end
 
 get '/reset' do
   LoadTestService.reset
+  redirect to '/'
 end
