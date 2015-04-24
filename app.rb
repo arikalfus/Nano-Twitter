@@ -33,14 +33,29 @@ end
 # Configure helper methods
 helpers do
 
+  def cache_everything
+    cache_tweets
+    cache_followees
+  end
+
   def cache_tweets
     tweets_array = TweetService.tweets
+    html_tweets = render_tweets tweets_array
+    RedisService.cache_tweets html_tweets, $redis
+  end
+
+  def cache_followees
+    users = UserService.get_everyone
+  end
+
+  def render_tweets(tweets_array)
     html_tweets = Array.new
     tweets_array.each do |tweet, user|
       html = erb :tweet, :locals => { tweet: tweet, user: user }, :layout => false
       html_tweets.push html
     end
-    RedisService.cache_tweets html_tweets, $redis
+
+    html_tweets
   end
 
 end
@@ -84,7 +99,7 @@ get '/' do
       erb :root
     end
   else
-    cache_tweets
+    cache_everything
     redirect to '/'
   end
 end
@@ -121,7 +136,7 @@ get '/nanotwitter/v1.0/tweets/followees' do
     followees.push user[:id] # you should see your own tweets as well
 
     # TODO: Cache generated HTML of tweets in redis
-    tweets = TweetService.tweets_by_user_id followees, $redis
+    tweets = TweetService.tweets_by_user_id followees
     erb :feed_tweets, :locals => { :tweets => tweets }, :layout => false
   else
     erb :feed_tweets, :locals => {:tweets => [] }, :layout => false
@@ -129,9 +144,12 @@ get '/nanotwitter/v1.0/tweets/followees' do
 end
 
 get '/nanotwitter/v1.0/users/:username' do
+  # TODO: Optimize all of this
   user = UserService.get_by_username params[:username]
 
-  tweets = TweetService.tweets_by_user_id user[:id], $redis
+  tweets_array = TweetService.tweets_by_user_id user[:id]
+  tweets = render_tweets tweets_array
+
 
   if session[:user]
     logged_in_user = UserService.get_by_id session[:user]
@@ -171,18 +189,6 @@ get '/nanotwitter/v1.0/users/:username/profile' do
   else
     error 401, { :error => 'must be logged in to access' }.to_json # must be logged in to access
   end
-end
-
-post '/nanotwitter/v1.0/redis/cache/tweets' do
-
-  tweets_array = TweetService.tweets
-  html_tweets = Array.new
-  tweets_array.each do |tweet, user|
-    html = erb :tweet, :locals => { tweet: tweet, user: user }, :layout => false
-    html_tweets.push tweet
-  end
-  RedisService.cache_tweets html_tweets, $redis
-
 end
 
 # create a new user
