@@ -13,8 +13,9 @@ class TweetService
 
   def self.tweets(redis)
     tweets = []
-    if redis.get(:tweet_ids).nil?
+    if redis.get(:tweets).nil?
       tweets = Tweet.order(created_at: :desc).limit 100
+      # TODO: Construct tweets...convert to erb? How to do this...
     else
       tweet_ids = JSON.parse redis.get(:tweet_ids)
       tweets = Tweet.where id: tweet_ids
