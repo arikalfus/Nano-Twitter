@@ -1,18 +1,30 @@
 require 'sinatra/activerecord'
+require 'json'
 
 require_relative '../models/tweet'
 require_relative 'user_service'
 
 class TweetService
 
-  def self.tweets_by_user_id(user_id)
-    tweets = Tweet.where(user_id: user_id).limit(100).order created_at: :desc
+  def self.tweets_by_user_id(user_id, redis)
+    tweets = Tweet.where(user_id: user_id).order(created_at: :desc).limit 100
     build_tweets tweets
   end
 
-  def self.tweets
-    tweets = Tweet.limit(100).order created_at: :desc
-    build_tweets tweets
+  def self.tweets(redis)
+    tweets = []
+    if redis.get(:tweets).nil?
+      tweets = Tweet.order(created_at: :desc).limit 100
+      # TODO: Construct tweets...convert to erb? How to do this...
+    else
+      tweet_ids = JSON.parse redis.get(:tweet_ids)
+      tweets = Tweet.where id: tweet_ids
+    end
+
+    full_tweets = build_tweets tweets
+    cache_check full_tweets, redis
+
+    full_tweets
   end
 
   def self.new(params)
@@ -54,7 +66,7 @@ class TweetService
     tweets.each do |tweet|
       tweet_user = user_hash[tweet[:user_id]] # should return nil if no key is found
       if tweet_user.nil?
-        Tweet.destroy(tweet[:id])
+        Tweet.destroy tweet[:id]
       else
         full_tweets.push [tweet, tweet_user]
       end
@@ -62,6 +74,16 @@ class TweetService
 
     full_tweets
 
+  end
+
+  def self.cache_check(tweets, redis)
+    if redis.get(:tweet_ids).nil?
+      tweet_ids = []
+      tweets.each do |tweet, user|
+        tweet_ids.push tweet[:id]
+      end
+      redis.set :tweet_ids, tweet_ids.to_json
+    end
   end
 
 end

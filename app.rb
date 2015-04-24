@@ -3,8 +3,8 @@ require 'tilt/erb'
 require 'newrelic_rpm'
 require 'sinatra/activerecord'
 require 'sinatra/formkeeper'
-require 'json'
 require 'faker'
+require 'redis'
 
 require_relative 'services/user_service'
 require_relative 'services/tweet_service'
@@ -23,6 +23,13 @@ configure do
   set :public_folder, File.dirname(__FILE__) + '/static'
   enable :sessions
   set :session_secret, '48fa3729hf0219f4rfbf39hf2'
+
+  $redis = Redis.new(
+      :host => 'pub-redis-13514.us-east-1-3.2.ec2.garantiadata.com',
+      :port => '13514',
+      :password => 'nanotwitter'
+  )
+
 end
 
 # for load testing with Loader.io
@@ -76,29 +83,31 @@ end
 
 # get latest tweets
 get '/nanotwitter/v1.0/tweets' do
-  tweets = TweetService.tweets
-  erb :feed, :locals => { tweets: tweets }, :layout => false
+  tweets = TweetService.tweets $redis
+  erb :feed_tweets, :locals => { tweets: tweets }, :layout => false
 end
 
 # get latest tweets from followees of logged in user
 get '/nanotwitter/v1.0/tweets/followees' do
   if session[:user]
+    # TODO: Optimize this database call with caching
     user = UserService.get_by_id session[:user]
     users_to_follow = user.followees
     followees = users_to_follow.collect { |u| u[:id] }
     followees.push user[:id] # you should see your own tweets as well
 
-    tweets = TweetService.tweets_by_user_id followees
-    erb :feed, :locals => { :tweets => tweets }, :layout => false
+    # TODO: Cache generated HTML of tweets in redis
+    tweets = TweetService.tweets_by_user_id followees, $redis
+    erb :feed_tweets, :locals => { :tweets => tweets }, :layout => false
   else
-    erb :feed, :locals => {:tweets => [] }, :layout => false
+    erb :feed_tweets, :locals => {:tweets => [] }, :layout => false
   end
 end
 
 get '/nanotwitter/v1.0/users/:username' do
   user = UserService.get_by_username params[:username]
 
-  tweets = TweetService.tweets_by_user_id user[:id]
+  tweets = TweetService.tweets_by_user_id user[:id], $redis
 
   if session[:user]
     logged_in_user = UserService.get_by_id session[:user]
@@ -185,7 +194,7 @@ post '/nanotwitter/v1.0/users/search' do
     end
 
     search_terms = form[:search]
-    users        = UserService.search_for search_terms
+    users = UserService.search_for search_terms
     erb :search_results, :locals => { results: users, search_term: search_terms }
   end
 
@@ -209,7 +218,7 @@ post '/nanotwitter/v1.0/users/session' do
   redirect to '/'
 end
 
-# udpate an existing user using follow functions.
+# add a followee to a user.
 post '/nanotwitter/v1.0/users/:username/follow' do
   if session[:user]
     logged_in_user = UserService.get_by_id session[:user]
@@ -222,6 +231,7 @@ post '/nanotwitter/v1.0/users/:username/follow' do
   end
 end
 
+# remove a followee from a user.
 post '/nanotwitter/v1.0/users/:username/unfollow' do
   if session[:user]
     logged_in_user = UserService.get_by_id session[:user]
@@ -244,32 +254,3 @@ end
 get '/reset' do
   LoadTestService.reset
 end
-
-# update an existing user by table id
-#put '/nanotwitter/v1.0/users/id/:id' do
-#  user = UserService.get_by_id params[:id]
-#  if user
-#    begin
-#      if user.update_attributes JSON.parse request.body.read
-#        user.to_json
-#      else
-#        error 400, user.errors.to_json
-#      end
-#    rescue => e
-#      error 400, e.message.to_json
-#    end
-#  else
-#    error 404, { :error => 'user not found' }.to_json
-#  end
-#end
-
-# destroy an existing user
-# delete '/nanotwitter/v1.0/users/:name' do
-#   user = User.find_by_name params[:name]
-#   if user
-#     user.destroy
-#     user.to_json
-#   else
-#     error 404, { :error => 'user not found' }.to_json
-#   end
-# end
