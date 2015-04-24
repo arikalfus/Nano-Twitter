@@ -9,7 +9,7 @@ gem 'sinatra-formkeeper'
 gem 'json'
 gem 'newrelic_rpm'
 gem 'faker'
-gem 'require_all'
+# gem 'require_all'
 
 group :development, :test do
   gem 'sqlite3'
