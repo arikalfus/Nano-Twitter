@@ -50,7 +50,7 @@ class TweetService
     # end
 
     redis.multi do
-      redis.lpush :tweet_ids, tweet[:id]
+      redis.lpush :tweet_ids, tweet[:id].to_json
       redis.rpop :tweet_ids
     end
   end
