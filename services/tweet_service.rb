@@ -11,19 +11,9 @@ class TweetService
     build_tweets tweets
   end
 
-  def self.tweets(redis)
-    tweets = []
-    if redis.get(:tweet_ids).nil?
-      tweets = Tweet.order(created_at: :desc).limit 100
-    else
-      tweet_ids = JSON.parse redis.get(:tweet_ids)
-      tweets = Tweet.where id: tweet_ids
-    end
-
-    full_tweets = build_tweets tweets
-    cache_check full_tweets, redis
-
-    full_tweets
+  def self.tweets
+    Tweet.order(created_at: :desc).limit 100
+    build_tweets tweets
   end
 
   def self.new(params)
@@ -95,16 +85,6 @@ class TweetService
 
     full_tweets
 
-  end
-
-  def self.cache_check(tweets, redis)
-    if redis.get(:tweet_ids).nil?
-      tweet_ids = []
-      tweets.each do |tweet, user|
-        tweet_ids.push tweet[:id]
-      end
-      redis.set :tweet_ids, tweet_ids.to_json
-    end
   end
 
 end

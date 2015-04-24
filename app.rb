@@ -4,7 +4,6 @@ require 'tilt/erb'
 require 'sinatra/activerecord'
 require 'sinatra/formkeeper'
 require 'faker'
-require 'redis'
 require 'require_all'
 
 require_rel 'services/*', 'models/follow'
@@ -20,12 +19,6 @@ configure do
   set :public_folder, File.dirname(__FILE__) + '/static'
   enable :sessions
   set :session_secret, '48fa3729hf0219f4rfbf39hf2'
-
-  $redis = Redis.new(
-      :host => 'pub-redis-13514.us-east-1-3.2.ec2.garantiadata.com',
-      :port => '13514',
-      :password => 'nanotwitter'
-  )
 
 end
 
@@ -80,7 +73,7 @@ end
 
 # get latest tweets
 get '/nanotwitter/v1.0/tweets' do
-  tweets = TweetService.tweets $redis
+  tweets = TweetService.tweets
   erb :feed_tweets, :locals => { tweets: tweets }, :layout => false
 end
 
@@ -249,7 +242,7 @@ get '/test_follow' do
   LoadTestService.test_follow
 end
 
-get 'test_user' do
+get '/test_user' do
   test_user = UserService.get_by_username 'test_user'
   erb :test_user_page, :locals  => {:profile_user => test_user }
 end
