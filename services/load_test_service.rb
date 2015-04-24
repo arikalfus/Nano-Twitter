@@ -8,7 +8,8 @@ class LoadTestService
 
 	def self.test_follow
 		test_user = UserService.get_by_username 'test_user'
-  	user_to_follow = UserService.get_by_id rand(1000)+1
+    puts "my id: #{test_user[:id]}"
+  	user_to_follow = UserService.get_by_id rand(1000) + 1
   	(test_user.following? user_to_follow) ? (test_user.unfollow user_to_follow) : (test_user.follow user_to_follow)
 	end
 

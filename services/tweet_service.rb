@@ -7,17 +7,17 @@ require_relative 'user_service'
 class TweetService
 
   def self.tweets_by_user_id(user_id)
-    tweets = Tweet.where(user_id: user_id).order(created_at: :desc).limit 100
+    tweets = Tweet.where(user_id: user_id).limit(100).order created_at: :desc
     build_tweets tweets
   end
 
   def self.tweets(redis)
     tweets = []
     if redis.get(:tweet_ids).nil?
-      tweets = Tweet.order(created_at: :desc).limit 100
+      tweets = Tweet.limit(100).order created_at: :desc
     else
       tweet_ids = JSON.parse redis.get(:tweet_ids)
-      tweets = Tweet.where id: tweet_ids
+      tweets = Tweet.where(id: tweet_ids).order created_at: :desc
     end
 
     full_tweets = build_tweets tweets
@@ -46,6 +46,28 @@ class TweetService
       redis.lpush :tweet_ids, tweet[:id].to_json
       redis.rpop :tweet_ids
     end
+  end
+
+  def self.build_test_user_tweets(ids, users)
+    tweets = Tweet.where(user_id: ids).limit(100).order created_at: :desc
+    full_tweets = []
+
+    # To optimize full_tweet creation below
+    user_hash = Hash.new
+    users.each do |user|
+      user_hash[user[:id]] = user
+    end
+
+    tweets.each do |tweet|
+      tweet_user = user_hash[tweet[:user_id]] # should return nil if no key is found
+      if tweet_user.nil?
+        Tweet.destroy tweet[:id]
+      else
+        full_tweets.push [tweet, tweet_user]
+      end
+    end
+
+    full_tweets
   end
 
 
