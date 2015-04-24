@@ -6,6 +6,7 @@ require 'sinatra/formkeeper'
 require 'faker'
 require 'redis'
 require 'require_all'
+require 'hiredis'
 
 require_rel 'services/*', 'models/follow'
 
@@ -22,6 +23,7 @@ configure do
   set :session_secret, '48fa3729hf0219f4rfbf39hf2'
 
   $redis = Redis.new(
+      :driver => :hiredis,
       :host => 'pub-redis-13514.us-east-1-3.2.ec2.garantiadata.com',
       :port => '13514',
       :password => 'nanotwitter'
@@ -196,9 +198,10 @@ post '/nanotwitter/v1.0/users/search' do
 end
 
 post '/nanotwitter/v1.0/users/id/:id/tweet' do
-    TweetService.new({ text: params[:tweet],
+    tweet = TweetService.new({ text: params[:tweet],
                 user_id: params[:id]
               })
+    TweetService.update_cache tweet, $redis
     redirect back
 end
 

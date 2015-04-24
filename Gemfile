@@ -11,6 +11,7 @@ gem 'newrelic_rpm'
 gem 'faker'
 gem 'redis'
 gem 'require_all'
+gem 'hiredis'
 
 group :development, :test do
   gem 'sqlite3'
