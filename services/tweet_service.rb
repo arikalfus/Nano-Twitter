@@ -42,13 +42,8 @@ class TweetService
   end
 
   def self.update_cache(tweet, redis)
-    # redis.multi do
-    #   cached_tweets = JSON.parse redis.get(:tweet_ids)
-    #   cached_tweets.insert 0, tweet[:id]
-    #   cached_tweets.pop
-    #   redis.set :tweet_ids, cached_tweets.to_json
-    # end
 
+    # Multi blocks executes atomic commands
     redis.multi do
       redis.lpush :tweet_ids, tweet[:id].to_json
       redis.rpop :tweet_ids
