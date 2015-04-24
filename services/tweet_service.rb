@@ -48,6 +48,27 @@ class TweetService
     end
   end
 
+  def self.build_test_user_tweets(tweets, users)
+    full_tweets = []
+
+    # To optimize full_tweet creation below
+    user_hash = Hash.new
+    users.each do |user|
+      user_hash[user[:id]] = user
+    end
+
+    tweets.each do |tweet|
+      tweet_user = user_hash[tweet[:user_id]] # should return nil if no key is found
+      if tweet_user.nil?
+        Tweet.destroy tweet[:id]
+      else
+        full_tweets.push [tweet, tweet_user]
+      end
+    end
+
+    full_tweets
+  end
+
 
   private
 
