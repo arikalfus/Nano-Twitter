@@ -6,11 +6,7 @@ require 'sinatra/formkeeper'
 require 'faker'
 require 'redis'
 
-require_relative 'services/user_service'
-require_relative 'services/tweet_service'
-require_relative 'services/form_service'
-require_relative 'services/load_test_service'
-require_relative 'models/follow'
+require_rel 'services/*', 'models/follow'
 
 # Configure server environment
 configure do
