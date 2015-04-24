@@ -7,6 +7,7 @@ require 'faker'
 require 'redis'
 require 'require_all'
 
+
 require_rel 'services/*', 'models/follow'
 
 # Configure server environment
@@ -40,7 +41,7 @@ helpers do
   def cache_tweets
     tweets_array = TweetService.tweets
     html_tweets = render_tweets tweets_array
-    RedisService.cache_tweets html_tweets, $redis
+    # RedisService.cache_tweets html_tweets, $redis
   end
 
   def cache_followees
@@ -51,10 +52,8 @@ helpers do
     html_tweets = Array.new
     tweets_array.each do |tweet, user|
       html = erb :tweet, :locals => { tweet: tweet, user: user }, :layout => false
-      html_tweets.push html
+      $redis.rpush 'tweets', html
     end
-
-    html_tweets
   end
 
 end

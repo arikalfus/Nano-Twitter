@@ -1,8 +1,9 @@
 class RedisService
 
   def self.cache_tweets(html_tweets, redis)
+    binding.pry
     html_tweets.each do |html|
-      redis.lpush 'tweets', html
+      redis.rpush 'tweets', html
     end
   end
 
@@ -11,7 +12,7 @@ class RedisService
   end
 
   def self.validate_cache(redis, key)
-    redis.get(key).nil? ? false : true
+    redis.lrange('tweets', 0, 1).empty? ? false : true
   end
 
 end
