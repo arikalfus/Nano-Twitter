@@ -12,7 +12,7 @@ class TweetService
   end
 
   def self.tweets
-    Tweet.order(created_at: :desc).limit 100
+    tweets = Tweet.order(created_at: :desc).limit 100
     build_tweets tweets
   end
 
