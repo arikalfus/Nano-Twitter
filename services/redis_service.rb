@@ -1,11 +1,13 @@
 class RedisService
 
   def self.cache_tweets(html_tweets, redis)
-    redis.set 'tweets', html_tweets
+    html_tweets.each do |html|
+      redis.lpush 'tweets', html
+    end
   end
 
   def self.get_tweets(redis)
-    redis.get 'tweets'
+    redis.lrange 'tweets', 0, 100
   end
 
   def self.validate_cache(redis, key)
