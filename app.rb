@@ -119,7 +119,6 @@ get '/nanotwitter/v1.0/users/:username' do
     else
       error 404, { :error => 'user not found' }.to_json
     end
-  end
 
 end
 
