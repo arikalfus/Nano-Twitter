@@ -263,9 +263,6 @@ end
 
 get '/reset' do
   erb :reset
-end
-
-get '/nanotwitter/v1.0/test_user/reset' do
   LoadTestService.reset
   redirect to '/'
 end

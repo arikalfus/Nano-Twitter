@@ -1,12 +1,4 @@
-<div id="reset-text"><h1>Deleting all followers and tweets, please wait...</h1></div>
+<div class="text-center"><h1>Deleting all followers and tweets, please wait...</h1></div>
 
 
-  <script type="text/javascript">
-  $.ajax({
-    url: '/nanotwitter/v1.0/test_user/reset',
-    cache: false,
-    success: function(html) {
-      $('#reset-text').html(html)
-    }
-  })
-</script>
+<div class="text-center" color="red">If deleting tweets, the destroy method usually takes 10+ seconds to remove all tweets for test_user. You may need to call the /reset route 2-3 times.</div>
