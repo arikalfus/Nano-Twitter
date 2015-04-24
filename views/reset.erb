@@ -1,0 +1,12 @@
+<div id="reset-text"><h1>Deleting all followers and tweets, please wait...</h1></div>
+
+
+  <script type="text/javascript">
+  $.ajax({
+    url: '/nanotwitter/v1.0/test_user/reset',
+    cache: false,
+    success: function(html) {
+      $('#reset-text').html(html)
+    }
+  })
+</script>
