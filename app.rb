@@ -263,5 +263,6 @@ end
 
 get '/reset' do
   erb :reset
-  redirect to '/' if LoadTestService.reset
+  LoadService.reset
+  redirect to '/'
 end
