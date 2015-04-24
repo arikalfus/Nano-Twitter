@@ -258,16 +258,16 @@ get '/test_user' do
 
 end
 
-get 'test_user/tweets' do
+get '/test_user/tweets' do
   test_user = UserService.get_by_username 'test_user'
 
   followees = test_user.followees
-  followees.push test_user
+  users = followees | [test_user]
   ids = followees.collect { |user| user[:id] }
 
-  tweets = Tweet.where(id: ids)
-  full_tweets = TweetService.build_test_user_tweets tweets, followees
-  erb :feed_tweets, :locals => { tweets: full_tweets }, :layout => false
+  tweets = TweetService.build_test_user_tweets ids, users
+
+  erb :feed_tweets, :locals => { tweets: tweets }, :layout => false
 end
 
 get '/reset' do

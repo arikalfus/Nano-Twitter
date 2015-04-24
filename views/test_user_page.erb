@@ -43,10 +43,10 @@
 <script type="text/javascript">
   // To load tweets
   $.ajax({
-    url:"/nanotwitter/v1.0/tweets",
+    url:"/test_user/tweets",
     cache: false,
     success: function(html) {
-      $(" #tweet-feed").html(html);
+      $("#tweet-feed").html(html);
     }
   });
 </script>
