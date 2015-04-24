@@ -22,7 +22,6 @@ configure do
   set :session_secret, '48fa3729hf0219f4rfbf39hf2'
 
   $redis = Redis.new(
-      :driver => :hiredis,
       :host => 'pub-redis-13514.us-east-1-3.2.ec2.garantiadata.com',
       :port => '13514',
       :password => 'nanotwitter'
