@@ -69,6 +69,9 @@ get '/loaderio-7075d4380f6f2dacc9025ebdc486490d/' do
 end
 
 get '/' do
+  client_list = $redis.method_missing("client", "list")
+  puts "REDIS CLIENT LIST: #{client_list.split("\n").length}"
+
   tweets_cached = RedisService.validate_cache $redis, 'tweets'
   if tweets_cached
 
