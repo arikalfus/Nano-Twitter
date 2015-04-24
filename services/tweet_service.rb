@@ -11,21 +11,26 @@ class TweetService
     build_tweets tweets
   end
 
-  def self.tweets(redis)
-    tweets = []
-    if redis.get(:tweets).nil?
-      tweets = Tweet.order(created_at: :desc).limit 100
-      # TODO: Construct tweets...convert to erb? How to do this...
-    else
-      tweet_ids = JSON.parse redis.get(:tweet_ids)
-      tweets = Tweet.where id: tweet_ids
-    end
-
-    full_tweets = build_tweets tweets
-    cache_check full_tweets, redis
-
-    full_tweets
+  def self.tweets
+    tweets = Tweet.order(created_at: :desc).limit 100
+    build_tweets tweets
   end
+
+  # def self.tweets(redis)
+  #   tweets = []
+  #   if redis.get(:tweets).nil?
+  #     tweets = Tweet.order(created_at: :desc).limit 100
+  #     # TODO: Construct tweets...convert to erb? How to do this...
+  #   else
+  #     tweet_ids = JSON.parse redis.get(:tweet_ids)
+  #     tweets = Tweet.where id: tweet_ids
+  #   end
+  #
+  #   full_tweets = build_tweets tweets
+  #   cache_check full_tweets, redis
+  #
+  #   full_tweets
+  # end
 
   def self.new(params)
     begin
