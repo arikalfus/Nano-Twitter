@@ -42,12 +42,8 @@ class TweetService
   end
 
   def self.update_cache(tweet, redis)
-
-    # Multi blocks executes atomic commands
-    redis.multi do
-      redis.lpush :tweet_ids, tweet[:id].to_json
-      redis.rpop :tweet_ids
-    end
+    redis.lpush :tweet_ids, tweet[:id].to_json
+    redis.rpop :tweet_ids
   end
 
 
