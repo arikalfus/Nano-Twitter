@@ -1,0 +1,52 @@
+<div class="page-header">
+  <div class="container-fluid">
+    <span class="pull-left">
+      <span><img src=<%= profile_user[:image] %> alt="avatar" class="img-thumbnail" style="width:150px;height:150px"></span>
+      <h3><%= profile_user['name'] %></h3>
+        <h5>@<%= profile_user['username'] %></h5>
+    </span>
+    <span class="pull-right" style="margin-top: 25px">
+      <!-- If user is logged in and user is not looking at his own page, display 'Follow' button -->
+      <% if defined?(user) && user[:username] != profile_user[:username]%>
+        <!-- Display 'Follow' or 'Following' based on whether user is already following this profile. -->
+        <% if user.followees.find_by_username profile_user[:username] %>
+            <form action="/nanotwitter/v1.0/users/<%= profile_user[:username] %>/unfollow" method="post">
+              <button class="btn btn-primary active" style="opacity: 0.5" type="submit">Following</button>
+            </form>
+          <% else %>
+          <form action="/nanotwitter/v1.0/users/<%= profile_user[:username] %>/follow" method="post">
+            <button class="btn btn-primary" type="submit">Follow</button>
+          </form>
+          <% end %>
+        <% end %>
+    </span>
+  </div>
+</div>
+
+<% if defined? user %>
+  <% if user[:username] == profile_user[:username] %>
+    <%= erb :tweet, :locals => { :user => user } %>
+  <% end %>
+<% end %>
+
+<!-- Div content is replaced by tweet feed by AJAX call -->
+<div id="tweet-feed">
+  Tweets
+  <div class="table-responsive">
+    <table class="table table-striped table-hover">
+      <tr><td class="text-center">Getting the latest tweets, just for you. Please wait...</td></tr>
+    </table>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+  // To load tweets
+  $.ajax({
+    url:"/test_user/tweets",
+    cache: false,
+    success: function(html) {
+      $("#tweet-feed").html(html);
+    }
+  });
+</script>

@@ -10,6 +10,7 @@ gem 'json'
 gem 'newrelic_rpm'
 gem 'faker'
 gem 'redis'
+gem 'require_all'
 
 group :development, :test do
   gem 'sqlite3'

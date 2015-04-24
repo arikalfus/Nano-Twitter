@@ -6,11 +6,7 @@ require 'sinatra/formkeeper'
 require 'faker'
 require 'redis'
 
-require_relative 'services/user_service'
-require_relative 'services/tweet_service'
-require_relative 'services/form_service'
-require_relative 'services/load_test_service'
-require_relative 'models/follow'
+require_rel 'services/*', 'models/follow'
 
 # Configure server environment
 configure do
@@ -103,6 +99,9 @@ get '/nanotwitter/v1.0/tweets/followees' do
 end
 
 get '/nanotwitter/v1.0/users/:username' do
+
+  redirect to '/test_user' if params[:username] == 'test_user'
+
   user = UserService.get_by_username params[:username]
 
   tweets = TweetService.tweets_by_user_id user[:id]
@@ -249,6 +248,23 @@ get '/test_follow' do
   LoadTestService.test_follow
 end
 
+get 'test_user' do
+  test_user = UserService.get_by_username 'test_user'
+  erb :test_user_page, :locals  => {:profile_user => test_user }
+end
+get 'test_user/tweets' do
+  test_user = UserService.get_by_username 'test_user'
+
+  followees = test_user.followees
+  user = followees | [test_user]
+  ids = followees.collect { |user| user[:id] }
+
+  tweets = TweetService.build_test_user_tweets ids, users
+
+  erb :feed_tweets, :locals => {tweets: tweets }, :layout => false
+end
+
 get '/reset' do
   LoadTestService.reset
+  redirect back
 end
