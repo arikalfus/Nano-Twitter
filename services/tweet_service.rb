@@ -81,14 +81,14 @@ class TweetService
 
   end
 
-  def self.cache_check(tweets, redis)
-    if redis.get(:tweet_ids).nil?
-      tweet_ids = []
-      tweets.each do |tweet, user|
-        tweet_ids.push tweet[:id]
-      end
-      redis.set :tweet_ids, tweet_ids.to_json
-    end
-  end
+  # def self.cache_check(tweets, redis)
+  #   if redis.get(:tweet_ids).nil?
+  #     tweet_ids = []
+  #     tweets.each do |tweet, user|
+  #       tweet_ids.push tweet[:id]
+  #     end
+  #     redis.set :tweet_ids, tweet_ids.to_json
+  #   end
+  # end
 
 end
