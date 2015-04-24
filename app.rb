@@ -101,21 +101,25 @@ get '/nanotwitter/v1.0/tweets/followees' do
 end
 
 get '/nanotwitter/v1.0/users/:username' do
-  user = UserService.get_by_username params[:username]
+  if :username == 'test_user'
+    redirect to '/test_user'
+  else
+    user = UserService.get_by_username params[:username]
 
-  tweets = TweetService.tweets_by_user_id user[:id]
+    tweets = TweetService.tweets_by_user_id user[:id]
 
-  if session[:user]
-    logged_in_user = UserService.get_by_id session[:user]
-    if user && logged_in_user
-      erb :user_page, :locals => { :user => logged_in_user, :profile_user => user, :tweets => tweets }
+    if session[:user]
+      logged_in_user = UserService.get_by_id session[:user]
+      if user && logged_in_user
+        erb :user_page, :locals => { :user => logged_in_user, :profile_user => user, :tweets => tweets }
+      else
+        error 404, { :error => 'user not found' }.to_json
+      end
+    elsif user
+      erb :user_page,  :locals => { :profile_user => user, :tweets => tweets }
     else
       error 404, { :error => 'user not found' }.to_json
     end
-  elsif user
-    erb :user_page,  :locals => { :profile_user => user, :tweets => tweets }
-  else
-    error 404, { :error => 'user not found' }.to_json
   end
 
 end
@@ -252,3 +256,16 @@ get '/reset' do
   LoadTestService.reset
   redirect to '/'
 end
+
+get '/test_user' do
+  test_user = UserService.get_by_username "test_user"
+  
+  followees_ids = test_user.followees.select(:id)
+  followees_ids.push test_user
+  followees_ids.collect! { |user| user[:id] }
+  tweets = Tweet.where(id: followees_ids)
+  erb :user_page,  :locals => { :profile_user => test_user, :tweets => tweets }
+
+end
+
+
