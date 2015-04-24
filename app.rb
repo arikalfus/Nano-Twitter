@@ -6,7 +6,6 @@ require 'sinatra/formkeeper'
 require 'faker'
 require 'redis'
 require 'require_all'
-require 'pry-byebug'
 
 require_rel 'services/*', 'models/follow'
 
