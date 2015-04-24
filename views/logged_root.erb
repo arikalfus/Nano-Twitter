@@ -14,6 +14,8 @@
   </div>
 </div>
 
+<%= erb :tweet_box, :locals => {:user => user } %>
+
 <!-- Div content is replaced by tweet feed by AJAX call -->
 <div id="logged-tweet-feed">
   Tweets
