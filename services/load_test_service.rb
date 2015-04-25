@@ -22,8 +22,8 @@ class LoadTestService
 
 	def self.reset
 		test_user = UserService.get_by_username 'test_user'
-		test_user.followees.destroy_all
-		Tweet.destroy_all id: test_user[:id]
+		test_user.followees.delete_all
+		test_user.tweets.delete_all
 	end
 
 end
