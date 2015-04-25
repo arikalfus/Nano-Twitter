@@ -5,7 +5,7 @@ preload_app true
 before_fork do |server, worker|
   # Disconnect since the database connection will not carry over
   if defined? ActiveRecord::Base
-    ActiveRecord::Base.connection.disconect!
+    ActiveRecord::Base.connection.disconnect!
   end
 end
 
