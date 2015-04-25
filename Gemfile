@@ -9,7 +9,6 @@ gem 'sinatra-formkeeper'
 gem 'json'
 gem 'newrelic_rpm'
 gem 'faker'
-gem 'unicorn'
 
 group :development, :test do
   gem 'sqlite3'
@@ -20,4 +19,6 @@ end
 
 group :production do
   gem 'pg'
+  gem 'unicorn'
+  gem 'unicorn-worker-killer'
 end
