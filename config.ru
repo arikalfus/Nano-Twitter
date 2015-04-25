@@ -18,5 +18,14 @@ use Unicorn::WorkerKiller::Oom, oom_min, oom_max
 
 # --- End of unicorn worker killer code ---
 
+# --- Start of Unicorn GC code ---
+
+GC_FREQUENCY = 40
+require_dependency 'unicorn/oob_gc'
+GC.disable # don't run GC during requests
+use Unicorn::OobGC, GC_FREQUENCY # only GC once every GC_FREQUENCY
+
+# --- End of Unicorn GC code ---
+
 require_relative 'app'
 run Sinatra::Application
