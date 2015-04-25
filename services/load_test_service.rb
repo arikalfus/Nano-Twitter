@@ -3,6 +3,7 @@ require 'sinatra/activerecord'
 require_relative '../models/user'
 require_relative '../services/user_service'
 require_relative '../services/tweet_service'
+require_relative '../models/tweet'
 
 class LoadTestService
 
@@ -22,7 +23,7 @@ class LoadTestService
 	def self.reset
 		test_user = UserService.get_by_username 'test_user'
 		test_user.followees.destroy_all
-		test_user.tweets.destroy_all
+		Tweet.destroy_all id: test_user[:id]
 	end
 
 end
