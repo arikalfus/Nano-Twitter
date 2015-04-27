@@ -3,6 +3,7 @@ require 'sinatra/activerecord'
 require_relative '../models/user'
 require_relative '../services/user_service'
 require_relative '../services/tweet_service'
+require_relative '../models/tweet'
 
 class LoadTestService
 

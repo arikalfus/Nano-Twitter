@@ -8,14 +8,21 @@ require 'json'
 require 'faker'
 =======
 require 'faker'
+<<<<<<< HEAD
 require 'redis'
 <<<<<<< HEAD
 >>>>>>> origin/redis
 =======
 require 'require_all'
 >>>>>>> origin/ari
+=======
+>>>>>>> master
 
-require_rel 'services/*', 'models/follow'
+require_relative 'services/form_service'
+require_relative 'services/load_test_service'
+require_relative 'services/tweet_service'
+require_relative 'services/user_service'
+require_relative 'models/follow'
 
 # Configure server environment
 configure do
@@ -28,13 +35,6 @@ configure do
   set :public_folder, File.dirname(__FILE__) + '/static'
   enable :sessions
   set :session_secret, '48fa3729hf0219f4rfbf39hf2'
-
-  $redis = Redis.new(
-      :driver => :hiredis,
-      :host => 'pub-redis-13514.us-east-1-3.2.ec2.garantiadata.com',
-      :port => '13514',
-      :password => 'nanotwitter'
-  )
 
 end
 
@@ -89,7 +89,7 @@ end
 
 # get latest tweets
 get '/nanotwitter/v1.0/tweets' do
-  tweets = TweetService.tweets $redis
+  tweets = TweetService.tweets
   erb :feed_tweets, :locals => { tweets: tweets }, :layout => false
 end
 
@@ -139,6 +139,9 @@ end
 
 
 get '/nanotwitter/v1.0/users/:username' do
+
+  redirect to '/test_user' if params[:username] == 'test_user'
+
   user = UserService.get_by_username params[:username]
 
   tweets = TweetService.tweets_by_user_id user[:id]
@@ -230,10 +233,9 @@ post '/nanotwitter/v1.0/users/search' do
 end
 
 post '/nanotwitter/v1.0/users/id/:id/tweet' do
-    tweet = TweetService.new({ text: params[:tweet],
+    TweetService.new({ text: params[:tweet],
                 user_id: params[:id]
               })
-    TweetService.update_cache tweet, $redis
     redirect back
 end
 
@@ -281,7 +283,24 @@ get '/test_follow' do
   LoadTestService.test_follow
 end
 
+get '/test_user' do
+  test_user = UserService.get_by_username 'test_user'
+  erb :test_user_page, :locals  => {:profile_user => test_user }
+end
+get '/test_user/tweets' do
+  test_user = UserService.get_by_username 'test_user'
+
+  followees = test_user.followees
+  users = followees | [test_user]
+  ids = followees.collect { |user| user[:id] }
+
+  tweets = TweetService.build_test_user_tweets ids, users
+
+  erb :feed_tweets, :locals => {tweets: tweets }, :layout => false
+end
+
 get '/reset' do
+  erb :reset
   LoadTestService.reset
   redirect to '/'
 end

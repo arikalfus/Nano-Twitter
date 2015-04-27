@@ -11,19 +11,9 @@ class TweetService
     build_tweets tweets
   end
 
-  def self.tweets(redis)
-    tweets = []
-    if redis.get(:tweet_ids).nil?
-      tweets = Tweet.order(created_at: :desc).limit 100
-    else
-      tweet_ids = JSON.parse redis.get(:tweet_ids)
-      tweets = Tweet.where id: tweet_ids
-    end
-
-    full_tweets = build_tweets tweets
-    cache_check full_tweets, redis
-
-    full_tweets
+  def self.tweets
+    tweets = Tweet.order(created_at: :desc).limit 100
+    build_tweets tweets
   end
 
   def self.new(params)
@@ -41,11 +31,26 @@ class TweetService
     end
   end
 
-  def self.update_cache(tweet, redis)
-    redis.multi do
-      redis.lpush :tweet_ids, tweet[:id].to_json
-      redis.rpop :tweet_ids
+  def self.build_test_user_tweets(ids, users)
+    tweets = Tweet.where(user_id: ids).limit(100).order created_at: :desc
+    full_tweets = []
+
+    # To optimize full_tweet creation below
+    user_hash = Hash.new
+    users.each do |user|
+      user_hash[user[:id]] = user
     end
+
+    tweets.each do |tweet|
+      tweet_user = user_hash[tweet[:user_id]] # should return nil if no key is found
+      if tweet_user.nil?
+        Tweet.destroy tweet[:id]
+      else
+        full_tweets.push [tweet, tweet_user]
+      end
+    end
+
+    full_tweets
   end
 
 
@@ -80,16 +85,6 @@ class TweetService
 
     full_tweets
 
-  end
-
-  def self.cache_check(tweets, redis)
-    if redis.get(:tweet_ids).nil?
-      tweet_ids = []
-      tweets.each do |tweet, user|
-        tweet_ids.push tweet[:id]
-      end
-      redis.set :tweet_ids, tweet_ids.to_json
-    end
   end
 
 end

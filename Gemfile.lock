@@ -28,11 +28,12 @@ GEM
     formkeeper (0.0.14)
       hpricot
       rack
-    hiredis (0.6.0)
+    get_process_mem (0.2.0)
     hitimes (1.2.2)
     hpricot (0.8.6)
     i18n (0.7.0)
     json (1.8.2)
+    kgio (2.9.3)
     listen (2.10.0)
       celluloid (~> 0.16.0)
       rb-fsevent (>= 0.9.3)
@@ -53,11 +54,10 @@ GEM
       rack
     rack-test (0.6.3)
       rack (>= 1.0)
+    raindrops (0.13.0)
     rb-fsevent (0.9.4)
     rb-inotify (0.9.5)
       ffi (>= 0.5.0)
-    redis (3.2.1)
-    require_all (1.3.2)
     rerun (0.10.0)
       listen (~> 2.7, >= 2.7.3)
     sinatra (1.4.6)
@@ -80,6 +80,13 @@ GEM
       hitimes
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
+    unicorn (4.9.0)
+      kgio (~> 2.6)
+      rack
+      raindrops (~> 0.7)
+    unicorn-worker-killer (0.4.3)
+      get_process_mem (~> 0)
+      unicorn (~> 4)
 
 PLATFORMS
   ruby
@@ -87,17 +94,16 @@ PLATFORMS
 DEPENDENCIES
   activerecord
   faker
-  hiredis
   json
   minitest
   newrelic_rpm
   pg
   pry-byebug
   rack-test
-  redis
-  require_all
   rerun
   sinatra
   sinatra-activerecord
   sinatra-formkeeper
   sqlite3
+  unicorn
+  unicorn-worker-killer

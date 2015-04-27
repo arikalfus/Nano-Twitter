@@ -2303,4 +2303,8 @@
 [04/20/15 15:35:44 -0400 ari-HP-ENVY (14839)] INFO : Doing deferred dependency-detection before Rack startup
 [04/20/15 15:35:44 -0400 ari-HP-ENVY (14839)] INFO : Installing ActiveRecord 4 instrumentation
 [04/20/15 15:35:48 -0400 ari-HP-ENVY (14839)] INFO : Reporting to: https://rpm.newrelic.com/accounts/942489/applications/6129566
+<<<<<<< HEAD
 >>>>>>> origin/ari
+=======
+>>>>>>> origin/master
+>>>>>>> master
