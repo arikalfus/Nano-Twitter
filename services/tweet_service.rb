@@ -8,12 +8,12 @@ class TweetService
 
   def self.tweets_by_user_id(user_id)
     tweets = Tweet.where(user_id: user_id).order(created_at: :desc).limit 100
-    build_tweets tweets
+    prepare_tweets tweets
   end
 
   def self.tweets
     tweets = Tweet.order(created_at: :desc).limit 100
-    build_tweets tweets
+    prepare_tweets tweets
   end
 
   def self.new(params)
@@ -33,7 +33,6 @@ class TweetService
 
   def self.build_test_user_tweets(ids, users)
     tweets = Tweet.where(user_id: ids).limit(100).order created_at: :desc
-    full_tweets = []
 
     # To optimize full_tweet creation below
     user_hash = Hash.new
@@ -41,26 +40,16 @@ class TweetService
       user_hash[user[:id]] = user
     end
 
-    tweets.each do |tweet|
-      tweet_user = user_hash[tweet[:user_id]] # should return nil if no key is found
-      if tweet_user.nil?
-        Tweet.destroy tweet[:id]
-      else
-        full_tweets.push [tweet, tweet_user]
-      end
-    end
-
-    full_tweets
+    build_tweets tweets, user_hash
   end
 
 
   private
 
   # Constructs an array of [tweet, user] pairs.
-  def self.build_tweets(tweets)
+  def self.prepare_tweets(tweets)
 
     user_ids = []
-    full_tweets = []
 
     tweets.each do |tweet|
       user_ids.push tweet[:user_id]
@@ -73,6 +62,14 @@ class TweetService
     users.each do |user|
       user_hash[user[:id]] = user
     end
+
+    build_tweets tweets, user_hash
+
+  end
+
+  def self.build_tweets(tweets, user_hash)
+
+    full_tweets = []
 
     tweets.each do |tweet|
       tweet_user = user_hash[tweet[:user_id]] # should return nil if no key is found
