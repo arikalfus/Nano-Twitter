@@ -22,7 +22,7 @@ use Unicorn::WorkerKiller::Oom, oom_min, oom_max
 
 GC_FREQUENCY = 40
 require 'unicorn/oob_gc'
-GC.disable # don't run GC during requests
+GC.disable # don't run default GC during requests
 use Unicorn::OobGC, GC_FREQUENCY # only GC once every GC_FREQUENCY
 
 # --- End of Unicorn GC code ---
