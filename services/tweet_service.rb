@@ -1,4 +1,5 @@
 require 'sinatra/activerecord'
+require 'json'
 
 require_relative '../models/tweet'
 require_relative 'user_service'
@@ -6,12 +7,12 @@ require_relative 'user_service'
 class TweetService
 
   def self.tweets_by_user_id(user_id)
-    tweets = Tweet.where(user_id: user_id).limit(100).order created_at: :desc
+    tweets = Tweet.where(user_id: user_id).order(created_at: :desc).limit 100
     build_tweets tweets
   end
 
   def self.tweets
-    tweets = Tweet.limit(100).order created_at: :desc
+    tweets = Tweet.order(created_at: :desc).limit 100
     build_tweets tweets
   end
 
@@ -28,6 +29,28 @@ class TweetService
         error 400, tweet.errors.to_json
       end
     end
+  end
+
+  def self.build_test_user_tweets(ids, users)
+    tweets = Tweet.where(user_id: ids).limit(100).order created_at: :desc
+    full_tweets = []
+
+    # To optimize full_tweet creation below
+    user_hash = Hash.new
+    users.each do |user|
+      user_hash[user[:id]] = user
+    end
+
+    tweets.each do |tweet|
+      tweet_user = user_hash[tweet[:user_id]] # should return nil if no key is found
+      if tweet_user.nil?
+        Tweet.destroy tweet[:id]
+      else
+        full_tweets.push [tweet, tweet_user]
+      end
+    end
+
+    full_tweets
   end
 
 
@@ -54,7 +77,7 @@ class TweetService
     tweets.each do |tweet|
       tweet_user = user_hash[tweet[:user_id]] # should return nil if no key is found
       if tweet_user.nil?
-        Tweet.destroy(tweet[:id])
+        Tweet.destroy tweet[:id]
       else
         full_tweets.push [tweet, tweet_user]
       end
