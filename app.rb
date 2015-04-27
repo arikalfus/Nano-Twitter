@@ -95,6 +95,22 @@ get '/nanotwitter/v1.0/tweets/followees' do
   end
 end
 
+# get followees of logged in user
+get '/nanotwitter/v1.0/users/followees' do
+  if session[:user] # If user has credentials saved in session cookie (is logged in)
+    user = UserService.get_by_id session[:user]
+    followees = Follow.where follower_id: user[:id]
+    users = []
+    followees.each do |user| 
+      users.push UserService.get_by_id user[:followee_id]
+    end
+    erb :feed_followees, :locals => { :users => users }, :layout => false
+  else
+    erb :feed_followees, :locals => { :users => [] }, :layout => false
+  end
+end
+
+
 get '/nanotwitter/v1.0/users/:username' do
 
   redirect to '/test_user' if params[:username] == 'test_user'
@@ -129,12 +145,7 @@ get '/nanotwitter/v1.0/users/:username/profile' do
     logged_in_user = UserService.get_by_id session[:user]
     user = UserService.get_by_username params[:username]
     if logged_in_user[:username] == user[:username] # if user is requesting their own page
-      followees = Follow.where follower_id: logged_in_user[:id]
-      users = []
-      followees.each do |user| 
-        users.push UserService.get_by_id user[:followee_id]
-      end
-      erb :user_profile, :locals => { :user => logged_in_user, :users => users }
+      erb :user_profile, :locals => { :user => logged_in_user }
     else
       error 403, { :error=> 'forbidden from accessing this page' }.to_json # forbidden from accessing this page
     end
