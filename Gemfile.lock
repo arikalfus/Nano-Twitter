@@ -29,6 +29,7 @@ GEM
       hpricot
       rack
     get_process_mem (0.2.0)
+    hiredis (0.6.0)
     hitimes (1.2.2)
     hpricot (0.8.6)
     i18n (0.7.0)
@@ -39,8 +40,7 @@ GEM
       rb-fsevent (>= 0.9.3)
       rb-inotify (>= 0.9)
     method_source (0.8.2)
-    minitest (5.6.0)
-    newrelic_rpm (3.11.2.286)
+    minitest (5.6.1)
     pg (0.18.1)
     pry (0.10.1)
       coderay (~> 1.1.0)
@@ -58,6 +58,7 @@ GEM
     rb-fsevent (0.9.4)
     rb-inotify (0.9.5)
       ffi (>= 0.5.0)
+    redis (3.2.1)
     rerun (0.10.0)
       listen (~> 2.7, >= 2.7.3)
     sinatra (1.4.6)
@@ -94,12 +95,13 @@ PLATFORMS
 DEPENDENCIES
   activerecord
   faker
+  hiredis
   json
   minitest
-  newrelic_rpm
   pg
   pry-byebug
   rack-test
+  redis
   rerun
   sinatra
   sinatra-activerecord

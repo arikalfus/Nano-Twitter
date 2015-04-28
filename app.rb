@@ -4,6 +4,7 @@ require 'tilt/erb'
 require 'sinatra/activerecord'
 require 'sinatra/formkeeper'
 require 'faker'
+require 'redis'
 
 require_relative 'services/form_service'
 require_relative 'services/load_test_service'
@@ -23,6 +24,31 @@ configure do
   enable :sessions
   set :session_secret, '48fa3729hf0219f4rfbf39hf2'
 
+  $redis = Redis.new(
+                    :driver => :hiredis,
+                    :host => 'pub-redis-13514.us-east-1-3.2.ec2.garantiadata.com',
+                    :port => '13514',
+                    :password => 'nanotwitter'
+  )
+
+end
+
+# Set helper methods
+helpers do
+
+  def cache_tweets
+    tweets_array = TweetService.tweets
+    html_tweets = render_tweets tweets_array
+  end
+
+  def render_tweets(tweets_array)
+    html_tweets = Array.new
+    tweets_array.each do |tweet, user|
+      html = erb :tweet_box, :locals => { tweet: tweet, user: user }, :layout => false
+      $redis.rpush 'tweets', html
+    end
+  end
+
 end
 
 # for load testing with Loader.io
@@ -36,30 +62,40 @@ get '/loaderio-7075d4380f6f2dacc9025ebdc486490d/' do
 end
 
 get '/' do
-  # Verify cookie contains current data.
-  if session[:user]
-    # If cookie is out of date, delete it.
-    user = UserService.get_by_id session[:user]
-    unless user
-      session.clear
+  tweets_cached = RedisService.validate_cache $redis, 'tweets'
+
+  if tweets_cached
+
+    # Verify cookie contains current data.
+    if session[:user]
+      # If cookie is out of date, delete it.
+      user = UserService.get_by_id session[:user]
+      unless user
+        session.clear
+      end
     end
-  end
 
-  if session[:user] # If user has credentials saved in session cookie (is logged in)
-    erb :logged_root, :locals => { :user => user }
+    if session[:user] # If user has credentials saved in session cookie (is logged in)
+      erb :logged_root, :locals => { :user => user }
 
-  elsif session[:login_error] # if user entered invalid login credentials
-    login_error = session[:login_error]
-    session[:login_error] = nil
-    erb :root, :locals => { :login_error => login_error }
+    elsif session[:login_error] # if user entered invalid login credentials
+      login_error = session[:login_error]
+      session[:login_error] = nil
+      erb :root, :locals => { :login_error => login_error }
 
-  elsif session[:reg_error] # if user encountered an error during account registration
-    reg_error = session[:reg_error]
-    session[:reg_error] = nil
-    erb :root, :locals => { :reg_error => reg_error }
+    elsif session[:reg_error] # if user encountered an error during account registration
+      reg_error = session[:reg_error]
+      session[:reg_error] = nil
+      erb :root, :locals => { :reg_error => reg_error }
+    else
+      erb :root
+    end
+
   else
-    erb :root
+    cache_tweets
+    redirect to '/'
   end
+
 end
 
 get '/logout' do
@@ -76,7 +112,7 @@ end
 
 # get latest tweets
 get '/nanotwitter/v1.0/tweets' do
-  tweets = TweetService.tweets
+  tweets = TweetService.tweets $redis
   erb :feed_tweets, :locals => { tweets: tweets }, :layout => false
 end
 
@@ -206,9 +242,10 @@ post '/nanotwitter/v1.0/users/search' do
 end
 
 post '/nanotwitter/v1.0/users/id/:id/tweet' do
-    TweetService.new({ text: params[:tweet],
+    tweet = TweetService.new({ text: params[:tweet],
                 user_id: params[:id]
               })
+    TweetService.cache_tweet tweet, $redis
     redirect back
 end
 
