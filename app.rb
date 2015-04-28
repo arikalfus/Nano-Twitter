@@ -341,5 +341,6 @@ end
 get '/reset' do
   erb :reset
   LoadTestService.reset
+  $redis.del 'firehose'
   redirect to '/'
 end
