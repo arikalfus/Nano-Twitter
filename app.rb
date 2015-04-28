@@ -37,17 +37,63 @@ end
 # Set helper methods
 helpers do
 
+  # Cache first 100 tweets in redis
+  #
+  # see #render_tweets
   def cache_tweets
     tweets_array = TweetService.tweets
-    html_tweets = render_tweets tweets_array
+    render_tweets tweets_array, 'firehose'
+
+    # Cache the tweets of all users in redis
+    all_users = UserService.get_all
+    all_users.each do |user|
+      tweets = TweetService.tweets_by_user_id user[:id], user
+      render_tweets tweets, user[:id].to_s
+    end
   end
 
-  def render_tweets(tweets_array)
+  # Render tweets into html strings and cache them in redis
+  def render_tweets(tweets_array, key)
     html_tweets = Array.new
     tweets_array.each do |tweet, user|
       html = erb :tweet, :locals => { tweet: tweet, user: user }, :layout => false
-      $redis.rpush 'tweets', html
+      $redis.rpush key, html
     end
+  end
+
+  # Get 100 most recent tweets
+  def get_tweets
+    tweets = RedisService.get_tweets $redis
+  end
+
+  # Get tweets of logged in user's followees
+  def get_tweets_of_followees
+    if session[:user]
+      user = UserService.get_by_id session[:user]
+      users_to_follow = user.followees
+      followees = users_to_follow.collect { |u| u[:id] }
+      followees.push user[:id] # you should see your own tweets as well
+
+      tweets = TweetService.tweets_by_user_id followees
+    end
+  end
+
+  # Get followees of logged in user
+  def get_followees
+
+    if session[user]
+      user = UserService.get_by_id session[:user]
+      followees = Follow.where follower_id: user[:id]
+      users = []
+      followees.each do |user|
+        users.push UserService.get_by_id user[:followee_id]
+      end
+
+      users
+    else
+      nil
+    end
+
   end
 
 end
@@ -76,20 +122,22 @@ get '/' do
       end
     end
 
+    tweets = get_tweets
+
     if session[:user] # If user has credentials saved in session cookie (is logged in)
-      erb :logged_root, :locals => { :user => user }
+      erb :logged_root, :locals => { user: user, tweets: tweets }
 
     elsif session[:login_error] # if user entered invalid login credentials
       login_error = session[:login_error]
       session[:login_error] = nil
-      erb :root, :locals => { :login_error => login_error }
+      erb :root, :locals => { login_error: login_error, tweets: tweets }
 
     elsif session[:reg_error] # if user encountered an error during account registration
       reg_error = session[:reg_error]
       session[:reg_error] = nil
-      erb :root, :locals => { :reg_error => reg_error }
+      erb :root, :locals => { reg_error: reg_error, tweets: tweets }
     else
-      erb :root
+      erb :root, :locals => { tweets: tweets }
     end
 
   else
@@ -102,7 +150,8 @@ end
 get '/logout' do
   redirect to '/nanotwitter/v1.0/logout' unless session[:user].nil?
 
-  erb :root, :locals => { :logout => true }
+  tweets = get_tweets
+  erb :root, :locals => { logout: true, tweets: tweets }
 end
 
 # logout and delete session cookie
@@ -111,36 +160,10 @@ get '/nanotwitter/v1.0/logout' do
   redirect to '/logout'
 end
 
-# get latest tweets
-get '/nanotwitter/v1.0/tweets' do
-  tweets = RedisService.get_tweets $redis
-  erb :feed_tweets, :locals => { tweets: tweets }, :layout => false
-end
-
-# get latest tweets from followees of logged in user
-get '/nanotwitter/v1.0/tweets/followees' do
-  if session[:user]
-    user = UserService.get_by_id session[:user]
-    users_to_follow = user.followees
-    followees = users_to_follow.collect { |u| u[:id] }
-    followees.push user[:id] # you should see your own tweets as well
-
-    tweets = TweetService.tweets_by_user_id followees
-    erb :feed_tweets, :locals => { :tweets => tweets }, :layout => false
-  else
-    erb :feed_tweets, :locals => {:tweets => [] }, :layout => false
-  end
-end
-
 # get followees of logged in user
 get '/nanotwitter/v1.0/users/followees' do
   if session[:user] # If user has credentials saved in session cookie (is logged in)
-    user = UserService.get_by_id session[:user]
-    followees = Follow.where follower_id: user[:id]
-    users = []
-    followees.each do |user| 
-      users.push UserService.get_by_id user[:followee_id]
-    end
+    users = get_followees
     erb :feed_followees, :locals => { :users => users }, :layout => false
   else
     erb :feed_followees, :locals => { :users => [] }, :layout => false
@@ -305,7 +328,7 @@ get '/test_user/tweets' do
   users = followees | [test_user]
   ids = followees.collect { |user| user[:id] }
 
-  tweets = TweetService.build_test_user_tweets ids, users
+  tweets = TweetService.tweets_by_user_id ids, users
 
   erb :feed_tweets, :locals => {tweets: tweets }, :layout => false
 end

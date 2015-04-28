@@ -6,9 +6,16 @@ require_relative 'user_service'
 
 class TweetService
 
-  def self.tweets_by_user_id(user_id)
+  def self.tweets_by_user_id(user_id, users=nil)
     tweets = Tweet.where(user_id: user_id).order(created_at: :desc).limit 100
-    prepare_tweets tweets
+
+    if users
+      user_hash = hash_users users
+      build_tweets tweets, user_hash
+    else
+      prepare_tweets tweets
+    end
+
   end
 
   def self.tweets
@@ -31,18 +38,6 @@ class TweetService
     end
   end
 
-  def self.build_test_user_tweets(ids, users)
-    tweets = Tweet.where(user_id: ids).limit(100).order created_at: :desc
-
-    # To optimize full_tweet creation below
-    user_hash = Hash.new
-    users.each do |user|
-      user_hash[user[:id]] = user
-    end
-
-    build_tweets tweets, user_hash
-  end
-
 
   private
 
@@ -57,13 +52,19 @@ class TweetService
     # multi-get database call
     users = UserService.get_by_ids user_ids
 
+    user_hash = hash_users users
+
+    build_tweets tweets, user_hash
+
+  end
+
+  def self.hash_users(users)
+
     # To optimize full_tweet creation below
     user_hash = Hash.new
     users.each do |user|
       user_hash[user[:id]] = user
     end
-
-    build_tweets tweets, user_hash
 
   end
 

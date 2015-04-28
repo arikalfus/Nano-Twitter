@@ -22,6 +22,10 @@ class UserService
     verify_user user
   end
 
+  def self.get_all
+    User.all
+  end
+
    def self.get_by_ids(ids)
     User.where id: ids
    end
