@@ -8,7 +8,6 @@ class TweetService
 
   def self.tweets_by_user_id(user_id, users=nil)
     tweets = Tweet.where(user_id: user_id).order(created_at: :desc).limit 100
-
     if users
       user_hash = hash_users users
       build_tweets tweets, user_hash
@@ -59,12 +58,13 @@ class TweetService
   end
 
   def self.hash_users(users)
-
     # To optimize full_tweet creation below
     user_hash = Hash.new
     users.each do |user|
       user_hash[user[:id]] = user
     end
+
+    user_hash
 
   end
 

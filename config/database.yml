@@ -7,10 +7,3 @@ development:
 test:
   adapter: sqlite3
   database: db/test.sqlite3
-
-production:
-  adapter: postgresql
-  database: nanodb
-  username: <%= ENV['PG_USER'] %>
-  password: <%= ENV['PG_PASS'] %>
-  host: localhost

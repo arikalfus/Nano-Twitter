@@ -6,6 +6,8 @@ require 'sinatra/formkeeper'
 require 'faker'
 require 'redis'
 
+require 'pry-byebug'
+
 require_relative 'services/form_service'
 require_relative 'services/load_test_service'
 require_relative 'services/tweet_service'
@@ -43,13 +45,6 @@ helpers do
   def cache_tweets
     tweets_array = TweetService.tweets
     render_tweets tweets_array, 'firehose'
-
-    # Cache the tweets of all users in redis
-    all_users = UserService.get_all
-    all_users.each do |user|
-      tweets = TweetService.tweets_by_user_id user[:id], user
-      render_tweets tweets, user[:id].to_s
-    end
   end
 
   # Render tweets into html strings and cache them in redis
@@ -61,9 +56,17 @@ helpers do
     end
   end
 
+  # Renders a tweet into html and caches it in redis
+  def render_tweet(tweet)
+    user = UserService.get_by_id tweet[:user_id]
+    html = erb :tweet, :locals => { tweet: tweet, user: user }, :layout => false
+    binding.pry
+    RedisService.cache tweet, 'firehose', $redis
+  end
+
   # Get 100 most recent tweets
-  def get_tweets
-    tweets = RedisService.get_tweets $redis
+  def get_tweets(key)
+    RedisService.get_100_tweets key, $redis
   end
 
   # Get tweets of logged in user's followees
@@ -98,6 +101,11 @@ helpers do
 
 end
 
+$redis.del 'firehose' #TODO: remove this before sending to heroku
+
+# ROUTES BELOW
+
+
 # for load testing with Loader.io
 get '/loaderio-7b84b69492913d259b5266ab9f52dea7/' do
   send_file File.new 'loaderio-7b84b69492913d259b5266ab9f52dea7.txt'
@@ -109,7 +117,7 @@ get '/loaderio-7075d4380f6f2dacc9025ebdc486490d/' do
 end
 
 get '/' do
-  tweets_cached = RedisService.validate_cache $redis, 'tweets'
+  tweets_cached = RedisService.validate_cache 'firehose', $redis
 
   if tweets_cached
 
@@ -122,7 +130,7 @@ get '/' do
       end
     end
 
-    tweets = get_tweets
+    tweets = get_tweets 'firehose'
 
     if session[:user] # If user has credentials saved in session cookie (is logged in)
       erb :logged_root, :locals => { user: user, tweets: tweets }
@@ -150,7 +158,7 @@ end
 get '/logout' do
   redirect to '/nanotwitter/v1.0/logout' unless session[:user].nil?
 
-  tweets = get_tweets
+  tweets = get_tweets 'firehose'
   erb :root, :locals => { logout: true, tweets: tweets }
 end
 
@@ -269,7 +277,7 @@ post '/nanotwitter/v1.0/users/id/:id/tweet' do
     tweet = TweetService.new({ text: params[:tweet],
                 user_id: params[:id]
               })
-    TweetService.cache_tweet tweet, $redis
+    render_tweet tweet
     redirect back
 end
 

@@ -7,22 +7,20 @@ class RedisService
     end
   end
 
-  # Get first 100 tweets from cache
-  def self.get_tweets(redis)
-    redis.lrange 'tweets', 0, 100
+  # Get first 100 tweets from cache at specified key
+  def self.get_100_tweets(key, redis)
+    redis.lrange key, 0, 99
   end
 
   # Test if there is content in the cache
-  def self.validate_cache(redis, key)
-    redis.lrange('tweets', 0, 1).empty? ? false : true
+  def self.validate_cache(key, redis)
+    redis.lrange(key, 0, 1).empty? ? false : true
   end
 
   # Add tweet to front of cache, pop oldest tweet from cache
-  def self.cache(tweet, redis)
-    redis.multi do
-      redis.lpush 'tweets', tweet
-      redis.rpop 'tweets'
-    end
+  def self.cache(tweet, key, redis)
+    redis.lpush key, tweet
+    redis.rpop key
   end
 
 end
