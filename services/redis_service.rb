@@ -9,7 +9,7 @@ class RedisService
 
   # Get first 100 tweets from cache at specified key
   def self.get_100_tweets(key, redis)
-    redis.lrange key, 0, 99
+    redis.lrange key, 0, 99 # first 100 is 0-99
   end
 
   # Test if there is content in the cache

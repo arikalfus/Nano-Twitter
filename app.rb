@@ -6,8 +6,6 @@ require 'sinatra/formkeeper'
 require 'faker'
 require 'redis'
 
-require 'pry-byebug'
-
 require_relative 'services/form_service'
 require_relative 'services/load_test_service'
 require_relative 'services/tweet_service'
@@ -60,8 +58,7 @@ helpers do
   def render_tweet(tweet)
     user = UserService.get_by_id tweet[:user_id]
     html = erb :tweet, :locals => { tweet: tweet, user: user }, :layout => false
-    binding.pry
-    RedisService.cache tweet, 'firehose', $redis
+    RedisService.cache html, 'firehose', $redis
   end
 
   # Get 100 most recent tweets
