@@ -9,6 +9,7 @@ require 'redis'
 require_relative 'services/form_service'
 require_relative 'services/load_test_service'
 require_relative 'services/tweet_service'
+require_relative 'services/redis_service'
 require_relative 'services/user_service'
 require_relative 'models/follow'
 
@@ -44,7 +45,7 @@ helpers do
   def render_tweets(tweets_array)
     html_tweets = Array.new
     tweets_array.each do |tweet, user|
-      html = erb :tweet_box, :locals => { tweet: tweet, user: user }, :layout => false
+      html = erb :tweet, :locals => { tweet: tweet, user: user }, :layout => false
       $redis.rpush 'tweets', html
     end
   end
@@ -112,7 +113,7 @@ end
 
 # get latest tweets
 get '/nanotwitter/v1.0/tweets' do
-  tweets = TweetService.tweets $redis
+  tweets = RedisService.get_tweets $redis
   erb :feed_tweets, :locals => { tweets: tweets }, :layout => false
 end
 
