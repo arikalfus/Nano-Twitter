@@ -65,14 +65,20 @@ helpers do
   end
 
   # Get html-rendered tweets of user_id (may be an array of ID's)
-  def get_tweets_by_id(user_id)
-    tweets = TweetService.tweets_by_user_id user_id
+  def get_tweets_by_id(user_id, user=nil)
+    tweets = Array.new
+    if user
+      tweets = TweetService.tweets_by_user_id user_id, user
+    else
+      tweets = TweetService.tweets_by_user_id user_id
+    end
+
     render_tweets tweets
   end
 
   # Renders a single tweet into html and caches it in redis
   def render_tweet(tweet)
-    user = UserService.get_by_id tweet[:user_id]
+    user = UserService.get_by_id tweet.user_id
     html = erb :tweet, :locals => { tweet: tweet, user: user }, :layout => false
     RedisService.cache html, 'firehose', $redis
   end
@@ -188,7 +194,7 @@ get '/nanotwitter/v1.0/users/:username' do
 
   user = UserService.get_by_username params[:username]
 
-  tweets = TweetService.tweets_by_user_id user[:id]
+  tweets = get_tweets_by_id user[:id]
 
   if session[:user]
     logged_in_user = UserService.get_by_id session[:user]
@@ -321,7 +327,8 @@ post '/nanotwitter/v1.0/users/:username/unfollow' do
 end
 
 get '/test_tweet' do 
-  LoadTestService.test_tweet
+  tweet = LoadTestService.test_tweet
+  render_tweet tweet # render into html and cache tweet in redis
 end
 
 get '/test_follow' do
@@ -335,13 +342,12 @@ get '/test_user' do
   users = followees | [test_user]
   ids = followees.collect { |user| user[:id] }
 
-  tweets = TweetService.tweets_by_user_id ids, users
+  tweets = get_tweets_by_id ids, users
 
   erb :test_user_page, :locals  => { profile_user: test_user, tweets: tweets }
 end
 
 get '/reset' do
-  erb :reset
   LoadTestService.reset
   $redis.del 'firehose'
   redirect to '/'

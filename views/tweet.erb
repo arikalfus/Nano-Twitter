@@ -1,1 +1,1 @@
-<span><img src=<%= user[:image] %> alt="avatar" class="img-thumbnail" style="width:50px;height:50px"> <%= tweet[:text] %> - <i><a href="/nanotwitter/v1.0/users/<%= user[:username] %>"><%= user[:username] %> </a></i>, <%= tweet[:created_at].localtime.asctime %></span>
+<span><img src=<%= user.image %> alt="avatar" class="img-thumbnail" style="width:50px;height:50px"> <%= tweet.text %> - <i><a href="/nanotwitter/v1.0/users/<%= user.username %>"><%= user.username %> </a> <small><%= tweet.created_at.utc.strftime("%I:%M %p, %b %e, %Y") %> UTC</small></i> </span>

@@ -13,9 +13,14 @@ class LoadTestService
 
 	def self.test_tweet
 		test_user = UserService.get_by_username "test_user"
-  	TweetService.new({text: Faker::Hacker.say_something_smart,
-                      user_id: test_user[:id]
-    	              })
+  	tweet = TweetService.new({text: Faker::Hacker.say_something_smart,
+															user_id: test_user[:id]
+                             })
+    if tweet
+      tweet
+    else
+      error 400, tweet.errors.to_json
+    end
 	end
 
 	def self.reset

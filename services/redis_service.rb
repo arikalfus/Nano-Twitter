@@ -4,7 +4,6 @@ class RedisService
   def self.cache_tweets(html_tweets, redis)
     html_tweets.each do |html|
       redis.rpush 'firehose', html
-
     end
   end
 
