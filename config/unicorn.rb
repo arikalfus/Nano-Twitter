@@ -1,5 +1,5 @@
 # Unicorn worker configuration
-worker_processes 3
+worker_processes 5
 timeout 30
 preload_app true
 
