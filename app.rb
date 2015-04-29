@@ -3,6 +3,7 @@ require 'tilt/erb'
 require 'sinatra/activerecord'
 require 'sinatra/formkeeper'
 require 'redis'
+require 'json'
 
 require_relative 'services/form_service'
 require_relative 'services/load_test_service'
@@ -23,6 +24,7 @@ configure do
   enable :sessions
   set :session_secret, '48fa3729hf0219f4rfbf39hf2'
 
+  # Connect to Redis server with Hiredis driver for speed
   $redis = Redis.new(
                     :driver => :hiredis,
                     :host => 'pub-redis-13514.us-east-1-3.2.ec2.garantiadata.com',
@@ -64,18 +66,6 @@ helpers do
     end
   end
 
-  # Get html-rendered tweets of user_id (may be an array of ID's)
-  def get_tweets_by_id(user_id, user=nil)
-    tweets = Array.new
-    if user
-      tweets = TweetService.tweets_by_user_id user_id, user
-    else
-      tweets = TweetService.tweets_by_user_id user_id
-    end
-
-    render_tweets tweets
-  end
-
   # Renders a single tweet into html and caches it in redis
   def render_tweet(tweet)
     user = UserService.get_by_id tweet.user_id
@@ -88,43 +78,25 @@ helpers do
     RedisService.get_100_tweets key, $redis
   end
 
-  # Get tweets of logged in user's followees
-  def get_tweets_of_followees
-    if session[:user]
-      user = UserService.get_by_id session[:user]
-      users_to_follow = user.followees
-      followees = users_to_follow.collect { |u| u[:id] }
-      followees.push user[:id] # you should see your own tweets as well
-
-      tweets = TweetService.tweets_by_user_id followees
-      render_tweets tweets
-    end
-  end
-
-  # Get followees of logged in user
-  def get_followees
-
-    if session[user]
-      user = UserService.get_by_id session[:user]
-      followees = Follow.where follower_id: user[:id]
-      users = []
-      followees.each do |user|
-        users.push UserService.get_by_id user[:followee_id]
-      end
-
-      users
+  # Get html-rendered tweets of user_id (may be an array of ID's)
+  def get_tweets_by_id(user_id, user=nil)
+    tweets = Array.new
+    if user
+      tweets = TweetService.tweets_by_user_id user_id, user
     else
-      nil
+      tweets = TweetService.tweets_by_user_id user_id
     end
 
+    render_tweets tweets
   end
 
 end
 
 $redis.del 'firehose' # cache resets when server starts/is woken up
 
+# ------
 # ROUTES BELOW
-
+#-------
 
 # for load testing with Loader.io
 get '/loaderio-7b84b69492913d259b5266ab9f52dea7/' do
@@ -146,13 +118,13 @@ get '/' do
       # If cookie is out of date, delete it.
       user = UserService.get_by_id session[:user]
       unless user
-        session.clear
+        session.clear # delete session cookie
       end
     end
 
-    tweets = get_tweets 'firehose'
+    tweets = get_tweets 'firehose' # get 100 most recent tweets
 
-    if session[:user] # If user has credentials saved in session cookie (is logged in)
+    if session[:user] # If user has credentials saved in session cookie
       erb :logged_root, :locals => { user: user, tweets: tweets }
 
     elsif session[:login_error] # if user entered invalid login credentials
@@ -164,7 +136,8 @@ get '/' do
       reg_error = session[:reg_error]
       session[:reg_error] = nil
       erb :root, :locals => { reg_error: reg_error, tweets: tweets }
-    else
+
+    else # load default root page
       erb :root, :locals => { tweets: tweets }
     end
 
@@ -178,56 +151,57 @@ end
 get '/logout' do
   redirect to '/nanotwitter/v1.0/logout' unless session[:user].nil?
 
-  tweets = get_tweets 'firehose'
+  tweets = get_tweets 'firehose' # get 100 most recent tweets
   erb :root, :locals => { logout: true, tweets: tweets }
 end
 
 # logout and delete session cookie
 get '/nanotwitter/v1.0/logout' do
-  session[:user] = nil
+  session.clear
   redirect to '/logout'
 end
 
 get '/nanotwitter/v1.0/users/:username' do
 
+  # for load testing
   redirect to '/test_user' if params[:username] == 'test_user'
 
   user = UserService.get_by_username params[:username]
+  tweets = get_tweets_by_id user.id
 
-  tweets = get_tweets_by_id user[:id]
-
-  if session[:user]
+  if session[:user] # load user page with follow/unfollow button
     logged_in_user = UserService.get_by_id session[:user]
     if user && logged_in_user
-      erb :user_page, :locals => { :user => logged_in_user, :profile_user => user, :tweets => tweets }
+      erb :user_page, :locals => { user: logged_in_user, profile_user: user, tweets: tweets }
     else
       error 404, { :error => 'user not found' }.to_json
     end
-  elsif user
-    erb :user_page,  :locals => { :profile_user => user, :tweets => tweets }
+  elsif user # load user page without follow/unfollow button
+    erb :user_page,  :locals => { profile_user: user, tweets: tweets }
   else
     error 404, { :error => 'user not found' }.to_json
   end
 
 end
 
-# Get a user by table id
+# Get a user by id
 get '/nanotwitter/v1.0/users/id/:id' do
   user = UserService.get_by_id params[:id]
-  redirect to "/nanotwitter/v1.0/users/#{user[:username]}"
+  redirect to "/nanotwitter/v1.0/users/#{user.username}" # not efficient, but effective
 end
 
+# CAN ONLY BE CALLED BY A USER WHO IS LOGGED IN
 get '/nanotwitter/v1.0/users/:username/profile' do
-  if session[:user] # If user has credentials saved in session cookie (is logged in)
+  if session[:user] # If user has credentials saved in session cookie
     logged_in_user = UserService.get_by_id session[:user]
     user = UserService.get_by_username params[:username]
-    if logged_in_user[:username] == user[:username] # if user is requesting their own page
+    if logged_in_user.username == user.username # if user is requesting their own page
       erb :user_profile, :locals => { :user => logged_in_user }
     else
-      error 403, { :error=> 'forbidden from accessing this page' }.to_json # forbidden from accessing this page
+      error 403, { :error=> 'forbidden from accessing this page' }.to_json
     end
   else
-    error 401, { :error => 'must be logged in to access' }.to_json # must be logged in to access
+    error 401, { :error => 'must be logged in to access' }.to_json
   end
 end
 
@@ -245,10 +219,11 @@ post '/nanotwitter/v1.0/users' do
     field :phone, :present => true, :int => true, :length => 10
   end
 
+  # construct string message if there exist any failures
   failures = FormService.validate_registration form
 
   if failures
-    session[:reg_error] = failures[:reg_error]
+    session[:reg_error] = failures[:reg_error] # store message in session
     redirect to '/'
   else
     user = UserService.new(name: form[:name],
@@ -257,7 +232,7 @@ post '/nanotwitter/v1.0/users' do
                            password: form[:password],
                            phone: form[:phone])
     if user
-      session[:user] = user[:id]
+      session[:user] = user.id
       redirect to '/'
     else
       error 400, user.errors.to_json
@@ -275,28 +250,28 @@ post '/nanotwitter/v1.0/users/search' do
       field :search, :present => true
     end
 
-    search_terms = form[:search]
+    search_terms = form[:search] # grab parameter with form filters applied
     users = UserService.search_for search_terms
     erb :search_results, :locals => { results: users, search_term: search_terms }
   end
 
 end
 
+# Post a new tweet and store the rendered html into Redis
 post '/nanotwitter/v1.0/users/id/:id/tweet' do
-    tweet = TweetService.new({ text: params[:tweet],
-                user_id: params[:id]
-              })
+    tweet = TweetService.new(text: params[:tweet],
+                             user_id: params[:id])
     render_tweet tweet
     redirect back
 end
 
 # verify a user name and password
 post '/nanotwitter/v1.0/users/session' do
-  user = UserService.get_by_username_and_password({ :username => params[:username], :password => params[:password] })
+  user = UserService.get_by_username_and_password({ username: params[:username], password: params[:password] })
   if user
-    session[:user] = user[:id]
+    session[:user] = user.id
   else
-    session[:login_error] = { :error_codes => ['l-inv'], :message => 'Account credentials are invalid.' }
+    session[:login_error] = { error_codes: ['l-inv'], message: 'Account credentials are invalid.' }
   end
   redirect to '/'
 end
@@ -310,7 +285,7 @@ post '/nanotwitter/v1.0/users/:username/follow' do
     logged_in_user.follow followee
     redirect back
   else
-    error 401, { :error => 'must be logged in to access' }.to_json # must be logged in to access
+    error 401, { :error => 'must be logged in to access' }.to_json
   end
 end
 
@@ -319,10 +294,11 @@ post '/nanotwitter/v1.0/users/:username/unfollow' do
   if session[:user]
     logged_in_user = UserService.get_by_id session[:user]
     followee = UserService.get_by_username params[:username]
+
     logged_in_user.unfollow followee
     redirect back
   else
-    error 401, { :error => 'must be logged in to access' }.to_json # must be logged in to access
+    error 401, { :error => 'must be logged in to access' }.to_json
   end
 end
 
@@ -332,23 +308,24 @@ get '/test_tweet' do
 end
 
 get '/test_follow' do
-  LoadTestService.test_follow
+  LoadTestService.test_follow # follow a random user
 end
 
 get '/test_user' do
   test_user = UserService.get_by_username 'test_user'
 
   followees = test_user.followees
-  users = followees | [test_user]
-  ids = followees.collect { |user| user[:id] }
+  users = followees | [test_user] # load followees' as well as your own tweets
+  ids = users.collect { |user| user.id }
 
   tweets = get_tweets_by_id ids, users
 
   erb :test_user_page, :locals  => { profile_user: test_user, tweets: tweets }
 end
 
+# Destroy all test_user data from the database and reset the Redis cache
 get '/reset' do
   LoadTestService.reset
   $redis.del 'firehose'
-  redirect to '/'
+  redirect to '/' # will re-cache most recent tweets
 end

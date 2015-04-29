@@ -6,11 +6,14 @@ require_relative 'user_service'
 
 class TweetService
 
-  # Get most recent 100 tweets of user_id (may be an array of ID's)
-  # If passed a user object, bypass #prepare_tweets and go directly to #build_tweets
+  # Get most recent 100 tweets of user_id (may be an array of ID's).
+  # If passed a user object, bypass #prepare_tweets and go directly to #build_tweets.
+  #
+  # see #prepare_tweets, #build_tweets, and #hash_users
   def self.tweets_by_user_id(user_id, users=nil)
+
     tweets = Tweet.where(user_id: user_id).order(created_at: :desc).limit 100
-    if users
+    if users # skip call to database if we already have the user objects
       user_hash = hash_users users
       build_tweets tweets, user_hash
     else
@@ -20,6 +23,8 @@ class TweetService
   end
 
   # Get most recent 100 tweets
+  #
+  # see #prepare_tweets
   def self.tweets
     tweets = Tweet.order(created_at: :desc).limit 100
     prepare_tweets tweets
@@ -65,7 +70,7 @@ class TweetService
 
   # Constructs a hash of user objects whose keys are user IDs.
   #
-  # Optimizes #build_tweet method, discernible performance improvement
+  # Optimizes #build_tweet method. Discernible performance improvement
   def self.hash_users(users)
 
     user_hash = Hash.new
@@ -81,12 +86,8 @@ class TweetService
     full_tweets = []
 
     tweets.each do |tweet|
-      tweet_user = user_hash[tweet[:user_id]] # should return nil if no key is found
-      if tweet_user.nil?
-        Tweet.destroy tweet[:id]
-      else
-        full_tweets.push [tweet, tweet_user]
-      end
+      tweet_user = user_hash[tweet[:user_id]]
+      full_tweets.push [tweet, tweet_user] unless tweet_user.nil?
     end
 
     full_tweets

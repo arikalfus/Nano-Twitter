@@ -78,14 +78,18 @@
 </div>
 
 <script type="text/javascript">
-  // To open/close login/register modal
-  $("#register-button").click(function() {
-    $("#login-form").hide();
-    $("#register-form").show();
-  });
+  $(document).ready(function() {
 
-  $("#login-button").click(function() {
-    $("#login-form").show();
-    $("#register-form").hide();
-  });
+    // To open/close login/register modal
+    $("#register-button").click(function() {
+      $("#login-form").hide();
+      $("#register-form").show();
+    });
+
+    $("#login-button").click(function() {
+      $("#login-form").show();
+      $("#register-form").hide();
+    });
+
+  })
 </script>
