@@ -1,9 +1,7 @@
 require 'sinatra'
 require 'tilt/erb'
-# require 'newrelic_rpm'
 require 'sinatra/activerecord'
 require 'sinatra/formkeeper'
-require 'faker'
 require 'redis'
 
 require_relative 'services/form_service'
@@ -39,22 +37,40 @@ helpers do
 
   # Cache first 100 tweets in redis
   #
-  # see #render_tweets
-  def cache_tweets
+  # see #render_tweets and RedisService#cache_tweets
+  def start_caching
     tweets_array = TweetService.tweets
-    render_tweets tweets_array, 'firehose'
+    html_array = render_tweets tweets_array
+    RedisService.cache_tweets html_array, $redis
   end
 
-  # Render tweets into html strings and cache them in redis
-  def render_tweets(tweets_array, key)
+  # Render tweets into html strings
+  def render_tweets(tweets_array)
     html_tweets = Array.new
     tweets_array.each do |tweet, user|
       html = erb :tweet, :locals => { tweet: tweet, user: user }, :layout => false
-      $redis.rpush key, html
+      html_tweets.push html
+    end
+
+    html_tweets
+  end
+
+  # Caches array of html-rendered tweets into redis
+  #
+  # see RedisService#cache
+  def cache_tweets(html_array, key)
+    html_array.each do |html|
+      RedisService.cache html, key, $redis
     end
   end
 
-  # Renders a tweet into html and caches it in redis
+  # Get html-rendered tweets of user_id (may be an array of ID's)
+  def get_tweets_by_id(user_id)
+    tweets = TweetService.tweets_by_user_id user_id
+    render_tweets tweets
+  end
+
+  # Renders a single tweet into html and caches it in redis
   def render_tweet(tweet)
     user = UserService.get_by_id tweet[:user_id]
     html = erb :tweet, :locals => { tweet: tweet, user: user }, :layout => false
@@ -75,6 +91,7 @@ helpers do
       followees.push user[:id] # you should see your own tweets as well
 
       tweets = TweetService.tweets_by_user_id followees
+      render_tweets tweets
     end
   end
 
@@ -98,7 +115,7 @@ helpers do
 
 end
 
-$redis.del 'firehose' #TODO: remove this before sending to heroku
+$redis.del 'firehose' # cache resets when server starts/is woken up
 
 # ROUTES BELOW
 
@@ -146,7 +163,7 @@ get '/' do
     end
 
   else
-    cache_tweets
+    start_caching
     redirect to '/'
   end
 
@@ -164,17 +181,6 @@ get '/nanotwitter/v1.0/logout' do
   session[:user] = nil
   redirect to '/logout'
 end
-
-# get followees of logged in user
-get '/nanotwitter/v1.0/users/followees' do
-  if session[:user] # If user has credentials saved in session cookie (is logged in)
-    users = get_followees
-    erb :feed_followees, :locals => { :users => users }, :layout => false
-  else
-    erb :feed_followees, :locals => { :users => [] }, :layout => false
-  end
-end
-
 
 get '/nanotwitter/v1.0/users/:username' do
 
@@ -324,10 +330,6 @@ end
 
 get '/test_user' do
   test_user = UserService.get_by_username 'test_user'
-  erb :test_user_page, :locals  => {:profile_user => test_user }
-end
-get '/test_user/tweets' do
-  test_user = UserService.get_by_username 'test_user'
 
   followees = test_user.followees
   users = followees | [test_user]
@@ -335,7 +337,7 @@ get '/test_user/tweets' do
 
   tweets = TweetService.tweets_by_user_id ids, users
 
-  erb :feed_tweets, :locals => {tweets: tweets }, :layout => false
+  erb :test_user_page, :locals  => { profile_user: test_user, tweets: tweets }
 end
 
 get '/reset' do

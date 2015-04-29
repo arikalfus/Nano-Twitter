@@ -29,24 +29,4 @@
   <% end %>
 <% end %>
 
-<!-- Div content is replaced by tweet feed by AJAX call -->
-<div id="tweet-feed">
-  Tweets
-  <div class="table-responsive">
-    <table class="table table-striped table-hover">
-      <tr><td class="text-center">Getting the latest tweets, just for you. Please wait...</td></tr>
-    </table>
-  </div>
-</div>
-
-
-<script type="text/javascript">
-  // To load tweets
-  $.ajax({
-    url:"/test_user/tweets",
-    cache: false,
-    success: function(html) {
-      $("#tweet-feed").html(html);
-    }
-  });
-</script>
+<%= erb :feed_tweets, :locals => { tweets: tweets } %>

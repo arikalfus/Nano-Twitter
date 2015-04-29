@@ -17,13 +17,4 @@
   </div>
 </div>
 
-<script type="text/javascript">
-  // To load followees
-  $.ajax({
-    url:"/nanotwitter/v1.0/users/followees",
-    cache: false,
-    success: function(html) {
-      $("#followee-feed").html(html);
-    }
-  });
-</script>
+<%= erb :feed_followees, :locals => {users: users } %>

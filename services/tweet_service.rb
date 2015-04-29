@@ -6,6 +6,8 @@ require_relative 'user_service'
 
 class TweetService
 
+  # Get most recent 100 tweets of user_id (may be an array of ID's)
+  # If passed a user object, bypass #prepare_tweets and go directly to #build_tweets
   def self.tweets_by_user_id(user_id, users=nil)
     tweets = Tweet.where(user_id: user_id).order(created_at: :desc).limit 100
     if users
@@ -17,11 +19,13 @@ class TweetService
 
   end
 
+  # Get most recent 100 tweets
   def self.tweets
     tweets = Tweet.order(created_at: :desc).limit 100
     prepare_tweets tweets
   end
 
+  # Store a new tweet in database.
   def self.new(params)
     begin
       tweet = Tweet.create(
@@ -40,7 +44,9 @@ class TweetService
 
   private
 
-  # Constructs an array of [tweet, user] pairs.
+  # Gets user objects of tweets.
+  #
+  # See #hash_users and #build_tweets
   def self.prepare_tweets(tweets)
 
     user_ids = []
@@ -57,17 +63,19 @@ class TweetService
 
   end
 
+  # Constructs a hash of user objects whose keys are user IDs.
+  #
+  # Optimizes #build_tweet method, discernible performance improvement
   def self.hash_users(users)
-    # To optimize full_tweet creation below
+
     user_hash = Hash.new
-    users.each do |user|
-      user_hash[user[:id]] = user
-    end
+    users.each { |user| user_hash[user[:id]] = user }
 
     user_hash
 
   end
 
+  # Constructs an array of [tweet, user] pairs.
   def self.build_tweets(tweets, user_hash)
 
     full_tweets = []
