@@ -4,8 +4,8 @@
 
 require 'unicorn/worker_killer'
 
-max_request_min = 200
-max_request_max = 300
+max_request_min = 300
+max_request_max = 400
 
 # Max requests per worker
 use Unicorn::WorkerKiller::MaxRequests, max_request_min, max_request_max
