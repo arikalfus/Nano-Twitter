@@ -9,7 +9,7 @@ Project focusing on load testing for COSI 105B: Architecture at Scale at Brandei
 
 # Route descriptions
 
-## Get Routs
+## Get Routes
 ###get '/'
   - Makes sure the login cookie is valid (if present)
   - Shows the current homepage, depending on whether or not the user is logged in or not.
