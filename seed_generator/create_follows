@@ -1,0 +1,16 @@
+require 'csv'
+
+File.open('follows.rb', 'w') do |file| 
+
+	(1..50).each do |i|
+		
+		random = ([*1..50]-[i]).sample
+		random2 = ([*1..50]-[random]).sample
+		random3 = ([*1..50]-[random2]).sample
+		file.write("#{i},#{random}\n")
+		file.write("#{i},#{random2}\n")
+		file.write("#{i},#{random3}\n")
+	end
+
+
+end
