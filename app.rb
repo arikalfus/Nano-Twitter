@@ -162,32 +162,13 @@ get '/nanotwitter/v1.0/logout' do
 end
 
 get '/nanotwitter/v1.0/users/:username' do
-<<<<<<< HEAD
-=======
 
   # for load testing
->>>>>>> master
   redirect to '/test_user' if params[:username] == 'test_user'
 
   user = UserService.get_by_username params[:username]
   tweets = get_tweets_by_id user.id
 
-<<<<<<< HEAD
-    tweets = TweetService.tweets_by_user_id user[:id]
-
-    if session[:user]
-      logged_in_user = UserService.get_by_id session[:user]
-      if user && logged_in_user
-        erb :user_page, :locals => { :user => logged_in_user, :profile_user => user, :tweets => tweets }
-      else
-        error 404, { :error => 'user not found' }.to_json
-      end
-    elsif user
-      erb :user_page,  :locals => { :profile_user => user, :tweets => tweets }
-    else
-      error 404, { :error => 'user not found' }.to_json
-    end
-=======
   if session[:user] # load user page with follow/unfollow button
     logged_in_user = UserService.get_by_id session[:user]
     if user && logged_in_user
@@ -200,7 +181,6 @@ get '/nanotwitter/v1.0/users/:username' do
   else
     error 404, { :error => 'user not found' }.to_json
   end
->>>>>>> master
 
 end
 
