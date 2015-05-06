@@ -1,11 +1,11 @@
 <div class="page-header">
   <div class="container-fluid">
     <span class="pull-left">
-    <span><img src=<%= user[:image] %> alt="avatar" class="img-thumbnail" style="width:150px;height:150px"></span>
-      <h3><%= user['name'] %></h3>
-      <h5><%= user['email'] %></h5>
+    <span><img src=<%= user.image %> alt="avatar" class="img-thumbnail" style="width:150px;height:150px"></span>
+      <h3><%= user.name %></h3>
+      <h5><%= user.email %></h5>
     </span>
   </div>
 </div>
 
-<%= erb :feed_followees, :locals => { :users => users } %>
+<%= erb :feed_followees, :locals => {users: user } %>

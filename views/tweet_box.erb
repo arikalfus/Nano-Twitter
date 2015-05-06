@@ -1,0 +1,48 @@
+<style type="text/css">      
+.red{
+    color:red;
+    }
+</style>
+<form class="form-group" action="/nanotwitter/v1.0/users/id/<%= user.id %>/tweet" method="POST">
+  <div class="container">
+    <div>        
+      <br style="clear:both">
+      <div class="form-group col-md-4 ">                                
+        <label id="messageLabel" for="message">Message </label>
+        <input class="form-control input-sm " type="text" name="tweet" id="message" placeholder="Message" maxlength="140" rows="7">
+        <span class="help-block"><p id="characterLeft" class="help-block ">You have reached the limit</p></span>                    
+      </div>
+      <br style="clear:both">
+      <div class="form-group col-md-2">
+        <button class="btn btn-primary" id="btnSubmit" name="btnSubmit" type="submit" style="height:35px"> Send</button>    
+      </div>
+    </div>
+  </div>
+</form>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+
+    // Provide real-time character counter
+    var text_counter = $('#characterLeft');
+    text_counter.text('140 characters left');
+    $('#message').keydown(function () {
+      var max = 140;
+      var len = $(this).val().length;
+
+      if (len >= max) {
+        text_counter.text('You have reached the limit');
+        text_counter.addClass('red');
+        $('#btnSubmit').addClass('disabled');
+      }
+      else {
+        var ch = max - len;
+        text_counter.text(ch + ' characters left');
+        $('#btnSubmit').removeClass('disabled');
+        element.removeClass('red');
+      }
+    });
+
+  });
+</script>
+

@@ -22,6 +22,7 @@ class UserService
     verify_user user
   end
 
+  # Get multiple users from array of ID's
    def self.get_by_ids(ids)
     User.where id: ids
    end
@@ -47,6 +48,7 @@ class UserService
 
   private
 
+  # Verifies a valid user object
   def self.verify_user(user)
     if user
       if user.valid?
