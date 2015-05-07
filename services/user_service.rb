@@ -40,7 +40,7 @@ class UserService
   end
 
   # Gets a random user from the database
-  def get_random
+  def self.get_random
     user = User.first order: Random
     verify_user user
   end
