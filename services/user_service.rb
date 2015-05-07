@@ -41,7 +41,7 @@ class UserService
 
   # Gets a random user from the database
   def self.get_random
-    user = User.first order: Random
+    user = User.order('RANDOM()').first # get random user. NOTE: very inefficient call
     verify_user user
   end
 
