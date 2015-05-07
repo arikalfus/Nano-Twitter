@@ -39,6 +39,12 @@ class UserService
     verify_user user
   end
 
+  # Gets a random user from the database
+  def get_random
+    user = User.first order: Random
+    verify_user user
+  end
+
   # search Users table for search terms in username or name
   def self.search_for(search_terms)
     users = User.where("lower(username) LIKE ?", "#{search_terms.downcase}%") | User.where("lower(name) LIKE ?", "#{search_terms.downcase}%")

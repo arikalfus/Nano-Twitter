@@ -8,7 +8,7 @@ class LoadTestService
   # Get a random user and either follow/unfollow
 	def self.test_follow
 		test_user = UserService.get_by_username 'test_user'
-  	user_to_follow = UserService.get_by_id rand(1000)+1
+  	user_to_follow = UserService.get_random
   	test_user.following?(user_to_follow) ? test_user.unfollow(user_to_follow) : test_user.follow(user_to_follow)
 	end
 
