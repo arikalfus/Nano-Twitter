@@ -2,7 +2,7 @@
 
 Project focusing on scalability and load testing for COSI 105B: Software Engineering at Scale at Brandeis University.
 
-See it <a href="http://nano-twitter.herokuapp.com">on Heroku</a>.
+See it <a href="http://nano-twitter.herokuapp.com">on Heroku</a>. (edit: Since this project was completed, Heroku upgraded their Postgres servers and some incompatibility occurred with our project. We have not resolved it at this time and our application is currently down on Heroku.)
 
 #####Gems used in project:
   - <a href="https://github.com/lyokato/sinatra-formkeeper">Formkeeper</a>
